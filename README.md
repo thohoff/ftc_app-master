@@ -8,7 +8,9 @@ To develop the program it is recommended to have the following software: Android
 
 JDK: Needed to compile java code (probably) http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
-Git for Windows : Easy way to connect to github. Allows for the Android Studio/github integration. **** IF you are installing Git for windows remember to set it to the path in the installation options or else android studio cannot find it. **** https://github.com/git-for-windows/git/releases/tag/v2.5.3.windows.1 (scroll down) FTC Software: Needed to use the motors and other robotics features of the robot.
+Git for Windows : Easy way to connect to github. Allows for the Android Studio/github integration. **** IF you are installing Git for windows remember to set it to the path in the installation options or else android studio cannot find it. **** https://github.com/git-for-windows/git/releases/tag/v2.5.3.windows.1 (scroll down) 
+
+
 
 TODO:
 
@@ -18,12 +20,11 @@ Get joystick control.
 
 
 
-
-
-
-
-
-
+_
++
+_
++
+_
 FTC stuff :
 
 
