@@ -31,7 +31,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicAutonomous;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicHardware;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicTeleOp;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TestExample;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
@@ -92,7 +95,8 @@ public class FtcOpModeRegister implements OpModeRegister {
      *  - PushBotIrSeek uses the LinearOpMode class and shows how to track an IR beacon.
      *  - PushBotSquare uses the LinearOpMOde class and shows how to drive in a square pattern autonomously.
      */
-manager.register("Basic", BasicHardware.class);
+      
+      manager.register("TestExample", TestExample.class);
 //    manager.register("PushBotManual", PushBotManual.class);
 //    manager.register("PushBotAuto", PushBotAuto.class);
 //    manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
