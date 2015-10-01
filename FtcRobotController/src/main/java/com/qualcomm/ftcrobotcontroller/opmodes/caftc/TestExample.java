@@ -20,7 +20,7 @@ public class TestExample extends BasicHardware{
         sLeft = hardwareMap.servo.get("servo_1");
         sRight = hardwareMap.servo.get("servo_2");
         bumperVal = 1;
-        bumperInc = 0.002;
+        bumperInc = 0.001;
     }
     @Override
     public void loop(){
