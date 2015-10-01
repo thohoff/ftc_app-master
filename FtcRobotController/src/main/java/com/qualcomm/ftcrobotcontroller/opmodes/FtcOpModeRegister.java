@@ -95,7 +95,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      *  - PushBotIrSeek uses the LinearOpMode class and shows how to track an IR beacon.
      *  - PushBotSquare uses the LinearOpMOde class and shows how to drive in a square pattern autonomously.
      */
-      
+
       manager.register("TestExample", TestExample.class);
 //    manager.register("PushBotManual", PushBotManual.class);
 //    manager.register("PushBotAuto", PushBotAuto.class);
