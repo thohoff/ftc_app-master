@@ -21,7 +21,7 @@ public class TestExample2 extends BasicHardware
         bumperVal = 1;
         bumperInc = 0.0008;
         armsVal = 1;
-        armsInc = 0.0008;
+        armsInc = 0.01;
 
     }
     @Override
@@ -40,8 +40,8 @@ public class TestExample2 extends BasicHardware
         sRight.setPosition(1-bumperVal);
 
         //front lifting arms motors
-        lLeft.setPower(gamepad2.left_stick_y);
-        lRight.setPower(gamepad2.right_stick_y);
+        //lLeft.setPower(gamepad2.left_stick_y);
+        //lRight.setPower(gamepad2.right_stick_y);
 
         //front lifting arms servos
         //write this!!!!!!!!!!
