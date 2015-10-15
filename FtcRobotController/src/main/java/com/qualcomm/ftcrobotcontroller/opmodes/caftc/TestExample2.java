@@ -19,9 +19,9 @@ public class TestExample2 extends BasicHardware
         sLeft = hardwareMap.servo.get("servo_1");
         sRight = hardwareMap.servo.get("servo_2");
         bumperVal = 1;
-        bumperInc = 0.0008;
+        bumperInc = 0.005;
         armsVal = 1;
-        armsInc = 0.01;
+        armsInc = 0.005;
 
     }
     @Override
@@ -33,7 +33,7 @@ public class TestExample2 extends BasicHardware
         //bumper control
         if (gamepad1.a && bumperVal + bumperInc <= 1)
         { bumperVal += bumperInc; }
-        else if (gamepad1.b && bumperVal - bumperInc >= 0)
+        else if (gamepad1.b && bumperVal - bumperInc >= 0.4)
         { bumperVal -= bumperInc; }
 
         sLeft.setPosition(bumperVal);
