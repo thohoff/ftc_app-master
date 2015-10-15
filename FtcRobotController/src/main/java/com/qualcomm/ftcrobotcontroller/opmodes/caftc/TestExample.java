@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Thomas_Hoffmann on 9/25/2015.
  */
-public class TestExample extends BasicHardware{
-
+public class TestExample extends BasicHardware
+{
     //Execution order : Start, Init, Loop, Stop
     double bumperVal;
     double bumperInc;

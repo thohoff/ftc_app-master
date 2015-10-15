@@ -15,4 +15,8 @@ public abstract class BasicHardware extends OpMode{
     DcMotor mRight;
     Servo sLeft;
     Servo sRight;
+    
+    DcMotor lRight;
+    DcMotor lLeft;
+
 }
