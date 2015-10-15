@@ -37,7 +37,7 @@ public class TestExample2 extends BasicHardware
         { bumperVal -= bumperInc; }
 
         sLeft.setPosition(bumperVal);
-        sRight.setPosition(1-bumperVal);
+        sRight.setPosition(1 - bumperVal);
 
         //front lifting arms motors
         //lLeft.setPower(gamepad2.left_stick_y);
@@ -53,6 +53,12 @@ public class TestExample2 extends BasicHardware
     }
     @Override
     public void stop(){
+        while (bumperVal - bumperInc >= 0)
+        {
+            bumperVal -= bumperInc;
 
+            sLeft.setPosition(bumperVal);
+            sRight.setPosition(1 - bumperVal);
+        }
     }
 }
