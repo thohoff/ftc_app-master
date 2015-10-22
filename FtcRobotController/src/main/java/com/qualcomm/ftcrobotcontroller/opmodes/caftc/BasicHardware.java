@@ -13,6 +13,8 @@ public abstract class BasicHardware extends OpMode{
     //Execution order : Start, Init, Loop, Stop
     DcMotor mLeft;
     DcMotor mRight;
+    DcMotor lLeft;
+    DcMotor lRight;
     Servo sLeft;
     Servo sRight;
     
