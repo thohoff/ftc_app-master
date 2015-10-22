@@ -33,7 +33,7 @@ public class TestExample2 extends BasicHardware
         //bumper control
         if (gamepad1.a && bumperVal + bumperInc <= 1)
         { bumperVal += bumperInc; }
-        else if (gamepad1.b && bumperVal - bumperInc >= 0.4)
+        else if (gamepad1.b && bumperVal - bumperInc >= 0)
         { bumperVal -= bumperInc; }
 
         sLeft.setPosition(bumperVal);
