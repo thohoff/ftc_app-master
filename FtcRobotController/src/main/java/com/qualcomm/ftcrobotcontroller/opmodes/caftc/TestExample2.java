@@ -32,6 +32,18 @@ public class TestExample2 extends BasicHardware
     }
     @Override
     public void loop(){
+        /* drive control info:
+            Driver 1 (Floor):
+            joysticks are left and right drive train
+            a and b buttons are bumpers (priority control)
+
+            Driver 2 (Mountain):
+            joysticks are left and right linear slide arms (extension)
+            back triggers control vertical motion of linear slide arms
+            a and b buttons are bumpers (secondary control)
+         */
+
+    //driver 1
         //driving wheels
         mRight.setPower(gamepad1.left_stick_y);
         mLeft.setPower(gamepad1.right_stick_y);
@@ -66,6 +78,8 @@ public class TestExample2 extends BasicHardware
         //front lifting arms servos
         //write this!!!!!!!!!!
 
+    //driver 2
+        //write stuff
     }
     @Override
     public void start(){
