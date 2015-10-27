@@ -22,5 +22,4 @@ public abstract class BasicHardware extends OpMode{
     
     //DcMotor lRight;
     //DcMotor lLeft;
-
 }

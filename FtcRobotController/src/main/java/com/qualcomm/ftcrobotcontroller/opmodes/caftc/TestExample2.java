@@ -6,9 +6,10 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 public class TestExample2 extends BasicHardware
 {
     //Execution order : Start, Init, Loop, Stop
+
+    //initiation stuff
     double bumperVal;
     double bumperInc;
-
     double armsVal;
     double armsInc;
 
@@ -47,10 +48,13 @@ public class TestExample2 extends BasicHardware
          */
 
     //driver 1
-        //driving wheels
-        mRight.setPower(gamepad1.left_stick_y);
-        mLeft.setPower(gamepad1.right_stick_y);
+        //delete me:
+        lLeft.setPower(gamepad1.left_stick_y);
+        lRight.setPower(gamepad1.right_stick_y);
 
+        //driving wheels
+        mRight.setPower(-gamepad1.left_stick_y);
+        mLeft.setPower(gamepad1.right_stick_y);
         //bumper control
         boolean bumperUsed = false;
         if (gamepad1.a && bumperVal + bumperInc <= 1)
