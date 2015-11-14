@@ -31,9 +31,7 @@ public abstract class BasicTeleOp extends BasicHardware {
         //Driving
         rFront.setPower(gamepad1.left_stick_y);
         lFront.setPower(gamepad1.right_stick_y);
-
         
-
         sLeft.setPosition(bumperVal);
         sRight.setPosition(1 - bumperVal);
 
