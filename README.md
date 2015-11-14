@@ -12,11 +12,9 @@ Git for Windows : Easy way to connect to github. Allows for the Android Studio/g
 
 
 
-TODO:
+TODO
 
-Get some basic code running a motor or something.
-
-Get joystick control.
+Lots of stuff
 
 
 
