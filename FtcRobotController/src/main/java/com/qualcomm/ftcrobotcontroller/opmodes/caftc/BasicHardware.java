@@ -21,5 +21,4 @@ public abstract class BasicHardware extends OpMode{
     DcMotor rArm;
     DcMotor botArm;
     DcMotor topArm;
-
 }
