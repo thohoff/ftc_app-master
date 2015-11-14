@@ -32,11 +32,7 @@ public abstract class BasicTeleOp extends BasicHardware {
         rFront.setPower(gamepad1.left_stick_y);
         lFront.setPower(gamepad1.right_stick_y);
 
-        //bumper control
-        if (gamepad1.a && bumperVal + bumperInc <= 1)
-        { bumperVal += bumperInc; }
-        else if (gamepad1.b && bumperVal - bumperInc >= 0.4)
-        { bumperVal -= bumperInc; }
+        
 
         sLeft.setPosition(bumperVal);
         sRight.setPosition(1 - bumperVal);
