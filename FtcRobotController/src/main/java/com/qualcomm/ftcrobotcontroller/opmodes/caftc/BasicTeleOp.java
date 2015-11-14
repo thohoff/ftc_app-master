@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 /**
  * Created by Thomas_Hoffmann on 10/1/2015.
  */
@@ -32,15 +34,10 @@ public abstract class BasicTeleOp extends BasicHardware {
         rFront.setPower(gamepad1.left_stick_y);
         lFront.setPower(gamepad1.right_stick_y);
 
-        sLeft.setPosition(bumperVal);
-        sRight.setPosition(1 - bumperVal);
-
-        //front lifting arms motors
-        //lLeft.setPower(gamepad2.left_stick_y);
-        //lRight.setPower(gamepad2.right_stick_y);
-
-        //front lifting arms servos
-        //write this!!!!!!!!!!
+        lArm.setPower(gamepad1.a ? 1 : 0);
+        rArm.setPower(gamepad1.b ? 1 : 0);
+        botArm.setPower(gamepad1.x ? 1 : 0);
+        topArm.setPower(gamepad1.y ? 1 : 0);
 
     }
     @Override
@@ -49,12 +46,12 @@ public abstract class BasicTeleOp extends BasicHardware {
     }
     @Override
     public void stop(){
-        while (bumperVal - bumperInc >= 0)
-        {
-            bumperVal -= bumperInc;
+        rFront.setPower(0);
+        lFront.setPower(0);
 
-            sLeft.setPosition(bumperVal);
-            sRight.setPosition(1 - bumperVal);
-        }
+        lArm.setPower(0);
+        rArm.setPower(0);
+        botArm.setPower(0);
+        topArm.setPower(0);
     }
 }
