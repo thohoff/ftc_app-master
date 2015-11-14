@@ -9,14 +9,18 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 //Robot with basic driving capabilities
-public abstract class BasicHardware extends OpMode{
+public abstract class BasicHardware extends OpMode {
     //Execution order : Start, Init, Loop, Stop
-    DcMotor mLeft;
-    DcMotor mRight;
-    Servo sLeft;
-    Servo sRight;
-    
-    //DcMotor lRight;
-    //DcMotor lLeft;
+
+    //Movement Motors
+    DcMotor lFront;
+    DcMotor rFront;
+
+    //Arm Motors;
+    DcMotor lArm;
+    DcMotor rArm;
+    DcMotor botArm;
+    DcMotor topArm;
+
 
 }
