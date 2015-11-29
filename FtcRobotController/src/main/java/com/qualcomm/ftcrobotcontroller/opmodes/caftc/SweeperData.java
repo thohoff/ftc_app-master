@@ -17,7 +17,7 @@ public class SweeperData {
      * @param distance The distance that the sweeper recorded
      * @param angle The angle relative to the compass/robot(or not, if you wish) when the distance was measured
      */
-    public SweeperData(float distance, float angle){
+    public SweeperData(double distance, double angle){
         this.angle = angle;
         this.distance = distance;
     }

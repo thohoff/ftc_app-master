@@ -21,11 +21,18 @@ public class SweepUS extends Aparatus{
 
     /***
      *
-     * @param samples How many datapoints you want to sample.
+     * @param samples How many datapoints you want to sample, must be greater than 1
      * @return The datapoints recoreded by the sweeper, with the angle relative to the compass/robot.
      */
     public SweeperData[] sweep(int samples){
-
-     return null;
+    SweeperData[] data = new SweeperData[samples];
+        double servoDeltaDegrees = (maxDegree - minDegree)/(samples-1);
+        for(int i = 0; i < samples; i++){
+            double degree = minDegree+servoDeltaDegrees*i;
+            sweep.setPosition(degree);
+            data[i] = new SweeperData(sensor.getUltrasonicLevel(), degree);
+        }
+        sweep.setPosition(minDegree);
+     return data;
     }
 }
