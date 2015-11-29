@@ -1,8 +1,9 @@
-package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
+//package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 /**
  * Created by Caleb_Norfleet on 10/2/2015.
  */
+/*
 public class TestExample2 extends BasicHardware
 {
     //Execution order : Start, Init, Loop, Stop
@@ -46,7 +47,7 @@ public class TestExample2 extends BasicHardware
             back triggers control vertical motion of linear slide arms
             a and b buttons are bumpers (secondary control)
          */
-
+/*
     //driver 1
         //delete me:
         lLeft.setPower(gamepad1.left_stick_y);
@@ -82,6 +83,7 @@ public class TestExample2 extends BasicHardware
 
     //driver 2
         //linear slide arms motors
+/*
         lLeft.setPower(gamepad2.left_stick_y);
         lRight.setPower(gamepad2.right_stick_y);
 
@@ -128,3 +130,4 @@ public class TestExample2 extends BasicHardware
         }
     }
 }
+        */

@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
+//package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Thomas_Hoffmann on 9/25/2015.
  */
+/*
 public class TestExample extends BasicHardware
 {
     //Execution order : Start, Init, Loop, Stop
@@ -15,14 +16,14 @@ public class TestExample extends BasicHardware
 
     @Override
     public void init() {
-      super.init();
+      //super.init();
         bumperVal = 1;
         bumperInc = 0.0008;
     }
     @Override
     public void loop() {
-        mDriveRight.setPower(gamepad1.left_stick_y);
-        mDriveLeft.setPower(gamepad1.right_stick_y);
+        //mDriveRight.setPower(gamepad1.left_stick_y);
+        //mDriveLeft.setPower(gamepad1.right_stick_y);
 
         if (bumperVal + bumperInc >= 1) {
             bumperInc = Math.abs(bumperInc) * -1;
@@ -35,3 +36,4 @@ public class TestExample extends BasicHardware
         sRight.setPosition(1 - bumperVal);
     }
 }
+*/
