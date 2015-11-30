@@ -53,6 +53,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.ftccommon.FtcEventLoop;
 import com.qualcomm.ftccommon.FtcRobotControllerService;
@@ -139,7 +141,6 @@ public class FtcRobotControllerActivity extends Activity {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.activity_ftc_controller);
-
     utility = new Utility(this);
     context = this;
     entireScreenLayout = (LinearLayout) findViewById(R.id.entire_screen);
