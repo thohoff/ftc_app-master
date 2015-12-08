@@ -63,6 +63,7 @@ public abstract class BasicTeleOp extends BasicHardware {
     public void start(){
 
     }
+
     @Override
     public void stop(){
         dRight.setPower(0);
@@ -72,5 +73,16 @@ public abstract class BasicTeleOp extends BasicHardware {
         cLeft.setPower(0);
         a1.setPower(0);
         a2.setPower(0);
+
+        //can we do this last bit here?
+        //motor encoder stuffs for arm joint 1
+        if (a1.getCurrentPosition() > armsVal1) { a1.setPower(-0.5); }
+        else if (a1.getCurrentPosition() < armsVal1) { a1.setPower(0.5); }
+        else { a1.setPower(0); }
+
+        //motor encoder stuffs for arm joint 2
+        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-0.5); }
+        else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(0.5); }
+        else { a2.setPower(0); }
     }
 }
