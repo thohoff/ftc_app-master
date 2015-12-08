@@ -13,12 +13,14 @@ public abstract class BasicHardware extends OpMode{
     //Execution order : Start, Init, Loop, Stop
 
     //Driving Motors
- //   DcMotor lFront;
-  //  DcMotor rFront;
+    DcMotor dRight;
+    DcMotor dLeft;
 
-    //Arm Motors
-   // DcMotor lArm;
-   // DcMotor rArm;
-   // DcMotor botArm;
-   // DcMotor topArm;
+    //Chain Motors
+    DcMotor cRight;
+    DcMotor cLeft;
+
+    //Arm motors
+    DcMotor a1;
+    DcMotor a2;
 }
