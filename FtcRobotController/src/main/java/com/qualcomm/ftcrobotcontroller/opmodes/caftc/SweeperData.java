@@ -19,6 +19,11 @@ public class SweeperData {
      */
     public SweeperData(double distance, double angle){
         this.angle = angle;
-        this.distance = distance;
+        if(distance >240){
+            this.distance = 240;
+        }
+        else{
+            this.distance = distance;
+        }
     }
 }

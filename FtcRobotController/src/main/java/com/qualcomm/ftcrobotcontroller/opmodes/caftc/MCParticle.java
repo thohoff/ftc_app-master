@@ -16,47 +16,41 @@ public class MCParticle implements RayCastCallback, Comparable<MCParticle>{
     Vector2 position;
     int index = 0;
     float rotation;
-    float[] distances = new float[5];
-    static final float castRotation = -24;
+    static final float startRotationRelativeToCompass = -90;
     float error = 0;
     static final float variance = 10f;
     static final float rotVariance = 0f;
     Vector2 shortest;
+    float[] distances;
     public MCParticle(MCAuto bot, Vector2 guess, float rotGuess){
         this.auto = bot;
         position = new Vector2(guess.x+RMath.SignedFRand()*variance, guess.y+RMath.SignedFRand()*variance);
-        if(position.x>420){
-            position.x = 420;
+        if(position.x>480){
+            position.x = 480;
         }
-        if(position.y>420){
-            position.y = 420;
+        if(position.y>480){
+            position.y = 480;
         }
-        if(position.x<60){
-            position.x = 60;
+        if(position.x<0){
+            position.x = 0;
         }
-        if(position.y<60){
-            position.y = 60;
+        if(position.y<0){
+            position.y = 0;
         }
         rotation = (rotGuess + RMath.SignedFRand()*rotVariance)%360;
         resetDistance();
     }
-    public void act(){
-        Vector2 disp = new Vector2(480, 0);
+    public void act(int samples){
+        Vector2 disp = new Vector2(MCAuto.cmToWorld(240), 0);
         disp.rotate(rotation%360);
-        disp.rotate(-45);
-        auto.world.rayCast(this, position, position.cpy().add(disp));
-        disp.rotate(castRotation);
-        index++;
-        auto.world.rayCast(this, position, position.cpy().add(disp));
-        disp.rotate(castRotation);
-        index++;
-        auto.world.rayCast(this, position, position.cpy().add(disp));
-        disp.rotate(castRotation);
-        index++;
-        auto.world.rayCast(this, position, position.cpy().add(disp));
-        disp.rotate(castRotation);
-        index++;
-        auto.world.rayCast(this, position, position.cpy().add(disp));
+        disp.rotate(startRotationRelativeToCompass);
+        double servoDeltaDegrees = (SweepUS.maxDegree - SweepUS.minDegree)/(samples-1);
+        for(int i = 0; i < samples; i++){
+
+            auto.world.rayCast(this, position, position.cpy().add(disp));
+            disp.rotate((float)servoDeltaDegrees);
+            index++;
+        }
         index = 0;
     }
     @Override
@@ -69,15 +63,13 @@ public class MCParticle implements RayCastCallback, Comparable<MCParticle>{
         }
         return fraction;
     }
-    public void Score(float[] actualDistances){
+    public void Score(SweeperData[] actualDistances){
         error = 0;
         float[] errors = new float[distances.length];
-        for(int i = 0; i < distances.length; i++){
-            errors[i] = distances[i]-actualDistances[i];
-            error+= errors[i]*errors[i];
+        for(int i = 0; i < distances.length; i++) {
+            errors[i] = distances[i] - MCAuto.cmToWorld((float) actualDistances[i].distance);
+            error += errors[i] * errors[i];
         }
-        System.out.println(distances[0]);
-        System.out.println(error);
         //	Arrays.sort(errors);
         //	error = errors[errors.length/2];
         //System.out.println(error);
@@ -91,8 +83,10 @@ public class MCParticle implements RayCastCallback, Comparable<MCParticle>{
         return 1;
     }
     public void resetDistance(){
+        float world240 = MCAuto.cmToWorld(240);
         for(int i = 0; i < distances.length; i++){
-            distances[i] = 960;
+            distances[i] = world240;
         }
     }
+
 }
