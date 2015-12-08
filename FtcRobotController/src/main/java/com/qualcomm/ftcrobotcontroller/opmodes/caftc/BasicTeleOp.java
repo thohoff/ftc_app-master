@@ -20,9 +20,9 @@ public abstract class BasicTeleOp extends BasicHardware {
         cLeft = hardwareMap.dcMotor.get("motor_4");
         a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint
         a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint
-        armsVal1 = 1;
+        armsVal1 = a1.getCurrentPosition();
         armsInc1 = 0.005;
-        armsVal2 = 1;
+        armsVal2 = a2.getCurrentPosition();
         armsInc2 = armsInc1;
     }
     @Override
@@ -49,8 +49,15 @@ public abstract class BasicTeleOp extends BasicHardware {
         if (gamepad1.x) { armsVal2 += armsInc2; }
         else if (gamepad1.y) { armsVal2 -= armsInc2; }
 
-        //motor encoder stuffs for arm joints
-        //!!!!!!!!!
+        //motor encoder stuffs for arm joint 1
+        if (a1.getCurrentPosition() > armsVal1) { a1.setPower(-0.5); }
+        else if (a1.getCurrentPosition() < armsVal1) { a1.setPower(0.5); }
+        else { a1.setPower(0); }
+
+        //motor encoder stuffs for arm joint 2
+        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-0.5); }
+        else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(0.5); }
+        else { a2.setPower(0); }
     }
     @Override
     public void start(){
