@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by TeamQ on 10/1/2015.
  */
-/*
+
 public abstract class BasicTeleOp extends BasicHardware {
     //Execution order : Start, Init, Loop, Stop
     double armsVal1;
@@ -87,4 +87,3 @@ public abstract class BasicTeleOp extends BasicHardware {
         else { a2.setPower(0); }
     }
 }
-*/
