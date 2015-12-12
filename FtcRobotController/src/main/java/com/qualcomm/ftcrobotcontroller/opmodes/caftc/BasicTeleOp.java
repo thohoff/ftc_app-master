@@ -2,11 +2,14 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by TeamQ on 10/1/2015.
  */
 
-public abstract class BasicTeleOp extends BasicHardware {
+public class BasicTeleOp extends BasicHardware {
     //Execution order : Start, Init, Loop, Stop
     double armsVal1;
     double armsInc1;
@@ -15,9 +18,9 @@ public abstract class BasicTeleOp extends BasicHardware {
 
     @Override
     public void init() {
-        dRight = hardwareMap.dcMotor.get("motor_1");
-        dLeft = hardwareMap.dcMotor.get("motor_2");
-        cRight = hardwareMap.dcMotor.get("motor_3");
+        dRight = hardwareMap.dcMotor.get("motor_3");
+        dLeft = hardwareMap.dcMotor.get("motor_1");
+        cRight = hardwareMap.dcMotor.get("motor_2");
         cLeft = hardwareMap.dcMotor.get("motor_4");
         a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint
         a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint
@@ -64,7 +67,10 @@ public abstract class BasicTeleOp extends BasicHardware {
     public void start(){
 
     }
+    @Override
+    public void init_loop() {
 
+    }
     @Override
     public void stop(){
         dRight.setPower(0);
