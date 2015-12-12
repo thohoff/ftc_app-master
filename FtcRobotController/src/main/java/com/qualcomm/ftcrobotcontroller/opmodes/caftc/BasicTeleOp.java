@@ -1,7 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -28,6 +27,7 @@ public class BasicTeleOp extends BasicHardware {
         armsInc1 = 0.005;
         armsVal2 = a2.getCurrentPosition();
         armsInc2 = armsInc1;
+
     }
     @Override
     public void loop(){
