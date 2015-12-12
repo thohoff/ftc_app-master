@@ -32,9 +32,9 @@ public class MCAuto extends BasicAutonomous{
 //    private MCAutoDriver driver;
     @Override
   public void init(){
-   //   compass = hardwareMap.compassSensor.get("compass");
+      compass = hardwareMap.compassSensor.get("compass");
         world = new World(new Vector2(), false);
-   //     sweeper = new SweepUS(this);
+        sweeper = new SweepUS(this);
         float wallDisp = (float) (40*2.3);
         float wallRot = -(float)Math.PI/4;
         Barrier wallLeft = new Barrier(this, new Vector2(0,0), new Vector2(5, 480));
@@ -44,16 +44,16 @@ public class MCAuto extends BasicAutonomous{
         Barrier mountain1 = new Barrier(this, new Vector2(wallDisp,wallDisp), new Vector2(80, 40), wallRot);
         Barrier mountain2 = new Barrier(this, new Vector2(480-wallDisp,480-wallDisp), new Vector2(80, 40), wallRot);
       //Todo add compass and starting rotation adjustment
-    //  initialRotation = (float) compass.getDirection();
-   //     rotation = (float)compass.getDirection()-initialRotation;
+      initialRotation = (float) compass.getDirection();
+        rotation = (float)compass.getDirection()-initialRotation;
       for(int i = 0; i < particlesPerChief*cutoff; i++){
           particles.add(new MCParticle(this, position, rotation));
       }
   }
- //  @Override
+   @Override
     public void loop(){
         rotation = (float)compass.getDirection()- initialRotation;
-    //    distances = sweeper.sweep(samples);
+        distances = sweeper.sweep(samples);
         for(MCParticle p : particles){
             p.act(samples);
         }
