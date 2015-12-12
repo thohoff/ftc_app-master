@@ -47,10 +47,12 @@ public class BasicTeleOp extends BasicHardware {
         //arm joint 1
         if (gamepad1.a) { armsVal1 += armsInc1; }
         else if (gamepad1.b) { armsVal1 -= armsInc1; }
+        //telemetry.addData("", ("1: " + armsVal1));
 
         //arm joint 2
         if (gamepad1.x) { armsVal2 += armsInc2; }
         else if (gamepad1.y) { armsVal2 -= armsInc2; }
+        //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()));
 
         //motor encoder stuffs for arm joint 1
         if (a1.getCurrentPosition() > armsVal1) { a1.setPower(-0.5); }
@@ -58,9 +60,9 @@ public class BasicTeleOp extends BasicHardware {
         else { a1.setPower(0); }
 
         //motor encoder stuffs for arm joint 2
-        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-0.5); }
-        else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(0.5); }
-        else { a2.setPower(0); }
+        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-0.5); telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", down")); }
+        else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(0.5); telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition() + ", up")); }
+        else { a2.setPower(0); telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); }
     }
     @Override
     public void start(){
