@@ -165,7 +165,7 @@ public class FtcRobotControllerActivity extends Activity {
     updateUI = new UpdateUI(this, dimmer);
     updateUI.setRestarter(restarter);
     updateUI.setTextViews(textWifiDirectStatus, textRobotStatus,
-        textGamepad, textOpMode, textErrorMessage, textDeviceName);
+            textGamepad, textOpMode, textErrorMessage, textDeviceName);
     callback = updateUI.new Callback();
 
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
@@ -333,7 +333,7 @@ public class FtcRobotControllerActivity extends Activity {
   private FileInputStream fileSetup() {
 
     final String filename = Utility.CONFIG_FILES_DIR
-        + utility.getFilenameFromPrefs(R.string.pref_hardware_config_filename, Utility.NO_FILE) + Utility.FILE_EXT;
+            + utility.getFilenameFromPrefs(R.string.pref_hardware_config_filename, Utility.NO_FILE) + Utility.FILE_EXT;
 
     FileInputStream fis;
     try {
