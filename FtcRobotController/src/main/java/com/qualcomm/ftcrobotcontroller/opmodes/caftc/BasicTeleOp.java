@@ -31,7 +31,7 @@ public class BasicTeleOp extends BasicHardware {
     @Override
     public void loop(){
         //Driving
-        dLeft.setPower(gamepad1.left_stick_y);
+        dLeft.setPower(-gamepad1.left_stick_y);
         dRight.setPower(gamepad1.right_stick_y);
 
         //chain left
