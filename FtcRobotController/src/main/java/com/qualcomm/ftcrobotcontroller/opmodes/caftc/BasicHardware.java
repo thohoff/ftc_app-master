@@ -23,4 +23,13 @@ public abstract class BasicHardware extends OpMode{
     //Arm motors
     DcMotor a1;
     DcMotor a2;
+    @Override
+    public void init(){
+        dRight = hardwareMap.dcMotor.get("motor_3");
+        dLeft = hardwareMap.dcMotor.get("motor_1");
+        cRight = hardwareMap.dcMotor.get("motor_2");
+        cLeft = hardwareMap.dcMotor.get("motor_4");
+        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint
+        a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint
+    }
 }

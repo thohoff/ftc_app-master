@@ -15,15 +15,15 @@ public class MCAuto extends BasicAutonomous{
     public CompassSensor compass;
    public World world;
     public ArrayList<MCParticle> particles =  new ArrayList<MCParticle>();
-    private static final int particlesPerChief = 10;
-    private static final int cutoff = 5;
+    private static final int particlesPerChief = 0;
+    private static final int cutoff = 0;
     private int index = 0;
     public static final Vector2 blue1 = new Vector2(35,240);
     public static final Vector2 blue2 = new Vector2(35,380);
     public static final Vector2 red1 = new Vector2(240,445);
     public static final Vector2 red2 = new Vector2(100,445);
     private Vector2 position = red1;
-    private double accuracy;
+    private double accuracy=0;
     private float rotation = 0;
     private float initialRotation = 0;
     private SweeperData[] distances;
@@ -43,7 +43,6 @@ public class MCAuto extends BasicAutonomous{
         Barrier wallDown = new Barrier(this, new Vector2(0,0), new Vector2(480, 5));
         Barrier mountain1 = new Barrier(this, new Vector2(wallDisp,wallDisp), new Vector2(80, 40), wallRot);
         Barrier mountain2 = new Barrier(this, new Vector2(480-wallDisp,480-wallDisp), new Vector2(80, 40), wallRot);
-      //Todo add compass and starting rotation adjustment
       initialRotation = (float) compass.getDirection();
         rotation = (float)compass.getDirection()-initialRotation;
       for(int i = 0; i < particlesPerChief*cutoff; i++){
@@ -52,7 +51,7 @@ public class MCAuto extends BasicAutonomous{
   }
    @Override
     public void loop(){
-        rotation = (float)compass.getDirection()- initialRotation;
+   /*     rotation = (float)compass.getDirection()- initialRotation;
         distances = sweeper.sweep(samples);
         for(MCParticle p : particles){
             p.act(samples);
@@ -60,7 +59,7 @@ public class MCAuto extends BasicAutonomous{
         SortRespawn();
         telemetry.addData("position",position);
         telemetry.addData("rotation",rotation);
-        telemetry.addData("initial rotation", initialRotation);
+        telemetry.addData("initial rotation", initialRotation);*/
     }
     public void SortRespawn(){
         for(MCParticle p : particles){
