@@ -29,7 +29,7 @@ public class SweepUS extends Aparatus{
         double servoDeltaDegrees = (maxDegree - minDegree)/(samples-1);
         for(int i = 0; i < samples; i++){
             double degree = minDegree+servoDeltaDegrees*i;
-            sweep.setPosition(degree);
+            sweep.setPosition(degree/180.0);
             data[i] = new SweeperData(sensor.getUltrasonicLevel(), degree);
         }
         sweep.setPosition(minDegree);

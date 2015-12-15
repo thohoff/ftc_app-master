@@ -15,8 +15,8 @@ public class MCAuto extends BasicAutonomous{
     public CompassSensor compass;
    public World world;
     public ArrayList<MCParticle> particles =  new ArrayList<MCParticle>();
-    private static final int particlesPerChief = 0;
-    private static final int cutoff = 0;
+    private static final int particlesPerChief = 5;
+    private static final int cutoff = 5;
     private int index = 0;
     public static final Vector2 blue1 = new Vector2(35,240);
     public static final Vector2 blue2 = new Vector2(35,380);
@@ -32,6 +32,7 @@ public class MCAuto extends BasicAutonomous{
 //    private MCAutoDriver driver;
     @Override
   public void init(){
+        super.init();
       compass = hardwareMap.compassSensor.get("compass");
         world = new World(new Vector2(), false);
         sweeper = new SweepUS(this);
@@ -51,7 +52,7 @@ public class MCAuto extends BasicAutonomous{
   }
    @Override
     public void loop(){
-   /*     rotation = (float)compass.getDirection()- initialRotation;
+       rotation = (float)compass.getDirection()- initialRotation;
         distances = sweeper.sweep(samples);
         for(MCParticle p : particles){
             p.act(samples);
@@ -59,7 +60,7 @@ public class MCAuto extends BasicAutonomous{
         SortRespawn();
         telemetry.addData("position",position);
         telemetry.addData("rotation",rotation);
-        telemetry.addData("initial rotation", initialRotation);*/
+        telemetry.addData("initial rotation", initialRotation);
     }
     public void SortRespawn(){
         for(MCParticle p : particles){

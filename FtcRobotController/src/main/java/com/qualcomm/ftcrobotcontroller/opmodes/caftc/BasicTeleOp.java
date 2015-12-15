@@ -17,6 +17,7 @@ public class BasicTeleOp extends BasicHardware {
 
     @Override
     public void init() {
+        super.init();
         armsVal1 = a1.getCurrentPosition();
         armsInc1 = 0.002;
         armsVal2 = a2.getCurrentPosition();
