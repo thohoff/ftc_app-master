@@ -12,17 +12,17 @@ import java.util.Date;
 
 public class BasicTeleOp extends BasicHardware {
     //Execution order : Start, Init, Loop, Stop
-    double armsVal1;
-    double armsInc1;
-    double armsVal2;
-    double armsInc2;
+    int armsVal1;
+    int armsInc1;
+    int armsVal2;
+    int armsInc2;
 
     @Override
     public void init() {
         super.init();
-        armsVal1 = a1.getCurrentPosition();
+        armsVal1 = 0; //a1.getCurrentPosition();
         armsInc1 = 1;
-        armsVal2 = a2.getCurrentPosition();
+        armsVal2 = 0; //a2.getCurrentPosition();
         armsInc2 = armsInc1;
         a1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
