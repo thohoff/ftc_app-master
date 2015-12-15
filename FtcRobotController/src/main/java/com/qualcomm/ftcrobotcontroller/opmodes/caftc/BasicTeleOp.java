@@ -17,12 +17,6 @@ public class BasicTeleOp extends BasicHardware {
 
     @Override
     public void init() {
-        dRight = hardwareMap.dcMotor.get("motor_3");
-        dLeft = hardwareMap.dcMotor.get("motor_1");
-        cRight = hardwareMap.dcMotor.get("motor_4");
-        cLeft = hardwareMap.dcMotor.get("motor_2");
-        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint
-        a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint
         armsVal1 = a1.getCurrentPosition();
         armsInc1 = 0.002;
         armsVal2 = a2.getCurrentPosition();
