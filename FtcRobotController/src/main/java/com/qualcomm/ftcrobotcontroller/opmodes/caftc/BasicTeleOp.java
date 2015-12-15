@@ -19,7 +19,7 @@ public class BasicTeleOp extends BasicHardware {
     public void init() {
         super.init();
         armsVal1 = a1.getCurrentPosition();
-        armsInc1 = 0.002;
+        armsInc1 = 0.0000000000001;
         armsVal2 = a2.getCurrentPosition();
         armsInc2 = armsInc1;
     }
@@ -50,14 +50,16 @@ public class BasicTeleOp extends BasicHardware {
         //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()));
 
         //motor encoder stuffs for arm joint 1
-        if (a1.getCurrentPosition() > armsVal1) { a1.setPower(-0.25); }
-        else if (a1.getCurrentPosition() < armsVal1) { a1.setPower(0.25); }
-        else { a1.setPower(0); }
+        if (a1.getCurrentPosition() > armsVal1) { /*a1.setPower(-1);*/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", down")); }
+        else if (a1.getCurrentPosition() < armsVal1) { /*a1.setPower(1);*/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", up")); }
+        else { a1.setPower(0); telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition()+ ", no")); }
+
+        telemetry.addData("", a1.getCurrentPosition());
 
         //motor encoder stuffs for arm joint 2
-        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-0.25); telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", down")); }
-        else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(0.25); telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition() + ", up")); }
-        else { a2.setPower(0); telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); }
+        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", down")); }
+        else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition() + ", up")); }
+        else { a2.setPower(0); } //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); }
     }
     @Override
     public void start(){
