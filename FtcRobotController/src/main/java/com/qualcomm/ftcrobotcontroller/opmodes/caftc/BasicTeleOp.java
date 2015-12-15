@@ -1,6 +1,8 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,9 +21,11 @@ public class BasicTeleOp extends BasicHardware {
     public void init() {
         super.init();
         armsVal1 = a1.getCurrentPosition();
-        armsInc1 = 0.0000000000001;
+        armsInc1 = 1;
         armsVal2 = a2.getCurrentPosition();
         armsInc2 = armsInc1;
+        a1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
     }
     @Override
     public void loop(){
@@ -49,17 +53,21 @@ public class BasicTeleOp extends BasicHardware {
         else if (gamepad1.y) { armsVal2 -= armsInc2; }
         //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()));
 
-        //motor encoder stuffs for arm joint 1
-        if (a1.getCurrentPosition() > armsVal1) { /*a1.setPower(-1);*/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", down")); }
-        else if (a1.getCurrentPosition() < armsVal1) { /*a1.setPower(1);*/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", up")); }
+        //motor encoder stuffs
+        telemetry.addData("", a1.getCurrentPosition() + ", " + a1.getMode());
+        a1.setTargetPosition((int) (1440 * 0));
+        a2.setTargetPosition((int) (1440 * 0.5));
+
+        /*//motor encoder stuffs for arm joint 1
+        if (a1.getCurrentPosition() > armsVal1) { /*a1.setPower(-1);/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", down")); }
+        else if (a1.getCurrentPosition() < armsVal1) { /*a1.setPower(1);/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", up")); }
         else { a1.setPower(0); telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition()+ ", no")); }
 
-        telemetry.addData("", a1.getCurrentPosition());
-
         //motor encoder stuffs for arm joint 2
-        if (a2.getCurrentPosition() > armsVal2) { a2.setPower(-1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", down")); }
+        if (a2.getCurrentPosition() > armsVal2) {
+            a2.setPower(-1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", down")); }
         else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition() + ", up")); }
-        else { a2.setPower(0); } //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); }
+        else { a2.setPower(0); } //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); }*/
     }
     @Override
     public void start(){
