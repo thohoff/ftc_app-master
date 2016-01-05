@@ -25,12 +25,12 @@ public class BasicTeleOp extends BasicHardware {
         armsInc1 = 1;
         armsVal2 = 0; //a2.getCurrentPosition();
         armsInc2 = armsInc1;
-        a1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        a2.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-        //a1.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        //a2.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        a1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //a1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        //a2.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        a1.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        a2.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        //a1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
