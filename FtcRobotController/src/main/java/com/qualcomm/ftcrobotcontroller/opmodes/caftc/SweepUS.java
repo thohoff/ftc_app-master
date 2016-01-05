@@ -32,7 +32,7 @@ public class SweepUS extends Aparatus{
             sweep.setPosition(degree/180.0);
             data[i] = new SweeperData(sensor.getUltrasonicLevel(), degree);
         }
-        sweep.setPosition(minDegree);
+        sweep.setPosition(minDegree/180);
      return data;
     }
 }

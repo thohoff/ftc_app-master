@@ -15,7 +15,7 @@ public class MCAuto extends BasicAutonomous{
     public CompassSensor compass;
    public World world;
     public ArrayList<MCParticle> particles =  new ArrayList<MCParticle>();
-    private static final int particlesPerChief = 5;
+    private static final int particlesPerChief = 10;
     private static final int cutoff = 5;
     private int index = 0;
     public static final Vector2 blue1 = new Vector2(35,240);
@@ -29,10 +29,18 @@ public class MCAuto extends BasicAutonomous{
     private SweeperData[] distances;
     private SweepUS sweeper;
     private static final int samples = 10;
+    private Vector2 target = new Vector2(240,240);
+    private static final int maxCount = 120;
+    private int count = 0;
 //    private MCAutoDriver driver;
     @Override
   public void init(){
-        super.init();
+        dRight = hardwareMap.dcMotor.get("motor_3"); //motor3
+        dLeft = hardwareMap.dcMotor.get("motor_1"); //motor1
+        cRight = hardwareMap.dcMotor.get("motor_2"); //motor2
+        cLeft = hardwareMap.dcMotor.get("motor_4"); //motor4
+        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor5
+        a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint motor 6
       compass = hardwareMap.compassSensor.get("compass");
         world = new World(new Vector2(), false);
         sweeper = new SweepUS(this);
@@ -53,14 +61,31 @@ public class MCAuto extends BasicAutonomous{
    @Override
     public void loop(){
        rotation = (float)compass.getDirection()- initialRotation;
-        distances = sweeper.sweep(samples);
-        for(MCParticle p : particles){
-            p.act(samples);
-        }
-        SortRespawn();
+
+       if(Math.abs(getDesiredRotation()-rotation)>10){
+           dRight.setPower(0.5);
+           dLeft.setPower(0.5);
+       }
+       else if(Math.abs(position.dst( target))>20){
+           dRight.setPower(0.5);
+           dLeft.setPower(-0.5);
+       }
+       else{
+           dRight.setPower(0);
+           dLeft.setPower(0);
+       }
+       if(count == maxCount) {
+           distances = sweeper.sweep(samples);
+           for(MCParticle p : particles){
+               p.act(samples);
+           }
+           SortRespawn();
+           count = 0;
+       }
         telemetry.addData("position",position);
         telemetry.addData("rotation",rotation);
         telemetry.addData("initial rotation", initialRotation);
+        telemetry.addData("Target Rotation", getDesiredRotation());
     }
     public void SortRespawn(){
         for(MCParticle p : particles){
@@ -70,7 +95,6 @@ public class MCAuto extends BasicAutonomous{
         Vector2 avg = particles.get(0).position.cpy();
         for(int i = 1; i < cutoff; i++){
             avg = avg.add(particles.get(i).position.cpy());
-
         }
         avg = avg.scl(1f/cutoff);
         this.position = avg;
@@ -86,5 +110,9 @@ public class MCAuto extends BasicAutonomous{
     }
     public static float cmToWorld(float cm){
         return (float)((cm/2.54)*40.0/12.0);
+    }
+    public double getDesiredRotation(){
+        Vector2 subTarget = target.cpy().sub(position);
+        return rotation+subTarget.angle();
     }
 }
