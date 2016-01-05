@@ -18,14 +18,22 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc2;
 
     @Override
-    public void init() {
+    public void init()
+    {
         super.init();
         armsVal1 = 0; //a1.getCurrentPosition();
         armsInc1 = 1;
         armsVal2 = 0; //a2.getCurrentPosition();
         armsInc2 = armsInc1;
+        a1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        a2.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        //a1.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        //a2.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         a1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
     }
     @Override
     public void loop(){
@@ -44,22 +52,36 @@ public class BasicTeleOp extends BasicHardware {
         else { cRight.setPower(0); }
 
         //arm joint 1
-        if (gamepad1.a) { armsVal1 += armsInc1; }
-        else if (gamepad1.b) { armsVal1 -= armsInc1; }
-        //telemetry.addData("", ("1: " + armsVal1));
+        if (gamepad1.a) { a1.setPower(0.5); telemetry.addData("", ("a")); }
+        else if (gamepad1.b) { a1.setPower(-0.5); telemetry.addData("", ("b")); }
+        else if (a1.getPower() == 0) { a1.setPower(0); }
+        else { a1.setPower(0.1 * a1.getPower()/Math.abs(a1.getPower())); } //*/
 
         //arm joint 2
-        if (gamepad1.x) { armsVal2 += armsInc2; }
+        if (gamepad1.x) { a2.setPower(0.5); telemetry.addData("", ("x")); }
+        else if (gamepad1.y) { a2.setPower(-0.5); telemetry.addData("", ("y")); }
+        else if (a2.getPower() == 0) { a2.setPower(0); }
+        else { a2.setPower(0.02 * a1.getPower()/Math.abs(a1.getPower())); } //*/
+
+        //arm joint 1
+        /*if (gamepad1.a) { armsVal1 += armsInc1; }
+        else if (gamepad1.b) { armsVal1 -= armsInc1; }
+        //telemetry.addData("", ("1: " + armsVal1)); //*/
+
+        //arm joint 2
+        /*if (gamepad1.x) { armsVal2 += armsInc2; }
         else if (gamepad1.y) { armsVal2 -= armsInc2; }
-        //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()));
+        //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition())); //*/
+
+        //a2.setPower(1);
 
         //motor encoder stuffs
-        telemetry.addData("", a1.getCurrentPosition() + ", " + a1.getMode());
-        a1.setTargetPosition((int) (1440 * 0));
-        a2.setTargetPosition((int) (1440 * 0.5));
+        /*telemetry.addData("", a2.getCurrentPosition() + ", " + a2.getMode() + ", " + armsVal2 + ", " + a2.getConnectionInfo());
+        a1.setTargetPosition((int) (armsVal1 * 1440 / 5));
+        a2.setTargetPosition((int) (armsVal2 * 1440 / 5)); //*/
 
-        /*//motor encoder stuffs for arm joint 1
-        if (a1.getCurrentPosition() > armsVal1) { /*a1.setPower(-1);/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", down")); }
+        //motor encoder stuffs for arm joint 1
+        /*if (a1.getCurrentPosition() > armsVal1) { /*a1.setPower(-1);/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", down")); }
         else if (a1.getCurrentPosition() < armsVal1) { /*a1.setPower(1);/ telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition() + ", up")); }
         else { a1.setPower(0); telemetry.addData("", ("1: " + armsVal1 + ", " + a1.getCurrentPosition()+ ", no")); }
 
@@ -67,7 +89,7 @@ public class BasicTeleOp extends BasicHardware {
         if (a2.getCurrentPosition() > armsVal2) {
             a2.setPower(-1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", down")); }
         else if (a2.getCurrentPosition() < armsVal2) { a2.setPower(1); }//telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition() + ", up")); }
-        else { a2.setPower(0); } //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); }*/
+        else { a2.setPower(0); } //telemetry.addData("", ("2: " + armsVal2 + ", " + a2.getCurrentPosition()+ ", no")); } //*/
     }
     @Override
     public void start(){
