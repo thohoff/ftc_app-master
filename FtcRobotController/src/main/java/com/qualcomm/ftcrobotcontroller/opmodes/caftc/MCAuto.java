@@ -18,19 +18,17 @@ public class MCAuto extends BasicAutonomous{
     private static final int particlesPerChief = 10;
     private static final int cutoff = 5;
     private int index = 0;
-    public static final Vector2 blue1 = new Vector2(35,240);
-    public static final Vector2 blue2 = new Vector2(35,380);
-    public static final Vector2 red1 = new Vector2(240,445);
-    public static final Vector2 red2 = new Vector2(100,445);
-    private Vector2 position = red1;
+    public static final Vector2 start1 = new Vector2(200,60);
+    public static final Vector2 star2 = new Vector2(280,60);
+    private Vector2 position = start1;
     private double accuracy=0;
     private float rotation = 0;
     private float initialRotation = 0;
     private SweeperData[] distances;
     private SweepUS sweeper;
-    private static final int samples = 10;
-    private Vector2 target = new Vector2(240,240);
-    private static final int maxCount = 120;
+    private static final int samples = 2;
+    private Vector2 target = new Vector2(360,360);
+    private static final int maxCount = 3000000;
     private int count = 0;
 //    private MCAutoDriver driver;
     @Override
@@ -60,7 +58,8 @@ public class MCAuto extends BasicAutonomous{
   }
    @Override
     public void loop(){
-       rotation = (float)compass.getDirection()- initialRotation;
+       count++;
+       rotation = ((float)compass.getDirection()- initialRotation)%360;
 
        if(Math.abs(getDesiredRotation()-rotation)>10){
            dRight.setPower(0.5);
@@ -82,11 +81,13 @@ public class MCAuto extends BasicAutonomous{
            SortRespawn();
            count = 0;
        }
-        telemetry.addData("position",position);
-        telemetry.addData("rotation",rotation);
-        telemetry.addData("initial rotation", initialRotation);
-        telemetry.addData("Target Rotation", getDesiredRotation());
-    }
+       telemetry.addData("count", count);
+    telemetry.addData("position",position);
+    telemetry.addData("rotation",rotation);
+    telemetry.addData("initial rotation", initialRotation);
+    telemetry.addData("Target Rotation", getDesiredRotation());
+       telemetry.addData("Count",count);
+}
     public void SortRespawn(){
         for(MCParticle p : particles){
             p.Score(distances);
@@ -113,6 +114,6 @@ public class MCAuto extends BasicAutonomous{
     }
     public double getDesiredRotation(){
         Vector2 subTarget = target.cpy().sub(position);
-        return rotation+subTarget.angle();
+        return (rotation+subTarget.angle())%360;
     }
 }

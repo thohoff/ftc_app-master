@@ -2,7 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
-
+import com.qualcomm.robotcore.hardware.Servo;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -16,11 +16,14 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc1;
     int armsVal2;
     int armsInc2;
-
+    Servo armServoBottom;
+    Servo armServoTop;
     @Override
     public void init()
     {
         super.init();
+        armServoTop = hardwareMap.servo.get("armt");
+        armServoBottom = hardwareMap.servo.get("armb");
         armsVal1 = 0; //a1.getCurrentPosition();
         armsInc1 = 1;
         armsVal2 = 0; //a2.getCurrentPosition();
@@ -62,7 +65,11 @@ public class BasicTeleOp extends BasicHardware {
         else if (gamepad1.y) { a2.setPower(-0.5); telemetry.addData("", ("y")); }
         else if (a2.getPower() == 0) { a2.setPower(0); }
         else { a2.setPower(0.02 * a1.getPower()/Math.abs(a1.getPower())); } //*/
-
+        if(gamepad1.dpad_down) {
+            armServoBottom.setDirection(Servo.Direction.FORWARD);
+        }else if(gamepad1.dpad_up){
+            armServoBottom.setDirection(Servo.Direction.REVERSE);
+        }
         //arm joint 1
         /*if (gamepad1.a) { armsVal1 += armsInc1; }
         else if (gamepad1.b) { armsVal1 -= armsInc1; }
