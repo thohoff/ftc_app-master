@@ -20,8 +20,9 @@ public class MCParticle implements RayCastCallback, Comparable<MCParticle>{
     float error = 0;
     static final float variance = 10f;
     static final float rotVariance = 0f;
-    Vector2 shortest;
+    Vector2 shortest = new Vector2(240,240);
     float[] distances;
+    private static final float world240 = MCAuto.cmToWorld(240);
     public MCParticle(MCAuto bot, Vector2 guess, float rotGuess){
         this.auto = bot;
         position = new Vector2(guess.x+RMath.SignedFRand()*variance, guess.y+RMath.SignedFRand()*variance);
@@ -38,9 +39,10 @@ public class MCParticle implements RayCastCallback, Comparable<MCParticle>{
             position.y = 0;
         }
         rotation = (rotGuess + RMath.SignedFRand()*rotVariance)%360;
-        resetDistance();
     }
     public void act(int samples){
+        distances = new float[samples];
+        resetDistance();
         Vector2 disp = new Vector2(MCAuto.cmToWorld(240), 0);
         disp.rotate(rotation%360);
         disp.rotate(startRotationRelativeToCompass);
@@ -83,7 +85,6 @@ public class MCParticle implements RayCastCallback, Comparable<MCParticle>{
         return 1;
     }
     public void resetDistance(){
-        float world240 = MCAuto.cmToWorld(240);
         for(int i = 0; i < distances.length; i++){
             distances[i] = world240;
         }

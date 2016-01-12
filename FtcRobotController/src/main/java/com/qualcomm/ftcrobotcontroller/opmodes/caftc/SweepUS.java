@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class SweepUS extends Aparatus{
     public Servo sweep;
     public UltrasonicSensor sensor;
-    public static double minDegree = 0;
-    public static double maxDegree = 180;
+    public static double minDegree = 40;
+    public static double maxDegree = 140;
     public SweepUS(BasicHardware hardware) {
         sweep = hardware.hardwareMap.servo.get("sweeper");
         sensor = hardware.hardwareMap.ultrasonicSensor.get("ultrasonic");
@@ -32,7 +32,7 @@ public class SweepUS extends Aparatus{
             sweep.setPosition(degree/180.0);
             data[i] = new SweeperData(sensor.getUltrasonicLevel(), degree);
         }
-        sweep.setPosition(minDegree);
+        sweep.setPosition(minDegree/180);
      return data;
     }
 }
