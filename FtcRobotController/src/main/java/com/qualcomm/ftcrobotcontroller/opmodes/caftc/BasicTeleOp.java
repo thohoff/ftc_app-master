@@ -66,6 +66,20 @@ public class BasicTeleOp extends BasicHardware {
         else { s1.setPosition(0.5); }
 
 
+        //driver two:
+        //peg thing left
+        if (gamepad2.left_bumper) { sLeft.setPosition(1); }
+        else if (gamepad2.left_trigger > 0.5) { sLeft.setPosition(0); }
+        else { sLeft.setPosition(0.5); }
+
+        //peg thing right
+        if (gamepad2.right_bumper) { sRight.setPosition(1); }
+        else if (gamepad2.right_trigger > 0.5) { sRight.setPosition(0); }
+        else { sRight.setPosition(0.5); }
+
+        //releasing climbers
+        //////////
+
         //arm joint 2
         /*if (gamepad1.x) { a2.setPower(0.5); telemetry.addData("", ("x")); }
         else if (gamepad1.y) { a2.setPower(-0.5); telemetry.addData("", ("y")); }
@@ -122,6 +136,8 @@ public class BasicTeleOp extends BasicHardware {
         a1.setPower(0);
         //a2.setPower(0);
         s1.setPosition(0.5);
+        sLeft.setPosition(0.5);
+        sRight.setPosition(0.5);
 
         /*//can we do this last bit here?
         //motor encoder stuffs for arm joint 1

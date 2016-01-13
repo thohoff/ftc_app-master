@@ -25,6 +25,10 @@ public abstract class BasicHardware extends OpMode{
     //DcMotor a2;
     Servo s1;
 
+    //peg thingy
+    Servo sLeft;
+    Servo sRight;
+
 
     @Override
     public void init(){
@@ -35,5 +39,7 @@ public abstract class BasicHardware extends OpMode{
         a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor5
         //a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint motor 6
         s1 = hardwareMap.servo.get("s1");
+        sRight = hardwareMap.servo.get("s5");
+        sLeft = hardwareMap.servo.get("s6");
     }
 }
