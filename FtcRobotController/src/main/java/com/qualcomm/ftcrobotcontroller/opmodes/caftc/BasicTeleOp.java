@@ -16,6 +16,8 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc1;
     int armsVal2;
     int armsInc2; //*/
+    double sL;
+    double sR;
     //Servo armServoBottom;
     //Servo armServoTop;
     @Override
@@ -36,6 +38,8 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        sL = 0;
+        sR = 0;
 
     }
     @Override
@@ -65,6 +69,22 @@ public class BasicTeleOp extends BasicHardware {
         else if (gamepad1.y) { s1.setPosition(1); telemetry.addData("", ("y")); }
         else { s1.setPosition(0.5); }
 
+
+        //driver two:
+        //peg thing left
+        if (gamepad2.left_bumper) { sL += 0.02; }
+        else if (gamepad2.left_trigger > 0.5) { sL -= 0.02; }
+        //else { sLeft.setPosition(0.5); }
+        sLeft.setPosition(sL);
+
+        //peg thing right
+        if (gamepad2.right_bumper) { sR += 0.02; }
+        else if (gamepad2.right_trigger > 0.5) { sR -= 0.02; }
+        //else { sRight.setPosition(0.5); }
+        sRight.setPosition(sR);
+
+        //releasing climbers
+        //////////
 
         //arm joint 2
         /*if (gamepad1.x) { a2.setPower(0.5); telemetry.addData("", ("x")); }
@@ -122,6 +142,8 @@ public class BasicTeleOp extends BasicHardware {
         a1.setPower(0);
         //a2.setPower(0);
         s1.setPosition(0.5);
+        sLeft.setPosition(0.5);
+        sRight.setPosition(0.5);
 
         /*//can we do this last bit here?
         //motor encoder stuffs for arm joint 1
