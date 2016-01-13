@@ -2,6 +2,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 
 import java.util.ArrayList;
@@ -19,20 +20,23 @@ public class MCAuto extends BasicAutonomous{
     private static final int cutoff = 5;
     private int index = 0;
     public static final Vector2 start1 = new Vector2(200,60);
-    public static final Vector2 star2 = new Vector2(280,60);
+    public static final Vector2 start2 = new Vector2(280,60);
     private Vector2 position = start1;
     private double accuracy=0;
     private float rotation = 0;
     private float initialRotation = 0;
     private SweeperData[] distances;
     private SweepUS sweeper;
-    private static final int samples = 2;
+    public static final int samples = 10;
     private Vector2 target = new Vector2(360,360);
     private static final int maxCount = 3000000;
     private int count = 0;
+    private int count2 = 0;
+    private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
 //    private MCAutoDriver driver;
     @Override
   public void init(){
+        super.init();
         dRight = hardwareMap.dcMotor.get("motor_3"); //motor3
         dLeft = hardwareMap.dcMotor.get("motor_1"); //motor1
         cRight = hardwareMap.dcMotor.get("motor_2"); //motor2
@@ -58,28 +62,34 @@ public class MCAuto extends BasicAutonomous{
   }
    @Override
     public void loop(){
-       count++;
-       rotation = ((float)compass.getDirection()- initialRotation)%360;
+       if(count!= maxCount) {
+           count++;
 
-       if(Math.abs(getDesiredRotation()-rotation)>10){
-           dRight.setPower(0.5);
-           dLeft.setPower(0.5);
-       }
-       else if(Math.abs(position.dst( target))>20){
-           dRight.setPower(0.5);
-           dLeft.setPower(-0.5);
-       }
-       else{
-           dRight.setPower(0);
-           dLeft.setPower(0);
-       }
-       if(count == maxCount) {
-           distances = sweeper.sweep(samples);
-           for(MCParticle p : particles){
-               p.act(samples);
+           rotation = ((float) compass.getDirection() - initialRotation) % 360;
+
+           if (Math.abs(getDesiredRotation() - rotation) > 10) {
+               dRight.setPower(0.5);
+               dLeft.setPower(0.5);
+           } else if (Math.abs(position.dst(target)) > 20) {
+               dRight.setPower(0.5);
+               dLeft.setPower(-0.5);
+           } else {
+               dRight.setPower(0);
+               dLeft.setPower(0);
            }
-           SortRespawn();
-           count = 0;
+       }
+       if (count == maxCount) {
+           sweeper.sweep(samples, count);
+
+           if(count2 >= samples){
+               for (MCParticle p : particles) {
+                   p.act(samples);
+               }
+               SortRespawn();
+               count2 = 0;
+               count = 0;
+               distances = sweeper.distances;
+           }
        }
        telemetry.addData("count", count);
     telemetry.addData("position",position);
@@ -114,6 +124,6 @@ public class MCAuto extends BasicAutonomous{
     }
     public double getDesiredRotation(){
         Vector2 subTarget = target.cpy().sub(position);
-        return (rotation+subTarget.angle())%360;
+        return (subTarget.angle(position))%360;
     }
 }

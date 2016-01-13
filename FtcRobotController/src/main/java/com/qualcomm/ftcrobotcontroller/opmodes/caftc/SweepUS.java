@@ -14,6 +14,7 @@ public class SweepUS extends Aparatus{
     public UltrasonicSensor sensor;
     public static double minDegree = 40;
     public static double maxDegree = 140;
+    public SweeperData[] distances = new SweeperData[MCAuto.samples];
     public SweepUS(BasicHardware hardware) {
         sweep = hardware.hardwareMap.servo.get("sweeper");
         sensor = hardware.hardwareMap.ultrasonicSensor.get("ultrasonic");
@@ -24,15 +25,12 @@ public class SweepUS extends Aparatus{
      * @param samples How many datapoints you want to sample, must be greater than 1
      * @return The datapoints recoreded by the sweeper, with the angle relative to the compass/robot.
      */
-    public SweeperData[] sweep(int samples){
-    SweeperData[] data = new SweeperData[samples];
+    public void sweep(int samples, int i){
+
         double servoDeltaDegrees = (maxDegree - minDegree)/(samples-1);
-        for(int i = 0; i < samples; i++){
             double degree = minDegree+servoDeltaDegrees*i;
             sweep.setPosition(degree/180.0);
-            data[i] = new SweeperData(sensor.getUltrasonicLevel(), degree);
-        }
+            distances[i] = new SweeperData(sensor.getUltrasonicLevel(), degree);
         sweep.setPosition(minDegree/180);
-     return data;
     }
 }
