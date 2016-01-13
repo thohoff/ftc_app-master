@@ -12,22 +12,22 @@ import java.util.Date;
 
 public class BasicTeleOp extends BasicHardware {
     //Execution order : Start, Init, Loop, Stop
-    int armsVal1;
+    /*int armsVal1;
     int armsInc1;
     int armsVal2;
-    int armsInc2;
-    Servo armServoBottom;
-    Servo armServoTop;
+    int armsInc2; //*/
+    //Servo armServoBottom;
+    //Servo armServoTop;
     @Override
     public void init()
     {
         super.init();
-        armServoTop = hardwareMap.servo.get("armt");
-        armServoBottom = hardwareMap.servo.get("armb");
-        armsVal1 = 0; //a1.getCurrentPosition();
+        //armServoTop = hardwareMap.servo.get("armt");
+        //armServoBottom = hardwareMap.servo.get("armb");
+        /*armsVal1 = 0; //a1.getCurrentPosition();
         armsInc1 = 1;
         armsVal2 = 0; //a2.getCurrentPosition();
-        armsInc2 = armsInc1;
+        armsInc2 = armsInc1; //*/
         //a1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         a1.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
@@ -55,10 +55,10 @@ public class BasicTeleOp extends BasicHardware {
         else { cRight.setPower(0); }
 
         //arm joint 1
-        if (gamepad1.a) { a1.setPower(0.5); telemetry.addData("", ("a")); }
-        else if (gamepad1.b) { a1.setPower(-0.5); telemetry.addData("", ("b")); }
-        else if (a1.getPower() == 0) { a1.setPower(0); }
-        else { a1.setPower(0.1 * a1.getPower()/Math.abs(a1.getPower())); } //*/
+        if (gamepad1.a) { a1.setPower(1); telemetry.addData("", ("a")); }
+        else if (gamepad1.b) { a1.setPower(-1); telemetry.addData("", ("b")); }
+        else { a1.setPower(0); } // if (a1.getPower() == 0)
+        //else { a1.setPower(0.1 * a1.getPower()/Math.abs(a1.getPower())); } //*/
 
         //arm servo thingy
         if (gamepad1.x) { s1.setPosition(0); telemetry.addData("", ("x")); }
@@ -71,11 +71,11 @@ public class BasicTeleOp extends BasicHardware {
         else if (gamepad1.y) { a2.setPower(-0.5); telemetry.addData("", ("y")); }
         else if (a2.getPower() == 0) { a2.setPower(0); }
         else { a2.setPower(0.02 * a1.getPower()/Math.abs(a1.getPower())); } //*/
-        if(gamepad1.dpad_down) {
+        /*if(gamepad1.dpad_down) {
             armServoBottom.setDirection(Servo.Direction.FORWARD);
         }else if(gamepad1.dpad_up){
             armServoBottom.setDirection(Servo.Direction.REVERSE);
-        }
+        } //*/
         //arm joint 1
         /*if (gamepad1.a) { armsVal1 += armsInc1; }
         else if (gamepad1.b) { armsVal1 -= armsInc1; }
