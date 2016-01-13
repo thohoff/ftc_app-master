@@ -31,7 +31,7 @@ public class BasicTeleOp extends BasicHardware {
         //a1.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         a1.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
-        a2.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
+        //a2.setMode(DcMotorController.RunMode.RUN_WITHOUT_ENCODERS);
         //a1.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -60,8 +60,14 @@ public class BasicTeleOp extends BasicHardware {
         else if (a1.getPower() == 0) { a1.setPower(0); }
         else { a1.setPower(0.1 * a1.getPower()/Math.abs(a1.getPower())); } //*/
 
+        //arm servo thingy
+        if (gamepad1.x) { s1.setPosition(0); telemetry.addData("", ("x")); }
+        else if (gamepad1.y) { s1.setPosition(1); telemetry.addData("", ("y")); }
+        else { s1.setPosition(0.5); }
+
+
         //arm joint 2
-        if (gamepad1.x) { a2.setPower(0.5); telemetry.addData("", ("x")); }
+        /*if (gamepad1.x) { a2.setPower(0.5); telemetry.addData("", ("x")); }
         else if (gamepad1.y) { a2.setPower(-0.5); telemetry.addData("", ("y")); }
         else if (a2.getPower() == 0) { a2.setPower(0); }
         else { a2.setPower(0.02 * a1.getPower()/Math.abs(a1.getPower())); } //*/
@@ -114,7 +120,8 @@ public class BasicTeleOp extends BasicHardware {
         cRight.setPower(0);
         cLeft.setPower(0);
         a1.setPower(0);
-        a2.setPower(0);
+        //a2.setPower(0);
+        s1.setPosition(0.5);
 
         /*//can we do this last bit here?
         //motor encoder stuffs for arm joint 1
