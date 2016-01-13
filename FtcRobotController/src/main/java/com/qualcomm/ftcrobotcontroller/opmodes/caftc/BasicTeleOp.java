@@ -16,6 +16,8 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc1;
     int armsVal2;
     int armsInc2; //*/
+    double sL;
+    double sR;
     //Servo armServoBottom;
     //Servo armServoTop;
     @Override
@@ -36,6 +38,8 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        sL = 0;
+        sR = 0;
 
     }
     @Override
@@ -68,14 +72,16 @@ public class BasicTeleOp extends BasicHardware {
 
         //driver two:
         //peg thing left
-        if (gamepad2.left_bumper) { sLeft.setPosition(1); }
-        else if (gamepad2.left_trigger > 0.5) { sLeft.setPosition(0); }
-        else { sLeft.setPosition(0.5); }
+        if (gamepad2.left_bumper) { sL += 0.02; }
+        else if (gamepad2.left_trigger > 0.5) { sL -= 0.02; }
+        //else { sLeft.setPosition(0.5); }
+        sLeft.setPosition(sL);
 
         //peg thing right
-        if (gamepad2.right_bumper) { sRight.setPosition(1); }
-        else if (gamepad2.right_trigger > 0.5) { sRight.setPosition(0); }
-        else { sRight.setPosition(0.5); }
+        if (gamepad2.right_bumper) { sR += 0.02; }
+        else if (gamepad2.right_trigger > 0.5) { sR -= 0.02; }
+        //else { sRight.setPosition(0.5); }
+        sRight.setPosition(sR);
 
         //releasing climbers
         //////////
