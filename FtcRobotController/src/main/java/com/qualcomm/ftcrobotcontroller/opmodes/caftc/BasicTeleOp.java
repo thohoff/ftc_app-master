@@ -19,6 +19,7 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc2; //*/
     double sL;
     double sR;
+    double POW;
     private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
     //Servo armServoBottom;
     //Servo armServoTop;
@@ -42,6 +43,7 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         sL = 40;
         sR = 0;
+        POW = 0.6;
     }
     @Override
     public void loop(){
@@ -71,8 +73,8 @@ public class BasicTeleOp extends BasicHardware {
         else { s1.setPosition(0.5); } //*/
 
         //arm motor extender thingy
-        if (gamepad1.x) { sM.setPower(-1); telemetry.addData("", ("x")); }
-        else if (gamepad1.y) { sM.setPower(1); telemetry.addData("", ("y")); }
+        if (gamepad1.x) { sM.setPower(-1 * POW); telemetry.addData("", ("x")); }
+        else if (gamepad1.y) { sM.setPower(1 * POW); telemetry.addData("", ("y")); }
         else { sM.setPower(0); } //*/
 
         //driver two:
