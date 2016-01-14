@@ -8,6 +8,7 @@ import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /**
@@ -17,7 +18,7 @@ enum AutoMode {FIRST_MOVE, PREPARE_TO_MOVE, MOVE_OUT, ALIGN_TO_BEACON,MOVE_TO_BE
 
 public class ReckonAuto extends BasicAutonomous{
     AutoMode mode = AutoMode.FIRST_MOVE;
-    ColorSensor colorSensor;
+    OpticalDistanceSensor optical;
     UltrasonicSensor sonic;
     CompassSensor compass;
     private static float u = 4;
@@ -39,8 +40,8 @@ public class ReckonAuto extends BasicAutonomous{
     @Override
     public void init(){
         super.init();
-        colorSensor = hardwareMap.colorSensor.get("color");
-        colorSensor.enableLed(true);
+        optical = hardwareMap.opticalDistanceSensor.get("optical");
+        optical.enableLed(true);
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
         compass = hardwareMap.compassSensor.get("compass");
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -134,10 +135,7 @@ public class ReckonAuto extends BasicAutonomous{
                 break;
 
         }
-        telemetry.addData("Clear", colorSensor.alpha());
-        telemetry.addData("Red  ", colorSensor.red());
-        telemetry.addData("Green", colorSensor.green());
-        telemetry.addData("Blue ", colorSensor.blue());
+        telemetry.addData("ODS ", a_ods_light_detected());
         telemetry.addData("position", position);
         telemetry.addData("rotation", compass.getDirection());
         telemetry.addData("initial rotation", initialRotation);
@@ -188,7 +186,7 @@ public class ReckonAuto extends BasicAutonomous{
         encoderStartState = new Vector2(dLeft.getCurrentPosition(), dRight.getCurrentPosition());
     }
     public boolean isWhite(){
-        return true;
+        return a_ods_white_tape_detected();
     }
     public float getDesiredRotation(Vector2 target){
         Vector2 subTarget = target.cpy().sub(position);
@@ -525,6 +523,53 @@ public class ReckonAuto extends BasicAutonomous{
         //
         run_without_left_drive_encoder ();
         run_without_right_drive_encoder ();
+
+    }
+    double a_ods_light_detected ()
+
+    {
+        double l_return = 0.0;
+
+        if (optical != null)
+        {
+            optical.getLightDetected ();
+        }
+
+        return l_return;
+
+    } // a_ods_light_detected
+
+    //--------------------------------------------------------------------------
+    //
+    // a_ods_white_tape_detected
+    //
+    /**
+     * Access whether the EOP is detecting white tape.
+     */
+    boolean a_ods_white_tape_detected ()
+
+    {
+        //
+        // Assume not.
+        //
+        boolean l_return = false;
+
+        if (optical != null)
+        {
+            //
+            // Is the amount of light detected above the threshold for white
+            // tape?
+            //
+            if (optical.getLightDetected () > 0.8)
+            {
+                l_return = true;
+            }
+        }
+
+        //
+        // Return
+        //
+        return l_return;
 
     }
 }
