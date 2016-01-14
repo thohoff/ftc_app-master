@@ -41,7 +41,7 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        sL = 40;
+        sL = 0.4;
         sR = 0;
         POW = 0.6;
     }
@@ -79,11 +79,12 @@ public class BasicTeleOp extends BasicHardware {
 
         //driver two:
         //peg thing left for blue
+        double num = 0.05;
         if (isBlue) {
             if (gamepad1.dpad_up) {
-                sL += 0.5;
+                sL += num;
             } else if (gamepad1.dpad_down) {
-                sL -= 0.5;
+                sL -= num;
             }
         }
 
@@ -91,9 +92,9 @@ public class BasicTeleOp extends BasicHardware {
         else //is red
         {
             if (gamepad1.dpad_up) {
-                sR += 0.5;
+                sR += num;
             } else if (gamepad1.dpad_down) {
-                sR -= 0.5;
+                sR -= num;
             }
         }
         sLeft.setPosition(sL);
