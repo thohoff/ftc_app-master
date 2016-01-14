@@ -101,7 +101,7 @@ public class BasicTeleOp extends BasicHardware {
         sRight.setPosition(sR);
 
         //releasing climbers
-        //////////
+        //////////not code based
 
         //arm joint 2
         /*if (gamepad1.x) { a2.setPower(0.5); telemetry.addData("", ("x")); }
