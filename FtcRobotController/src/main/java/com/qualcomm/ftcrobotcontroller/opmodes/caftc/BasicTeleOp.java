@@ -40,7 +40,7 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        sL = 0;
+        sL = 40;
         sR = 0;
     }
     @Override
@@ -79,9 +79,9 @@ public class BasicTeleOp extends BasicHardware {
         //peg thing left for blue
         if (isBlue) {
             if (gamepad1.dpad_up) {
-                sL += 0.02;
+                sL += 0.5;
             } else if (gamepad1.dpad_down) {
-                sL -= 0.02;
+                sL -= 0.5;
             }
         }
 
@@ -89,9 +89,9 @@ public class BasicTeleOp extends BasicHardware {
         else //is red
         {
             if (gamepad1.dpad_up) {
-                sR += 0.02;
+                sR += 0.5;
             } else if (gamepad1.dpad_down) {
-                sR -= 0.02;
+                sR -= 0.5;
             }
         }
         sLeft.setPosition(sL);
