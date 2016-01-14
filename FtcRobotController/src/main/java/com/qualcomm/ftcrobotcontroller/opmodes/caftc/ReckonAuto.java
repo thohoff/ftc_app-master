@@ -8,6 +8,7 @@ import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /**
@@ -17,18 +18,18 @@ enum AutoMode {FIRST_MOVE, PREPARE_TO_MOVE, MOVE_OUT, ALIGN_TO_BEACON,MOVE_TO_BE
 
 public class ReckonAuto extends BasicAutonomous{
     AutoMode mode = AutoMode.FIRST_MOVE;
-    ColorSensor colorSensor;
+    OpticalDistanceSensor optical;
     UltrasonicSensor sonic;
     CompassSensor compass;
     private static float u = 4;
-    public static final Vector2 start1 = new Vector2(200,60+6*u);
-    public static final Vector2 start2 = new Vector2(280,60+6*u);
-    public static final Vector2 waypoint1 = new Vector2(240, 160);
-    public static final Vector2 beaconloc = new Vector2(40, 280);
+    public static final Vector2 start1 = new Vector2(60,18);
+    public static final Vector2 start2 = new Vector2(84,18);
+    public static final Vector2 waypoint1 = new Vector2(72, 48);
+    public static final Vector2 beaconloc = new Vector2(12, 84);
     private Vector2 position = start1;
-    public static final double standardPower = 0.5f;
+    public static final double standardPower = 0.75f;
     public static final double feetPerRotation = 1;
-    public static final double unitPerRotation = 40 * feetPerRotation;
+    public static final double unitPerRotation = 12*feetPerRotation;
     private int sweepDir = 1; // 1 means Right, -1 means last direction was left.
     private Vector2 encoderStartState;
     private double distanceMoved;
@@ -39,13 +40,15 @@ public class ReckonAuto extends BasicAutonomous{
     @Override
     public void init(){
         super.init();
-        colorSensor = hardwareMap.colorSensor.get("color");
-        colorSensor.enableLed(true);
+        optical = hardwareMap.opticalDistanceSensor.get("optical");
+        optical.enableLed(true);
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
         compass = hardwareMap.compassSensor.get("compass");
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         initialRotation = compass.getDirection();
+        reset_drive_encoders();
+        run_without_drive_encoders();
     }
     @Override
     public void start(){
@@ -55,44 +58,53 @@ public class ReckonAuto extends BasicAutonomous{
     public void loop(){
         switch (mode){
             case FIRST_MOVE:
-                if(SmartMove(6*u,standardPower)){
+
+                if(SmartMove(6,standardPower)){
                     stopMoving();
-                    mode = AutoMode.PREPARE_TO_MOVE;
+                    reset_drive_encoders();
                     run_without_drive_encoders();
+                    mode = AutoMode.PREPARE_TO_MOVE;
                 }
                 break;
             case PREPARE_TO_MOVE:
+                run_without_drive_encoders();
                 if(SmartRotate(getDesiredRotation(waypoint1),standardPower)){
                     stopMoving();
-                    run_using_encoders();
                     reset_drive_encoders();
+                    run_using_encoders();
+
                     mode = AutoMode.MOVE_OUT;
                 }
                 break;
             case MOVE_OUT :
+
                 if(SmartMove(position.dst(waypoint1),standardPower)){
                     stopMoving();
                     position = waypoint1.cpy();
-                    mode = AutoMode.ALIGN_TO_BEACON;
+                    reset_drive_encoders();
                     run_without_drive_encoders();
+                    mode = AutoMode.ALIGN_TO_BEACON;
                 }
                 break;
             case ALIGN_TO_BEACON:
+                run_without_drive_encoders();
                 if(SmartRotate(getDesiredRotation(beaconloc),standardPower)) {
                     stopMoving();
                     mode = AutoMode.MOVE_TO_BEACON;
+
                 }
                 break;
             case MOVE_TO_BEACON:
+                run_without_drive_encoders();
                 if (isWhite()) {
                     stopMoving();
                     mode = AutoMode.LOCK_TO_BEACON;
-                    stopMoving();
                 }else{
                     moveForward(standardPower);
                 }
                 break;
             case LOCK_TO_BEACON:
+                run_without_drive_encoders();
                 if(sonic.getUltrasonicLevel()<4){
                     stopMoving();
                     mode  = AutoMode.DROP_PAYLOAD;
@@ -123,19 +135,18 @@ public class ReckonAuto extends BasicAutonomous{
                 break;
 
         }
-        telemetry.addData("Clear", colorSensor.alpha());
-        telemetry.addData("Red  ", colorSensor.red());
-        telemetry.addData("Green", colorSensor.green());
-        telemetry.addData("Blue ", colorSensor.blue());
+        telemetry.addData("ODS ", a_ods_light_detected());
         telemetry.addData("position", position);
         telemetry.addData("rotation", compass.getDirection());
         telemetry.addData("initial rotation", initialRotation);
         telemetry.addData("sonic", sonic.getUltrasonicLevel());
         telemetry.addData("isBlue", isBlue);
         telemetry.addData("State", mode);
+        telemetry.addData("Motor State", dRight.getMode()+", "+dLeft.getMode());
+
     }
     public void moveForward(double amount){
-        dRight.setPower(amount);
+        dRight.setPower(-amount);
         dLeft.setPower(amount);
     }
     public void moveBackward(double amount) {
@@ -148,7 +159,7 @@ public class ReckonAuto extends BasicAutonomous{
         turnRight(-amount);
     }
     public void turnRight(double amount){
-        dRight.setPower(-amount);
+        dRight.setPower(amount);
         dLeft.setPower(amount);
     }
     public int turnSign(double start, double target){
@@ -160,24 +171,26 @@ public class ReckonAuto extends BasicAutonomous{
     }
     public boolean SmartRotate(double target, double power){
         double dir = compass.getDirection();
-        if(Math.abs(dir-target)<3){
+        if(Math.abs(dir-target)<10){
             return true;
         }
-        turnRight(turnSign(dir,target)*power);
+        telemetry.addData("dir-target", Math.abs(dir-target)+" ,"+turnSign(dir,target)+", target"+target);
+        telemetry.addData("turn power",turnSign(dir, target) * power);
+        turnRight(turnSign(dir, target) * power);
         return false;
     }
     public boolean SmartMove(double distance, double power){
-       return drive_using_encoders(power, power, distance/unitPerRotation*360,distance/unitPerRotation*360);
+       return drive_using_encoders(power, power, distance*360,distance*360);
     }
     public void prepareSmartMove(){
         encoderStartState = new Vector2(dLeft.getCurrentPosition(), dRight.getCurrentPosition());
     }
     public boolean isWhite(){
-        return true;
+        return a_ods_white_tape_detected();
     }
     public float getDesiredRotation(Vector2 target){
         Vector2 subTarget = target.cpy().sub(position);
-        return (subTarget.angle(position))%360;
+        return (subTarget.angle(position)+180)%360;
     }
     double a_left_drive_power ()
     {
@@ -341,13 +354,17 @@ public class ReckonAuto extends BasicAutonomous{
         boolean l_return = false;
 
         run_using_encoders ();
-        set_drive_power (p_left_power, p_right_power);
+        set_drive_power (p_left_power, -p_right_power);
         if (have_drive_encoders_reached (p_left_count, p_right_count))
         {
             reset_drive_encoders ();
             set_drive_power (0.0f, 0.0f);
             l_return = true;
         }
+        telemetry.addData("Encoder Reacher", l_return);
+        telemetry.addData("Right Encoder", dRight.getCurrentPosition());
+        telemetry.addData("LeftEncoder", dLeft.getCurrentPosition());
+        telemetry.addData("count", p_left_count+ "Right: "+ p_right_count);
         return l_return;
 
     }
@@ -506,6 +523,53 @@ public class ReckonAuto extends BasicAutonomous{
         //
         run_without_left_drive_encoder ();
         run_without_right_drive_encoder ();
+
+    }
+    double a_ods_light_detected ()
+
+    {
+        double l_return = 0.0;
+
+        if (optical != null)
+        {
+            optical.getLightDetected ();
+        }
+
+        return l_return;
+
+    } // a_ods_light_detected
+
+    //--------------------------------------------------------------------------
+    //
+    // a_ods_white_tape_detected
+    //
+    /**
+     * Access whether the EOP is detecting white tape.
+     */
+    boolean a_ods_white_tape_detected ()
+
+    {
+        //
+        // Assume not.
+        //
+        boolean l_return = false;
+
+        if (optical != null)
+        {
+            //
+            // Is the amount of light detected above the threshold for white
+            // tape?
+            //
+            if (optical.getLightDetected () > 0.8)
+            {
+                l_return = true;
+            }
+        }
+
+        //
+        // Return
+        //
+        return l_return;
 
     }
 }
