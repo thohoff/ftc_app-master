@@ -82,9 +82,9 @@ public class BasicTeleOp extends BasicHardware {
         double num = 0.02;
         if (isBlue) {
             if (gamepad1.dpad_up && sL + num < 1) {
-                sL += num;
+                sL += num; telemetry.addData("", ("BlueUp"));
             } else if (gamepad1.dpad_down && sL - num > 1) {
-                sL -= num;
+                sL -= num; telemetry.addData("", ("BlueDown"));
             }
         }
 
@@ -92,9 +92,9 @@ public class BasicTeleOp extends BasicHardware {
         else //is red
         {
             if (gamepad1.dpad_up && sR + num < 1) {
-                sR += num;
+                sR += num; telemetry.addData("", ("RedUp"));
             } else if (gamepad1.dpad_down && sR - num > 1) {
-                sR -= num;
+                sR -= num; telemetry.addData("", ("RedDown"));
             }
         }
         sLeft.setPosition(sL);
