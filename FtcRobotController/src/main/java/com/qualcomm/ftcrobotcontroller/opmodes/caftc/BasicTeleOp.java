@@ -79,11 +79,11 @@ public class BasicTeleOp extends BasicHardware {
 
         //driver two:
         //peg thing left for blue
-        double num = 0.05;
+        double num = 0.02;
         if (isBlue) {
-            if (gamepad1.dpad_up) {
+            if (gamepad1.dpad_up && sL + num < 1) {
                 sL += num;
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad1.dpad_down && sL - num > 1) {
                 sL -= num;
             }
         }
@@ -91,9 +91,9 @@ public class BasicTeleOp extends BasicHardware {
         //peg thing right for red
         else //is red
         {
-            if (gamepad1.dpad_up) {
+            if (gamepad1.dpad_up && sR + num < 1) {
                 sR += num;
-            } else if (gamepad1.dpad_down) {
+            } else if (gamepad1.dpad_down && sR - num > 1) {
                 sR -= num;
             }
         }
