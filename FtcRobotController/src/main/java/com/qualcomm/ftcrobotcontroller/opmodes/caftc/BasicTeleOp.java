@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
+import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,6 +19,7 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc2; //*/
     double sL;
     double sR;
+    private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
     //Servo armServoBottom;
     //Servo armServoTop;
     @Override
@@ -40,7 +42,6 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         sL = 0;
         sR = 0;
-
     }
     @Override
     public void loop(){
@@ -71,16 +72,25 @@ public class BasicTeleOp extends BasicHardware {
 
 
         //driver two:
-        //peg thing left
-        if (gamepad2.left_bumper) { sL += 0.02; }
-        else if (gamepad2.left_trigger > 0.5) { sL -= 0.02; }
-        //else { sLeft.setPosition(0.5); }
-        sLeft.setPosition(sL);
+        //peg thing left for blue
+        if (isBlue) {
+            if (gamepad1.dpad_up) {
+                sL += 0.02;
+            } else if (gamepad1.dpad_down) {
+                sL -= 0.02;
+            }
+        }
 
-        //peg thing right
-        if (gamepad2.right_bumper) { sR += 0.02; }
-        else if (gamepad2.right_trigger > 0.5) { sR -= 0.02; }
-        //else { sRight.setPosition(0.5); }
+        //peg thing right for red
+        else //is red
+        {
+            if (gamepad1.dpad_up) {
+                sR += 0.02;
+            } else if (gamepad1.dpad_down) {
+                sR -= 0.02;
+            }
+        }
+        sLeft.setPosition(sL);
         sRight.setPosition(sR);
 
         //releasing climbers
