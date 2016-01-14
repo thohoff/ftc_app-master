@@ -65,11 +65,15 @@ public class BasicTeleOp extends BasicHardware {
         else { a1.setPower(0); } // if (a1.getPower() == 0)
         //else { a1.setPower(0.1 * a1.getPower()/Math.abs(a1.getPower())); } //*/
 
-        //arm servo thingy
-        if (gamepad1.x) { s1.setPosition(0); telemetry.addData("", ("x")); }
+        //arm servo extender thingy
+        /*if (gamepad1.x) { s1.setPosition(0); telemetry.addData("", ("x")); }
         else if (gamepad1.y) { s1.setPosition(1); telemetry.addData("", ("y")); }
-        else { s1.setPosition(0.5); }
+        else { s1.setPosition(0.5); } //*/
 
+        //arm motor extender thingy
+        if (gamepad1.x) { sM.setPower(-1); telemetry.addData("", ("x")); }
+        else if (gamepad1.y) { sM.setPower(1); telemetry.addData("", ("y")); }
+        else { sM.setPower(0); } //*/
 
         //driver two:
         //peg thing left for blue
@@ -151,7 +155,8 @@ public class BasicTeleOp extends BasicHardware {
         cLeft.setPower(0);
         a1.setPower(0);
         //a2.setPower(0);
-        s1.setPosition(0.5);
+        //s1.setPosition(0.5);
+        sM.setPower(0);
         sLeft.setPosition(0.5);
         sRight.setPosition(0.5);
 
