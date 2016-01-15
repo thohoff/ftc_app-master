@@ -19,6 +19,7 @@ public class BasicTeleOp extends BasicHardware {
     int armsInc2; //*/
     double sL;
     double sR;
+    double sC;
     double POW;
     private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
     //Servo armServoBottom;
@@ -43,8 +44,8 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         sL = 0.4;
         sR = 0;
+        sC = 0;
         POW = 0.6;
-        s1.setPosition(0); //retracting climber arm
     }
     @Override
     public void loop(){
@@ -84,7 +85,7 @@ public class BasicTeleOp extends BasicHardware {
         if (isBlue) {
             if (gamepad1.dpad_up && sL + num < 1) {
                 sL += num; telemetry.addData("", ("BlueUp"));
-            } else if (gamepad1.dpad_down && sL - num > 1) {
+            } else if (gamepad1.dpad_down && sL - num > 0) {
                 sL -= num; telemetry.addData("", ("BlueDown"));
             }
         }
@@ -94,12 +95,20 @@ public class BasicTeleOp extends BasicHardware {
         {
             if (gamepad1.dpad_up && sR + num < 1) {
                 sR += num; telemetry.addData("", ("RedUp"));
-            } else if (gamepad1.dpad_down && sR - num > 1) {
+            } else if (gamepad1.dpad_down && sR - num > 0) {
                 sR -= num; telemetry.addData("", ("RedDown"));
             }
         }
         sLeft.setPosition(sL);
         sRight.setPosition(sR);
+
+        double num2 = 0.03;
+        //climbers arm
+        if (gamepad1.dpad_right && sC + num2 < 1) {
+            sC += num2; telemetry.addData("", ("CRight"));
+        } else if (gamepad1.dpad_left && sC - num2 > 0) {
+            sC -= num2; telemetry.addData("", ("CLeft"));
+        }
 
         //releasing climbers
         //////////not code based
