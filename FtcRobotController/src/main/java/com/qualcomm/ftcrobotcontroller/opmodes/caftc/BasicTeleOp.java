@@ -43,7 +43,7 @@ public class BasicTeleOp extends BasicHardware {
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         sL = 0.4;
-        sR = 0;
+        sR = 0.4;
         sC = 0;
         POW = 0.6;
     }
