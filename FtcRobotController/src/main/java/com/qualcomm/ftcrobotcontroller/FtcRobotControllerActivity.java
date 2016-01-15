@@ -48,6 +48,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -96,6 +97,7 @@ public class FtcRobotControllerActivity extends Activity {
   protected TextView textErrorMessage;
   protected ImmersiveMode immersion;
   public static Switch colorSwitch;
+  public static EditText power;
   protected UpdateUI updateUI;
   protected Dimmer dimmer;
   protected LinearLayout entireScreenLayout;
@@ -159,6 +161,7 @@ public class FtcRobotControllerActivity extends Activity {
     textGamepad[0] = (TextView) findViewById(R.id.textGamepad1);
     textGamepad[1] = (TextView) findViewById(R.id.textGamepad2);
     colorSwitch = (Switch) findViewById(R.id.switch1);
+    power = (EditText) findViewById(R.id.power);
     immersion = new ImmersiveMode(getWindow().getDecorView());
     dimmer = new Dimmer(this);
     dimmer.longBright();

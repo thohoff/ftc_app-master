@@ -21,15 +21,12 @@ public class ReckonAuto extends BasicAutonomous{
     OpticalDistanceSensor optical;
     UltrasonicSensor sonic;
     CompassSensor compass;
-    private static float u = 4;
-    public static final Vector2 start1 = new Vector2(60,18);
-    public static final Vector2 start2 = new Vector2(84,18);
+    public static Vector2 start = new Vector2(84,14);
     public static final Vector2 waypoint1 = new Vector2(72, 48);
-    public static final Vector2 beaconloc = new Vector2(12, 84);
-    private Vector2 position = start1;
-    public static final double standardPower = 0.75f;
-    public static final double feetPerRotation = 1;
-    public static final double unitPerRotation = 12*feetPerRotation;
+    public static final Vector2 beaconloc = new Vector2(12, 92);
+    private Vector2 position = start;
+    public static double standardPower = Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+    public static final double inchesPerRotation = 2.3;
     private int sweepDir = 1; // 1 means Right, -1 means last direction was left.
     private Vector2 encoderStartState;
     private double distanceMoved;
@@ -37,25 +34,28 @@ public class ReckonAuto extends BasicAutonomous{
     private int lockCount = 0;
     private int maxLockCount = 100;
     private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
+    private boolean working = true;
     @Override
     public void init(){
         super.init();
         optical = hardwareMap.opticalDistanceSensor.get("optical");
-        optical.enableLed(true);
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
         compass = hardwareMap.compassSensor.get("compass");
+        compass.setMode(CompassSensor.CompassMode.MEASUREMENT_MODE);
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        initialRotation = compass.getDirection();
+        initialRotation = 0;//compass.getDirection();
         reset_drive_encoders();
         run_without_drive_encoders();
     }
     @Override
     public void start(){
         reset_drive_encoders();
+
     }
     @Override
     public void loop(){
+        standardPower = Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
         switch (mode){
             case FIRST_MOVE:
 
@@ -63,7 +63,7 @@ public class ReckonAuto extends BasicAutonomous{
                     stopMoving();
                     reset_drive_encoders();
                     run_without_drive_encoders();
-                    mode = AutoMode.PREPARE_TO_MOVE;
+                    mode = AutoMode.ALIGN_TO_BEACON;
                 }
                 break;
             case PREPARE_TO_MOVE:
@@ -135,6 +135,7 @@ public class ReckonAuto extends BasicAutonomous{
                 break;
 
         }
+        telemetry.addData("Power",Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString()));
         telemetry.addData("ODS ", a_ods_light_detected());
         telemetry.addData("position", position);
         telemetry.addData("rotation", compass.getDirection());
@@ -143,7 +144,7 @@ public class ReckonAuto extends BasicAutonomous{
         telemetry.addData("isBlue", isBlue);
         telemetry.addData("State", mode);
         telemetry.addData("Motor State", dRight.getMode()+", "+dLeft.getMode());
-
+        telemetry.addData("Desired", getDesiredRotation(beaconloc));
     }
     public void moveForward(double amount){
         dRight.setPower(-amount);
@@ -163,24 +164,21 @@ public class ReckonAuto extends BasicAutonomous{
         dLeft.setPower(amount);
     }
     public int turnSign(double start, double target){
-        double result = 2*Math.floor(Math.sin(Math.toRadians(target-start)))+1;
+        double result = -2*Math.floor(Math.sin(Math.toRadians(target-start)))+1;
         if(result>0){
-            return 1;
+            return 1;//-1
         }
-        return -1;
+        return 1;
     }
-    public boolean SmartRotate(double target, double power){
-        double dir = compass.getDirection();
-        if(Math.abs(dir-target)<10){
-            return true;
-        }
-        telemetry.addData("dir-target", Math.abs(dir-target)+" ,"+turnSign(dir,target)+", target"+target);
-        telemetry.addData("turn power",turnSign(dir, target) * power);
-        turnRight(turnSign(dir, target) * power);
-        return false;
+    public boolean SmartRotate(double degrees, double power){
+
+        return SmartMoveBoth(degrees * 2.1/17.5, -(degrees * 2.1/17.5), power);
     }
     public boolean SmartMove(double distance, double power){
-       return drive_using_encoders(power, power, distance*360,distance*360);
+       return drive_using_encoders(power, power, (distance*360d)/inchesPerRotation,(distance*360d)/inchesPerRotation);
+    }
+    public boolean SmartMoveBoth(double distancel, double distancer, double power){
+        return drive_using_encoders(power,power,(distancel*360d)/inchesPerRotation,(distancer*360d)/inchesPerRotation);
     }
     public void prepareSmartMove(){
         encoderStartState = new Vector2(dLeft.getCurrentPosition(), dRight.getCurrentPosition());
@@ -188,9 +186,14 @@ public class ReckonAuto extends BasicAutonomous{
     public boolean isWhite(){
         return a_ods_white_tape_detected();
     }
-    public float getDesiredRotation(Vector2 target){
-        Vector2 subTarget = target.cpy().sub(position);
-        return (subTarget.angle(position)+180)%360;
+    public double getDesiredRotation(Vector2 target){
+        Vector2 rotpos = position.cpy().rotate((float)initialRotation);
+        Vector2 sub = target.cpy().sub(rotpos);
+        double angle = ((Math.toDegrees(Math.atan2(sub.y,sub.x ))));
+     //   if(angle < 0){
+     //       angle+= 360;
+     //   }
+        return angle;
     }
     double a_left_drive_power ()
     {
@@ -528,14 +531,7 @@ public class ReckonAuto extends BasicAutonomous{
     double a_ods_light_detected ()
 
     {
-        double l_return = 0.0;
-
-        if (optical != null)
-        {
-            optical.getLightDetected ();
-        }
-
-        return l_return;
+         return optical.getLightDetected();
 
     } // a_ods_light_detected
 
