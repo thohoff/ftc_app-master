@@ -84,9 +84,9 @@ public class BasicTeleOp extends BasicHardware {
         double num = 0.02;
         if (isBlue) {
             if (gamepad1.dpad_up && sL + num < 1) {
-                sL += num; telemetry.addData("", ("BlueUp"));
+                sL += num; telemetry.addData("", ("BlueUp" + sL));
             } else if (gamepad1.dpad_down && sL - num > 0) {
-                sL -= num; telemetry.addData("", ("BlueDown"));
+                sL -= num; telemetry.addData("", ("BlueDown" + sL));
             }
         }
 
@@ -94,9 +94,9 @@ public class BasicTeleOp extends BasicHardware {
         else //is red
         {
             if (gamepad1.dpad_up && sR + num < 1) {
-                sR += num; telemetry.addData("", ("RedUp"));
+                sR += num; telemetry.addData("", ("RedUp" + sR));
             } else if (gamepad1.dpad_down && sR - num > 0) {
-                sR -= num; telemetry.addData("", ("RedDown"));
+                sR -= num; telemetry.addData("", ("RedDown" + sR));
             }
         }
         sLeft.setPosition(sL);
@@ -105,9 +105,9 @@ public class BasicTeleOp extends BasicHardware {
         double num2 = 0.03;
         //climbers arm
         if (gamepad1.dpad_right && sC + num2 < 1) {
-            sC += num2; telemetry.addData("", ("CRight"));
+            sC += num2; telemetry.addData("", ("CRight" + sC));
         } else if (gamepad1.dpad_left && sC - num2 > 0) {
-            sC -= num2; telemetry.addData("", ("CLeft"));
+            sC -= num2; telemetry.addData("", ("CLeft" + sC));
         }
 
         //releasing climbers
