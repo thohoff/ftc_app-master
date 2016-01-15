@@ -41,8 +41,7 @@ public class MCAuto extends BasicAutonomous{
         dLeft = hardwareMap.dcMotor.get("motor_1"); //motor1
         cRight = hardwareMap.dcMotor.get("motor_2"); //motor2
         cLeft = hardwareMap.dcMotor.get("motor_4"); //motor4
-        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor5
-        a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint motor 6
+        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor;
       compass = hardwareMap.compassSensor.get("compass");
         world = new World(new Vector2(), false);
         sweeper = new SweepUS(this);
