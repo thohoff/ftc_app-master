@@ -44,6 +44,7 @@ public class BasicTeleOp extends BasicHardware {
         sL = 0.4;
         sR = 0;
         POW = 0.6;
+        s1.setPosition(0); //retracting climber arm
     }
     @Override
     public void loop(){
