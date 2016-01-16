@@ -98,6 +98,10 @@ public class FtcRobotControllerActivity extends Activity {
   protected ImmersiveMode immersion;
   public static Switch colorSwitch;
   public static EditText power;
+  public static EditText degreeText;
+  public  static  EditText xLocIn;
+  public  static Switch parkActiveSwitch;
+  public  static  Switch park2Switch;
   protected UpdateUI updateUI;
   protected Dimmer dimmer;
   protected LinearLayout entireScreenLayout;
@@ -162,6 +166,10 @@ public class FtcRobotControllerActivity extends Activity {
     textGamepad[1] = (TextView) findViewById(R.id.textGamepad2);
     colorSwitch = (Switch) findViewById(R.id.switch1);
     power = (EditText) findViewById(R.id.power);
+    xLocIn = (EditText) findViewById(R.id.editText2);
+    degreeText = (EditText) findViewById(R.id.editText3);
+    parkActiveSwitch = (Switch) findViewById(R.id.switch2);
+    park2Switch = (Switch) findViewById(R.id.switch3);
     immersion = new ImmersiveMode(getWindow().getDecorView());
     dimmer = new Dimmer(this);
     dimmer.longBright();

@@ -29,7 +29,7 @@ public class ReckonAuto extends BasicAutonomous{
     public static boolean goingToPark = false;
     public static boolean isTarget2 = false;
     private Vector2 position = start;
-    public static double standardPower = Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+    public static double standardPower = 0.7; //Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
     public static final double inchesPerRotation = 2.3;
     private int sweepDir = 1; // 1 means Right, -1 means last direction was left.
     private Vector2 encoderStartState;
@@ -37,9 +37,10 @@ public class ReckonAuto extends BasicAutonomous{
     private double initialRotation;
     private int lockCount = 0;
     private int maxLockCount = 100;
-    private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
+    private boolean isBlue;
     private boolean working = true;
     private Vector2 parkLoc;
+    private double rotateDivisor = 70;
     @Override
     public void init(){
         super.init();
@@ -56,6 +57,14 @@ public class ReckonAuto extends BasicAutonomous{
             parkLoc = park2.cpy();
         }
         else  {parkLoc = park1.cpy();}
+        //Get values from UI
+       isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
+        goingToPark = FtcRobotControllerActivity.parkActiveSwitch.isChecked();
+        isTarget2 = FtcRobotControllerActivity.park2Switch.isChecked();
+        rotateDivisor = Double.parseDouble(FtcRobotControllerActivity.degreeText.getEditableText().toString());
+        start.x =  (float) Double.parseDouble(FtcRobotControllerActivity.xLocIn.getEditableText().toString());
+        standardPower = Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+
     }
     @Override
     public void start(){
@@ -64,7 +73,6 @@ public class ReckonAuto extends BasicAutonomous{
     }
     @Override
     public void loop(){
-        standardPower = Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
         switch (mode){
             case FIRST_MOVE:
 
@@ -205,7 +213,7 @@ public class ReckonAuto extends BasicAutonomous{
             sign = -1;
         }
         //35, 17.5, etc ;
-        return SmartMoveBoth(-1*degrees * 2.1 / 70.0, degrees * 2.1 / 70.0, -1*sign * power, sign*power);
+        return SmartMoveBoth(-1*degrees * 2.3 / rotateDivisor, degrees * 2.3 / rotateDivisor, -1*sign * power, sign*power);
     }
     public boolean SmartMove(double distance, double power){
        return drive_using_encoders(power, power, (distance*360d)/inchesPerRotation,(distance*360d)/inchesPerRotation);
