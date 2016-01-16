@@ -88,6 +88,7 @@ public class BasicTeleOp extends BasicHardware {
             } else if (gamepad1.dpad_down && sL - num > 0) {
                 sL -= num; telemetry.addData("", ("BlueDown" + sL));
             }
+            sLeft.setPosition(sL);
         }
 
         //peg thing right for red
@@ -98,9 +99,8 @@ public class BasicTeleOp extends BasicHardware {
             } else if (gamepad1.dpad_down && sR - num > 0) {
                 sR -= num; telemetry.addData("", ("RedDown" + sR));
             }
+            sRight.setPosition(sR);
         }
-        sLeft.setPosition(sL);
-        sRight.setPosition(sR);
 
         double num2 = 0.03;
         //climbers arm
