@@ -20,7 +20,6 @@ public class ReckonAuto extends BasicAutonomous{
     AutoMode mode = AutoMode.FIRST_MOVE;
     OpticalDistanceSensor optical;
     UltrasonicSensor sonic;
-    CompassSensor compass;
     public static Vector2 start = new Vector2(84,14);
     public static final Vector2 beaconloc = new Vector2(12, 84);
     public  static final  Vector2 park1 = new Vector2(60, 30);
@@ -46,8 +45,6 @@ public class ReckonAuto extends BasicAutonomous{
         super.init();
         optical = hardwareMap.opticalDistanceSensor.get("optical");
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
-        compass = hardwareMap.compassSensor.get("compass");
-        compass.setMode(CompassSensor.CompassMode.MEASUREMENT_MODE);
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         initialRotation = 0;//compass.getDirection();
@@ -123,7 +120,7 @@ public class ReckonAuto extends BasicAutonomous{
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
-                s1.setPosition(0.5);
+                s1.setPosition(1);
                 reset_drive_encoders();
                 run_using_encoders();
                 if(goingToPark) {
@@ -174,7 +171,6 @@ public class ReckonAuto extends BasicAutonomous{
         telemetry.addData("Power", Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString()));
         telemetry.addData("ODS ", a_ods_light_detected());
         telemetry.addData("position", position);
-        telemetry.addData("rotation", compass.getDirection());
         telemetry.addData("initial rotation", initialRotation);
         telemetry.addData("sonic", sonic.getUltrasonicLevel());
         telemetry.addData("isBlue", isBlue);
@@ -231,6 +227,9 @@ public class ReckonAuto extends BasicAutonomous{
         Vector2 rotpos = position.cpy().rotate((float)initialRotation);
         Vector2 sub = target.cpy().sub(rotpos);
         double angle = ((Math.toDegrees(Math.atan2(sub.y,sub.x ))));
+        if (isBlue){
+            angle = angle * -1;
+        }
      //   if(angle < 0){
      //       angle+= 360;
      //   }
@@ -597,7 +596,7 @@ public class ReckonAuto extends BasicAutonomous{
             // Is the amount of light detected above the threshold for white
             // tape?
             //
-            if (optical.getLightDetected () > 0.06)
+            if (optical.getLightDetected () > 0.05)
             {
                 l_return = true;
             }

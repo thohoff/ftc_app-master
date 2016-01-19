@@ -20,7 +20,8 @@ public class BasicTeleOp extends BasicHardware {
     double sL;
     double sR;
     double sC;
-    double POW;
+    double POW1;
+    double POW2;
     private boolean isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
     //Servo armServoBottom;
     //Servo armServoTop;
@@ -43,9 +44,10 @@ public class BasicTeleOp extends BasicHardware {
         //a1.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //a2.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         sL = 0.4;
-        sR = 0.4;
+        sR = 0.5;
         sC = 0;
-        POW = 0.6;
+        POW1 = 0.9;
+        POW2 = 0.5;
     }
     @Override
     public void loop(){
@@ -64,8 +66,8 @@ public class BasicTeleOp extends BasicHardware {
         else { cRight.setPower(0); }
 
         //arm joint 1
-        if (gamepad1.a) { a1.setPower(1); telemetry.addData("", ("a")); }
-        else if (gamepad1.b) { a1.setPower(-1); telemetry.addData("", ("b")); }
+        if (gamepad1.a) { a1.setPower(1 * POW1); telemetry.addData("", ("a")); }
+        else if (gamepad1.b) { a1.setPower(-1 * POW1); telemetry.addData("", ("b")); }
         else { a1.setPower(0); } // if (a1.getPower() == 0)
         //else { a1.setPower(0.1 * a1.getPower()/Math.abs(a1.getPower())); } //*/
 
@@ -75,8 +77,8 @@ public class BasicTeleOp extends BasicHardware {
         else { s1.setPosition(0.5); } //*/
 
         //arm motor extender thingy
-        if (gamepad1.x) { sM.setPower(-1 * POW); telemetry.addData("", ("x")); }
-        else if (gamepad1.y) { sM.setPower(1 * POW); telemetry.addData("", ("y")); }
+        if (gamepad1.x) { sM.setPower(-1 * POW2); telemetry.addData("", ("x")); }
+        else if (gamepad1.y) { sM.setPower(1 * POW2); telemetry.addData("", ("y")); }
         else { sM.setPower(0); } //*/
 
         //driver two:
@@ -109,6 +111,12 @@ public class BasicTeleOp extends BasicHardware {
         } else if (gamepad1.dpad_left && sC - num2 > 0) {
             sC -= num2; telemetry.addData("", ("CLeft" + sC));
         }
+        s1.setPosition(sC);
+
+        //arm servo
+        if (gamepad2.right_bumper) { s2.setPosition(1); }
+        else if (gamepad2.left_bumper) { s2.setPosition(0); }
+        else { s2.setPosition(0.5); }
 
         //releasing climbers
         //////////not code based
@@ -172,6 +180,7 @@ public class BasicTeleOp extends BasicHardware {
         sM.setPower(0);
         sLeft.setPosition(0.5);
         sRight.setPosition(0.5);
+        s2.setPosition(0.5);
 
         /*//can we do this last bit here?
         //motor encoder stuffs for arm joint 1

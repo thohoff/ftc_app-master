@@ -31,18 +31,22 @@ public abstract class BasicHardware extends OpMode{
 
     DcMotor sM;
 
+    Servo s2;
+
 
     @Override
     public void init(){
-        dRight = hardwareMap.dcMotor.get("motor_3"); //motor3
-        dLeft = hardwareMap.dcMotor.get("motor_1"); //motor1
-        cRight = hardwareMap.dcMotor.get("motor_2"); //motor2
-        cLeft = hardwareMap.dcMotor.get("motor_4"); //motor4
-        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor5
+        dRight = hardwareMap.dcMotor.get("drive_right"); //motor3
+        dLeft = hardwareMap.dcMotor.get("drive_left"); //motor1
+        cRight = hardwareMap.dcMotor.get("spool_right"); //motor2
+        cLeft = hardwareMap.dcMotor.get("spool_left"); //motor4
+        a1 = hardwareMap.dcMotor.get("arm"); //bottom arm joint motor5
+        sM = hardwareMap.dcMotor.get("unraveler");
         //a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint motor 6
         s1 = hardwareMap.servo.get("s1");
-        sRight = hardwareMap.servo.get("s5");
-        sLeft = hardwareMap.servo.get("s6");
-        sM = hardwareMap.dcMotor.get("motor_6");
+        sRight = hardwareMap.servo.get("zipline_right");
+        sLeft = hardwareMap.servo.get("zipline_left");
+
+        s2 = hardwareMap.servo.get("people_dropper");
     }
 }

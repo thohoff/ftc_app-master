@@ -154,10 +154,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:id="@+id/switch1"
         android:textOn="Blue"
         android:textOff="Red"
-        android:layout_alignBaseline="@+id/textGamepad1"
-        android:layout_alignBottom="@+id/textGamepad1"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/textErrorMessage"
+        android:layout_alignLeft="@+id/editText3"
+        android:layout_alignStart="@+id/editText3"
+        android:layout_marginTop="64dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -165,14 +165,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         android:inputType="numberDecimal"
         android:ems="10"
         android:id="@+id/power"
-        android:layout_above="@+id/textGamepad2"
-        android:layout_alignRight="@+id/switch1"
-        android:layout_alignEnd="@+id/switch1"
         android:autoText="false"
         android:contentDescription="Motor Power"
         android:editable="true"
         android:enabled="true"
-        android:text="1" />
+        android:text="1"
+        android:layout_below="@+id/textGamepad1"
+        android:layout_alignLeft="@+id/switch3"
+        android:layout_alignStart="@+id/switch3" />
 
       <Switch
           android:layout_width="wrap_content"
@@ -180,7 +180,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           android:text="Park"
           android:id="@+id/switch2"
           android:checked="false"
-          android:layout_above="@+id/switch3"
+          android:layout_centerVertical="true"
           android:layout_alignLeft="@+id/switch3"
           android:layout_alignStart="@+id/switch3" />
 
@@ -190,10 +190,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           android:text="Park 1/2"
           android:id="@+id/switch3"
           android:checked="false"
-          android:layout_centerVertical="true"
-          android:layout_centerHorizontal="true"
           android:textOn="2"
-          android:textOff="1" />
+          android:textOff="1"
+          android:layout_alignBaseline="@+id/textGamepad1"
+          android:layout_alignBottom="@+id/textGamepad1"
+          android:layout_centerHorizontal="true" />
 
       <EditText
           android:layout_width="wrap_content"
@@ -201,10 +202,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           android:inputType="numberDecimal"
           android:ems="10"
           android:id="@+id/editText2"
-          android:layout_above="@+id/switch1"
-          android:layout_alignRight="@+id/switch3"
-          android:layout_alignEnd="@+id/switch3"
-          android:text="84" />
+          android:text="84"
+          android:layout_alignBottom="@+id/textErrorMessage"
+          android:layout_alignParentRight="true"
+          android:layout_alignParentEnd="true"
+          android:layout_toRightOf="@+id/editText3"
+          android:layout_toEndOf="@+id/editText3" />
 
       <EditText
           android:layout_width="wrap_content"
@@ -212,10 +215,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           android:inputType="numberDecimal"
           android:ems="10"
           android:id="@+id/editText3"
-          android:layout_alignTop="@+id/textOpMode"
-          android:layout_alignParentRight="true"
-          android:layout_alignParentEnd="true"
-          android:text="70" />
+          android:text="70"
+          android:layout_below="@+id/textErrorMessage" />
 
   </RelativeLayout>
 
