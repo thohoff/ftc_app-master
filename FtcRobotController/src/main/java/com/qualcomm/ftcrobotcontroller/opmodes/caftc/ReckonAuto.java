@@ -1,12 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
-import android.graphics.Color;
-import android.os.Build;
-
 import com.badlogic.gdx.math.Vector2;
 import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
@@ -45,8 +40,8 @@ public class ReckonAuto extends BasicAutonomous{
         super.init();
         optical = hardwareMap.opticalDistanceSensor.get("optical");
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
-        dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        dLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         initialRotation = 0;//compass.getDirection();
         reset_drive_encoders();
         run_without_drive_encoders();
@@ -175,12 +170,12 @@ public class ReckonAuto extends BasicAutonomous{
         telemetry.addData("sonic", sonic.getUltrasonicLevel());
         telemetry.addData("isBlue", isBlue);
         telemetry.addData("State", mode);
-        telemetry.addData("Motor State", dRight.getMode() + ", " + dLeft.getMode());
+        telemetry.addData("Motor State", driveRight.getMode() + ", " + driveLeft.getMode());
         telemetry.addData("Desired", getDesiredRotation(beaconloc));
     }
     public void moveForward(double amount){
-        dRight.setPower(-amount);
-        dLeft.setPower(amount);
+        driveRight.setPower(-amount);
+        driveLeft.setPower(amount);
     }
     public void moveBackward(double amount) {
         moveForward(-amount);
@@ -193,8 +188,8 @@ public class ReckonAuto extends BasicAutonomous{
         turnRight(-amount);
     }
     public void turnRight(double amount){
-        dRight.setPower(amount);
-        dLeft.setPower(amount);
+        driveRight.setPower(amount);
+        driveLeft.setPower(amount);
     }
     public int turnSign(double start, double target){
         double result = -2*Math.floor(Math.sin(Math.toRadians(target-start)))+1;
@@ -218,7 +213,7 @@ public class ReckonAuto extends BasicAutonomous{
         return drive_using_encoders(powerl,powerr,(distancel*360d)/inchesPerRotation,(distancer*360d)/inchesPerRotation);
     }
     public void prepareSmartMove(){
-        encoderStartState = new Vector2(dLeft.getCurrentPosition(), dRight.getCurrentPosition());
+        encoderStartState = new Vector2(driveLeft.getCurrentPosition(), driveRight.getCurrentPosition());
     }
     public boolean isWhite(){
         return a_ods_white_tape_detected();
@@ -239,9 +234,9 @@ public class ReckonAuto extends BasicAutonomous{
     {
         double l_return = 0.0;
 
-        if (dLeft != null)
+        if (driveLeft != null)
         {
-            l_return = dLeft.getPower ();
+            l_return = driveLeft.getPower ();
         }
 
         return l_return;
@@ -251,9 +246,9 @@ public class ReckonAuto extends BasicAutonomous{
     {
         double l_return = 0.0;
 
-        if (dRight != null)
+        if (driveRight != null)
         {
-            l_return = dRight.getPower ();
+            l_return = driveRight.getPower ();
         }
 
         return l_return;
@@ -263,13 +258,13 @@ public class ReckonAuto extends BasicAutonomous{
     void set_drive_power (double p_left_power, double p_right_power)
 
     {
-        if (dLeft != null)
+        if (driveLeft != null)
         {
-            dLeft.setPower (p_left_power);
+            driveLeft.setPower (p_left_power);
         }
-        if (dRight != null)
+        if (driveRight != null)
         {
-            dRight.setPower (p_right_power);
+            driveRight.setPower (p_right_power);
         }
 
     }
@@ -281,14 +276,14 @@ public class ReckonAuto extends BasicAutonomous{
         //
         boolean l_return = false;
 
-        if (dLeft != null)
+        if (driveLeft != null)
         {
             //
             // Has the encoder reached the specified values?
             //
             // TODO Implement stall code using these variables.
             //
-            if (Math.abs (dLeft.getCurrentPosition ()) > p_count)
+            if (Math.abs (driveLeft.getCurrentPosition ()) > p_count)
             {
                 //
                 // Set the status to a positive indication.
@@ -319,14 +314,14 @@ public class ReckonAuto extends BasicAutonomous{
         //
         boolean l_return = false;
 
-        if (dRight != null)
+        if (driveRight != null)
         {
             //
             // Have the encoders reached the specified values?
             //
             // TODO Implement stall code using these variables.
             //
-            if (Math.abs (dRight.getCurrentPosition ()) > p_count)
+            if (Math.abs (driveRight.getCurrentPosition ()) > p_count)
             {
                 //
                 // Set the status to a positive indication.
@@ -405,8 +400,8 @@ public class ReckonAuto extends BasicAutonomous{
             l_return = true;
         }
         telemetry.addData("Encoder Reacher", l_return);
-        telemetry.addData("Right Encoder", dRight.getCurrentPosition());
-        telemetry.addData("LeftEncoder", dLeft.getCurrentPosition());
+        telemetry.addData("Right Encoder", driveRight.getCurrentPosition());
+        telemetry.addData("LeftEncoder", driveLeft.getCurrentPosition());
         telemetry.addData("count", p_left_count+ "Right: "+ p_right_count);
         return l_return;
 
@@ -446,9 +441,9 @@ public class ReckonAuto extends BasicAutonomous{
     {
         int l_return = 0;
 
-        if (dLeft != null)
+        if (driveLeft != null)
         {
-            l_return = dLeft.getCurrentPosition ();
+            l_return = driveLeft.getCurrentPosition ();
         }
 
         return l_return;
@@ -459,9 +454,9 @@ public class ReckonAuto extends BasicAutonomous{
     {
         int l_return = 0;
 
-        if (dRight != null)
+        if (driveRight != null)
         {
-            l_return = dRight.getCurrentPosition ();
+            l_return = driveRight.getCurrentPosition ();
         }
 
         return l_return;
@@ -480,9 +475,9 @@ public class ReckonAuto extends BasicAutonomous{
     public void run_using_left_drive_encoder ()
 
     {
-        if (dLeft != null)
+        if (driveLeft != null)
         {
-            dLeft.setMode
+            driveLeft.setMode
                     ( DcMotorController.RunMode.RUN_USING_ENCODERS
                     );
         }
@@ -491,9 +486,9 @@ public class ReckonAuto extends BasicAutonomous{
     public void run_using_right_drive_encoder ()
 
     {
-        if (dRight != null)
+        if (driveRight != null)
         {
-            dRight.setMode
+            driveRight.setMode
                     ( DcMotorController.RunMode.RUN_USING_ENCODERS
                     );
         }
@@ -502,9 +497,9 @@ public class ReckonAuto extends BasicAutonomous{
     public void reset_left_drive_encoder ()
 
     {
-        if (dLeft != null)
+        if (driveLeft != null)
         {
-            dLeft.setMode
+            driveLeft.setMode
                     ( DcMotorController.RunMode.RESET_ENCODERS
                     );
         }
@@ -513,9 +508,9 @@ public class ReckonAuto extends BasicAutonomous{
     public void reset_right_drive_encoder ()
 
     {
-        if (dRight != null)
+        if (driveRight != null)
         {
-            dRight.setMode
+            driveRight.setMode
                     ( DcMotorController.RunMode.RESET_ENCODERS
                     );
         }
@@ -531,12 +526,12 @@ public class ReckonAuto extends BasicAutonomous{
     public void run_without_left_drive_encoder ()
 
     {
-        if (dLeft!= null)
+        if (driveLeft != null)
         {
-            if (dLeft.getMode () ==
+            if (driveLeft.getMode () ==
                     DcMotorController.RunMode.RESET_ENCODERS)
             {
-                dLeft.setMode
+                driveLeft.setMode
                         ( DcMotorController.RunMode.RUN_WITHOUT_ENCODERS
                         );
             }
@@ -546,12 +541,12 @@ public class ReckonAuto extends BasicAutonomous{
     public void run_without_right_drive_encoder ()
 
     {
-        if (dRight!= null)
+        if (driveRight != null)
         {
-            if (dRight.getMode () ==
+            if (driveRight.getMode () ==
                     DcMotorController.RunMode.RESET_ENCODERS)
             {
-                dRight.setMode
+                driveRight.setMode
                         ( DcMotorController.RunMode.RUN_WITHOUT_ENCODERS
                         );
             }

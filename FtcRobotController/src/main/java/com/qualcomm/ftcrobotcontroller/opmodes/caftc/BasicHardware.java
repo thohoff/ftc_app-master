@@ -13,40 +13,40 @@ public abstract class BasicHardware extends OpMode{
     //Execution order : Start, Init, Loop, Stop
 
     //Driving Motors
-    DcMotor dRight;
-    DcMotor dLeft;
+    DcMotor driveRight;
+    DcMotor driveLeft;
 
     //Chain Motors
-    DcMotor cRight;
-    DcMotor cLeft;
+    DcMotor spoolRight;
+    DcMotor spoolLeft;
 
     //Arm motors
-    DcMotor a1;
+    DcMotor armMotor;
     //DcMotor a2;
     Servo s1; //for climbers
 
     //peg thingy
-    Servo sLeft;
-    Servo sRight;
+    Servo zipLeft;
+    Servo zipRight;
 
-    DcMotor sM;
+    DcMotor unravelMotor;
 
-    Servo s2;
+    Servo dropper;
 
 
     @Override
     public void init(){
-        dRight = hardwareMap.dcMotor.get("drive_right"); //motor3
-        dLeft = hardwareMap.dcMotor.get("drive_left"); //motor1
-        cRight = hardwareMap.dcMotor.get("spool_right"); //motor2
-        cLeft = hardwareMap.dcMotor.get("spool_left"); //motor4
-        a1 = hardwareMap.dcMotor.get("arm"); //bottom arm joint motor5
-        sM = hardwareMap.dcMotor.get("unraveler");
+        driveRight = hardwareMap.dcMotor.get("drive_right"); //motor3
+        driveLeft = hardwareMap.dcMotor.get("drive_left"); //motor1
+        spoolRight = hardwareMap.dcMotor.get("spool_right"); //motor2
+        spoolLeft = hardwareMap.dcMotor.get("spool_left"); //motor4
+        armMotor = hardwareMap.dcMotor.get("arm"); //bottom arm joint motor5
+        unravelMotor = hardwareMap.dcMotor.get("unraveler");
         //a2 = hardwareMap.dcMotor.get("motor_6"); //top arm joint motor 6
         s1 = hardwareMap.servo.get("s1");
-        sRight = hardwareMap.servo.get("zipline_right");
-        sLeft = hardwareMap.servo.get("zipline_left");
+        zipRight = hardwareMap.servo.get("zipline_right");
+        zipLeft = hardwareMap.servo.get("zipline_left");
 
-        s2 = hardwareMap.servo.get("people_dropper");
+        dropper = hardwareMap.servo.get("people_dropper");
     }
 }

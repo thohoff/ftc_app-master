@@ -20,8 +20,8 @@ public class TestExample2 extends BasicHardware
         mLeft = hardwareMap.dcMotor.get("motor_1");
         mRight = hardwareMap.dcMotor.get("motor_2");
         //bumper servos
-        sLeft = hardwareMap.servo.get("servo_1");
-        sRight = hardwareMap.servo.get("servo_2");
+        zipLeft = hardwareMap.servo.get("servo_1");
+        zipRight = hardwareMap.servo.get("servo_2");
         //linear slide dc motor
         lLeft = hardwareMap.dcMotor.get("motor_3");
         lRight = hardwareMap.dcMotor.get("motor_4");
@@ -62,8 +62,8 @@ public class TestExample2 extends BasicHardware
         { bumperVal += bumperInc; lRight.setPower(1); lLeft.setPower(1); bumperUsed = true; }
         else if (gamepad1.b && bumperVal - bumperInc >= 0)
         { bumperVal -= bumperInc; bumperUsed = true; }
-        sLeft.setPosition(bumperVal);
-        sRight.setPosition(1 - bumperVal);
+        zipLeft.setPosition(bumperVal);
+        zipRight.setPosition(1 - bumperVal);
 
         //linear slide arm control right v1 (commented out)
         /*if (gamepad1.right_bumper)
@@ -111,8 +111,8 @@ public class TestExample2 extends BasicHardware
             { bumperVal += bumperInc; lRight.setPower(1); lLeft.setPower(1); }
             else if (gamepad2.b && bumperVal - bumperInc >= 0)
             { bumperVal -= bumperInc; }
-            sLeft.setPosition(bumperVal);
-            sRight.setPosition(1 - bumperVal);
+            zipLeft.setPosition(bumperVal);
+            zipRight.setPosition(1 - bumperVal);
         }
     }
     @Override
@@ -125,8 +125,8 @@ public class TestExample2 extends BasicHardware
         {
             bumperVal -= bumperInc;
 
-            sLeft.setPosition(bumperVal);
-            sRight.setPosition(1 - bumperVal);
+            zipLeft.setPosition(bumperVal);
+            zipRight.setPosition(1 - bumperVal);
         }
     }
 }

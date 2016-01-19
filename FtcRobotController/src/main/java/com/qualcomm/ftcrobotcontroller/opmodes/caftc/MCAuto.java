@@ -1,5 +1,4 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
@@ -37,11 +36,11 @@ public class MCAuto extends BasicAutonomous{
     @Override
   public void init(){
         super.init();
-        dRight = hardwareMap.dcMotor.get("motor_3"); //motor3
-        dLeft = hardwareMap.dcMotor.get("motor_1"); //motor1
-        cRight = hardwareMap.dcMotor.get("motor_2"); //motor2
-        cLeft = hardwareMap.dcMotor.get("motor_4"); //motor4
-        a1 = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor;
+        driveRight = hardwareMap.dcMotor.get("motor_3"); //motor3
+        driveLeft = hardwareMap.dcMotor.get("motor_1"); //motor1
+        spoolRight = hardwareMap.dcMotor.get("motor_2"); //motor2
+        spoolLeft = hardwareMap.dcMotor.get("motor_4"); //motor4
+        armMotor = hardwareMap.dcMotor.get("motor_5"); //bottom arm joint motor;
       compass = hardwareMap.compassSensor.get("compass");
         world = new World(new Vector2(), false);
         sweeper = new SweepUS(this);
@@ -67,14 +66,14 @@ public class MCAuto extends BasicAutonomous{
            rotation = ((float) compass.getDirection() - initialRotation) % 360;
 
            if (Math.abs(getDesiredRotation() - rotation) > 10) {
-               dRight.setPower(0.5);
-               dLeft.setPower(0.5);
+               driveRight.setPower(0.5);
+               driveLeft.setPower(0.5);
            } else if (Math.abs(position.dst(target)) > 20) {
-               dRight.setPower(0.5);
-               dLeft.setPower(-0.5);
+               driveRight.setPower(0.5);
+               driveLeft.setPower(-0.5);
            } else {
-               dRight.setPower(0);
-               dLeft.setPower(0);
+               driveRight.setPower(0);
+               driveLeft.setPower(0);
            }
        }
        if (count == maxCount) {

@@ -32,8 +32,8 @@ public class TestExample extends BasicHardware
         }
 
         bumperVal += bumperInc;
-        sLeft.setPosition(bumperVal);
-        sRight.setPosition(1 - bumperVal);
+        zipLeft.setPosition(bumperVal);
+        zipRight.setPosition(1 - bumperVal);
     }
 }
 */
