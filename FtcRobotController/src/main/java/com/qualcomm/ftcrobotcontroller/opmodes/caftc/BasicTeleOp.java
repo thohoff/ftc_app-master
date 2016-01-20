@@ -109,7 +109,7 @@ public class BasicTeleOp extends BasicHardware {
         }
         s1.setPosition(sC);
 
-        //arm servo
+        //climber arm servo
         if (gamepad2.right_bumper) { dropper.setPosition(1); }
         else if (gamepad2.left_bumper) { dropper.setPosition(0); }
         else { dropper.setPosition(0.5); }

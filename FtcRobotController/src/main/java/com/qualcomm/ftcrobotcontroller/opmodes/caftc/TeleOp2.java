@@ -8,16 +8,12 @@ public class TeleOp2 extends BasicHardware{
     double sL;
     double sR;
     double sC;
-    double POW1;
-    double POW2;
 
     @Override
     public void init() {
         sL = 0.4;
         sR = 0.5;
         sC = 0;
-        POW1 = 0.9;
-        POW2 = 0.5;
     }
 
 
@@ -78,7 +74,31 @@ public class TeleOp2 extends BasicHardware{
 
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control
-        //-
+        //spool left
+        if (gamepad2.left_bumper) { spoolLeft.setPower(1); }
+        else if (gamepad2.left_trigger > 0.5) { spoolLeft.setPower(-1); }
+        else { spoolLeft.setPower(0); }
+
+        //spool right
+        if (gamepad2.right_bumper) { spoolRight.setPower(1); }
+        else if (gamepad2.right_trigger > 0.5) { spoolRight.setPower(-1); }
+        else { spoolRight.setPower(0); }
+
+        //arm base power multiplier
+        double POW1 = 0.9;
+
+        //arm base adjustment
+        if (gamepad2.dpad_up) { armMotor.setPower(1 * POW1); } //up
+        else if (gamepad2.dpad_down) { armMotor.setPower(-1 * POW1); } //down
+        else { armMotor.setPower(0); }
+
+        //arm extension power multiplier
+        double POW2 = 0.5;
+
+        //arm extension/contraction
+        if (gamepad2.y) { unravelMotor.setPower(-1 * POW2); } //out
+        else if (gamepad2.a) { unravelMotor.setPower(1 * POW2); } //in
+        else { unravelMotor.setPower(0); } //*/
     }
 
     @Override
