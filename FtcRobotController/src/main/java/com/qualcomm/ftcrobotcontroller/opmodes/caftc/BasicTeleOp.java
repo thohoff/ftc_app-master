@@ -107,12 +107,12 @@ public class BasicTeleOp extends BasicHardware {
         } else if (gamepad1.dpad_left && sC - num2 > 0) {
             sC -= num2; telemetry.addData("", ("CLeft" + sC));
         }
-        s1.setPosition(sC);
+        climbersArm.setPosition(sC);
 
         //climber arm servo
-        if (gamepad2.right_bumper) { dropper.setPosition(1); }
-        else if (gamepad2.left_bumper) { dropper.setPosition(0); }
-        else { dropper.setPosition(0.5); }
+        /*if (gamepad2.right_bumper) { climbersArm.setPosition(1); }
+        else if (gamepad2.left_bumper) { climbersArm.setPosition(0); }
+        else { climbersArm.setPosition(0.5); } //*/
 
         //releasing climbers
         //////////not code based
@@ -174,9 +174,9 @@ public class BasicTeleOp extends BasicHardware {
         //a2.setPower(0);
         //s1.setPosition(0.5);
         unravelMotor.setPower(0);
-        zipLeft.setPosition(0.5);
-        zipRight.setPosition(0.5);
-        dropper.setPosition(0.5);
+        //zipLeft.setPosition(0.5);
+        //zipRight.setPosition(0.5);
+        //climbersArm.setPosition(0.5);
 
         /*//can we do this last bit here?
         //motor encoder stuffs for arm joint 1

@@ -70,7 +70,7 @@ public class TeleOp2 extends BasicHardware{
             else { sC = 0; }
         }
         telemetry.addData("climbers", sC);
-        s1.setPosition(sC);
+        climbersArm.setPosition(sC);
 
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control
@@ -119,8 +119,7 @@ public class TeleOp2 extends BasicHardware{
         armMotor.setPower(0);
 
         unravelMotor.setPower(0);
-        zipLeft.setPosition(0.5);
-        zipRight.setPosition(0.5);
-        dropper.setPosition(0.5);
+
+        //CR_servo.setPosition(0.5);
     }
 }
