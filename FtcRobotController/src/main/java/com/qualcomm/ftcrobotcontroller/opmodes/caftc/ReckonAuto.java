@@ -111,11 +111,11 @@ public class ReckonAuto extends BasicAutonomous{
                 break;
             case DROP_PAYLOAD:
 
-                s1.setPosition(1);
+                climbersArm.setPosition(1);
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
-                s1.setPosition(1);
+                climbersArm.setPosition(1);
                 reset_drive_encoders();
                 run_using_encoders();
                 if(goingToPark) {
