@@ -31,9 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicAutonomous;
-import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicHardware;
-import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicTeleOp;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.MCAuto;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAuto;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TeleOp2;
@@ -100,8 +97,6 @@ public class FtcOpModeRegister implements OpModeRegister {
 
       //manager.register("TestExample", TestExample.class);
     //  manager.register("TestExample2", TestExample2.class);
-      manager.register("OldTeleOp", BasicTeleOp.class);
-      manager.register("MCAuto", MCAuto.class);
       manager.register("ReckonAuto", ReckonAuto.class);
       manager.register("TeleOp2", TeleOp2.class);
 
