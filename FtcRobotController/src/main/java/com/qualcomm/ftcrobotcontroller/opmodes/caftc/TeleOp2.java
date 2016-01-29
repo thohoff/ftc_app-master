@@ -31,17 +31,18 @@ public class TeleOp2 extends BasicHardware{
 
         //zip line increment value
         double numZ = 0.02;
+        double rightMult = -1;
 
         //zip line right
         if (gamepad1.right_bumper) //right up
         {
-            if (sR + numZ < 1) { sR += numZ; }
-            else { sR = 1; }
+            if (sR - numZ > 0) { sR -= numZ; }
+            else { sR = 0; }
         }
         else if (gamepad1.right_trigger > 0.5) //right down
         {
-            if (sR - numZ > 0) { sR -= numZ; }
-            else { sR = 0; }
+            if (sR + numZ < 1) { sR += numZ; }
+            else { sR = 1; }
         }
         telemetry.addData("zip right", sR);
         zipRight.setPosition(sR);
