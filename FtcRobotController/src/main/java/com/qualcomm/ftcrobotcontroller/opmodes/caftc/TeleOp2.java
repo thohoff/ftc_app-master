@@ -20,7 +20,7 @@ public class TeleOp2 extends BasicHardware{
         sC = 0;
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
     }
-    
+
     @Override
     public void loop(){
         //driver 1 - main driving control
@@ -85,8 +85,8 @@ public class TeleOp2 extends BasicHardware{
         else { spoolLeft.setPower(0); }
 
         //spool right
-        if (gamepad2.right_bumper) { spoolRight.setPower(1); }
-        else if (gamepad2.right_trigger > 0.5) { spoolRight.setPower(-1); }
+        if (gamepad2.right_bumper) { spoolRight.setPower(-1); }
+        else if (gamepad2.right_trigger > 0.5) { spoolRight.setPower(1); }
         else { spoolRight.setPower(0); }
 
         //arm base power multiplier
