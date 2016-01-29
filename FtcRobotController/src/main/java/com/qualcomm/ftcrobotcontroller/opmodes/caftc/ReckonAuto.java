@@ -15,7 +15,7 @@ public class ReckonAuto extends BasicAutonomous{
     AutoMode mode = AutoMode.FIRST_MOVE;
     OpticalDistanceSensor optical;
     UltrasonicSensor sonic;
-    public static Vector2 start = new Vector2(84,14);
+    public static Vector2 start = new Vector2(84,12);
     public static final Vector2 beaconloc = new Vector2(12, 84);
     public  static final  Vector2 park1 = new Vector2(60, 30);
     public  static  final Vector2 park2 = new Vector2(36, 30);

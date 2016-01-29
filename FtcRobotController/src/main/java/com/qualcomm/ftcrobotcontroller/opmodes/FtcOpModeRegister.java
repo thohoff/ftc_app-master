@@ -31,9 +31,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicAutonomous;
-import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicHardware;
-import com.qualcomm.ftcrobotcontroller.opmodes.caftc.BasicTeleOp;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.MCAuto;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAuto;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TeleOp2;
