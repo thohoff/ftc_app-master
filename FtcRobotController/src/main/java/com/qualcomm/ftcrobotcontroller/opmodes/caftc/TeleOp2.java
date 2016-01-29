@@ -90,7 +90,7 @@ public class TeleOp2 extends BasicHardware{
         else { spoolRight.setPower(0); }
 
         //arm base power multiplier
-        double POW1 = 0.6;
+        double POW1 = 0.5;
 
         //arm base adjustment
         if (gamepad2.dpad_up) { armMotor.setPower(1 * POW1); } //up
