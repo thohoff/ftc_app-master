@@ -31,7 +31,6 @@ public abstract class BasicHardware extends OpMode{
 
     Servo climbersArm;
 
-
     @Override
     public void init(){
         driveRight = hardwareMap.dcMotor.get("drive_right"); //motor3
