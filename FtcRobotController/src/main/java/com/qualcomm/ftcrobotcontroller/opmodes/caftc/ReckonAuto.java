@@ -88,6 +88,7 @@ public class ReckonAuto extends BasicAutonomous{
                     stopMoving();
                     reset_drive_encoders();
                     run_using_encoders();
+                    position = beaconloc;
                     mode = AutoMode.LOCK_TO_BEACON;
                 }else{
                     moveForward(standardPower);
@@ -101,17 +102,19 @@ public class ReckonAuto extends BasicAutonomous{
                 }
                 break;
             case APROACH_BEACON:
-                moveForward(0.3);
+
+           /*     moveForward(0.3);
                 run_without_drive_encoders();
                 if(sonic.getUltrasonicLevel()<4){
                     stopMoving();
                     this.position = beaconloc.cpy();
                     mode  = AutoMode.DROP_PAYLOAD;
-                }
+                }*/
                 break;
             case DROP_PAYLOAD:
 
                 climbersArm.setPosition(1);
+                position = new Vector2(0,84);
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
@@ -219,7 +222,7 @@ public class ReckonAuto extends BasicAutonomous{
         return a_ods_white_tape_detected();
     }
     public double getDesiredRotation(Vector2 target){
-        Vector2 rotpos = position.cpy().rotate((float)initialRotation);
+        Vector2 rotpos = position.cpy().rotate((float)Math.toRadians(initialRotation));
         Vector2 sub = target.cpy().sub(rotpos);
         double angle = ((Math.toDegrees(Math.atan2(sub.y,sub.x ))));
         if (isBlue){
