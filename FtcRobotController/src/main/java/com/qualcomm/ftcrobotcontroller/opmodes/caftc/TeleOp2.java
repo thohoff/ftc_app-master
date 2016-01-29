@@ -1,5 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
+import com.qualcomm.robotcore.hardware.UltrasonicSensor;
+
 /**
  * Created by Caleb_Norfleet on 1/20/2016.
  */
@@ -8,6 +10,7 @@ public class TeleOp2 extends BasicHardware{
     double sL;
     double sR;
     double sC;
+    UltrasonicSensor sonic;
 
     @Override
     public void init() {
@@ -15,6 +18,7 @@ public class TeleOp2 extends BasicHardware{
         sL = 0.4;
         sR = 0.5;
         sC = 0;
+        sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
     }
 
 
@@ -100,6 +104,9 @@ public class TeleOp2 extends BasicHardware{
         if (gamepad2.y) { unravelMotor.setPower(-1 * POW2); } //out
         else if (gamepad2.a) { unravelMotor.setPower(1 * POW2); } //in
         else { unravelMotor.setPower(0); } //*/
+
+        //show ultrasonic value
+        telemetry.addData("dist", sonic.getUltrasonicLevel());
     }
 
     @Override
