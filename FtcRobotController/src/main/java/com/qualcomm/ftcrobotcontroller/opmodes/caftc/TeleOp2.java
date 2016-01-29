@@ -11,6 +11,7 @@ public class TeleOp2 extends BasicHardware{
 
     @Override
     public void init() {
+        super.init();
         sL = 0.4;
         sR = 0.5;
         sC = 0;
