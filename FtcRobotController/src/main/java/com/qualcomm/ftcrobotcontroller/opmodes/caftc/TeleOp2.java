@@ -47,6 +47,7 @@ public class TeleOp2 extends BasicHardware{
         telemetry.addData("zip right", sR);
         zipRight.setPosition(sR);
 
+        
         //zip line left
         if (gamepad1.left_bumper) //left up
         {
