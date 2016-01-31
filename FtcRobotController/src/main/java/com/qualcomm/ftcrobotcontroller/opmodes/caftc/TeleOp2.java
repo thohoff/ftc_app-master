@@ -85,12 +85,12 @@ public class TeleOp2 extends BasicHardware{
         else { spoolLeft.setPower(0); }
 
         //spool right
-        if (gamepad2.right_bumper) { spoolRight.setPower(-1); }
-        else if (gamepad2.right_trigger > 0.5) { spoolRight.setPower(1); }
+        if (gamepad2.right_bumper) { spoolRight.setPower(1); }
+        else if (gamepad2.right_trigger > 0.5) { spoolRight.setPower(-1); }
         else { spoolRight.setPower(0); }
 
         //arm base power multiplier
-        double POW1 = 0.7;
+        double POW1 = 0.6;
 
         //arm base adjustment
         if (gamepad2.dpad_up) { armMotor.setPower(1 * POW1); } //up
