@@ -1,6 +1,7 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
 import java.io.File;
@@ -22,8 +23,6 @@ public class RecordAutonomous extends BasicHardware{
     Motor leftMotor;
     Motor rightMotor;
 
-    float leftMotorTime;  //Time in ms
-    float rightMotorTime;  //Time in ms
 
     @Override
     public void init(){
@@ -33,17 +32,17 @@ public class RecordAutonomous extends BasicHardware{
 
         leftMotor = new Motor();
         rightMotor = new Motor();
-
-
-
-        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
     @Override
 
     public void start(){
-        leftMotorTime = 0;
-        rightMotorTime = 0;
+
+        driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
 
         recording = "";
     }
@@ -52,10 +51,9 @@ public class RecordAutonomous extends BasicHardware{
 
         driveLeft.setPower(-gamepad1.left_stick_y);
         driveRight.setPower(gamepad1.right_stick_y);
+        TestMotorInput();
 
-
-        leftMotorTime++;
-        rightMotorTime++;
+        //TODO make this actually count in ms and not ticks
 
         /*The idea here is that there will always be a time for each motor, so it would look something like this:
           leftMotor : 1570 : INACTIVE
@@ -70,19 +68,30 @@ public class RecordAutonomous extends BasicHardware{
         //TODO figure out how to implement wheel rotations instead of times.
         for(int i = 0; i < MotorState.values().length; i++){
             if(leftMotor.motorState != leftMotor.lastTickMotorState){
-                recording += "leftMotor : " + leftMotorTime +  " : " + leftMotor.lastTickMotorState + "\n";
-                leftMotorTime = 0;
+                recording += "leftMotor : " + driveLeft.getCurrentPosition() +  " : " + leftMotor.lastTickMotorState + "\n";
+
+                driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
             }
             if(rightMotor.motorState != rightMotor.lastTickMotorState){
-                recording += "rightMotor : " + rightMotorTime + " : " + leftMotor.lastTickMotorState + "\n";
-                rightMotorTime = 0;
+                recording += "rightMotor : " + driveLeft.getCurrentPosition() + " : " + leftMotor.lastTickMotorState + "\n";
+
+                driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
             }
         }
+
+        telemetry.addData("recording", recording);
 
     }
     @Override
     public void stop(){
-
+        try {
+            WriteFile(filename, recording);
+        }catch(IOException e){
+            System.out.println("IOException thrown");
+        }
     }
     private void WriteFile(String filename, String input) throws IOException{
 
@@ -104,6 +113,7 @@ public class RecordAutonomous extends BasicHardware{
 
         return recording;
     }
+    //Set motor state based on current power of the motor.
     private void TestMotorInput(){
         //Left Motor
         // TODO test to make sure that these values line up with what the robot actually does.
@@ -142,23 +152,9 @@ public class RecordAutonomous extends BasicHardware{
     }
 
     private enum MotorState {
-        FORWARD (0f),
-        BACKWARD (0f),
-        INACTIVE (0f);
-
-        private float time; //Time in milliseconds
-
-        private MotorState(float time){
-            this.time = time;
-        }
-
-        public void AddTime(float time){
-            this.time += time;
-        }
-
-        public float GetTime(){
-            return time;
-        }
+        FORWARD,
+        BACKWARD,
+        INACTIVE;
 
     }
 
