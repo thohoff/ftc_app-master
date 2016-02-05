@@ -56,8 +56,7 @@ public class RecordAutonomous extends BasicHardware{
         rightMotor.lastTickMotorState = rightMotor.motorState;
 
         TestMotorInput();
-
-        //TODO rightMotor doesn't output anything except for inactive for some reason
+        
 
         /*The idea here is that there will always be a time for each motor, so it would look something like this:
           leftMotor : 1570 : INACTIVE
@@ -78,7 +77,7 @@ public class RecordAutonomous extends BasicHardware{
                 driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
             }
             if(rightMotor.motorState != rightMotor.lastTickMotorState){
-                recording = "rightMotor : " + driveLeft.getCurrentPosition() + " : " + leftMotor.lastTickMotorState + "\n";
+                recording = "rightMotor : " + driveLeft.getCurrentPosition() + " : " + rightMotor.lastTickMotorState + "\n";
 
                 driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -94,7 +93,7 @@ public class RecordAutonomous extends BasicHardware{
         try {
             WriteFile(filename, recording);
         }catch(IOException e){
-            System.out.println("IOException thrown");
+            System.out.println("IOException thrown : " + e);
         }
     }
     private void WriteFile(String filename, String input) throws IOException{
@@ -148,10 +147,6 @@ public class RecordAutonomous extends BasicHardware{
 
         public Motor(){
             motorState = MotorState.INACTIVE;
-        }
-
-        public MotorState MotorState(){
-            return motorState;
         }
     }
 
