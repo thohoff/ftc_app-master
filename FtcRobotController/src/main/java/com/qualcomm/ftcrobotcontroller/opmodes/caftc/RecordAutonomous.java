@@ -51,9 +51,13 @@ public class RecordAutonomous extends BasicHardware{
 
         driveLeft.setPower(-gamepad1.left_stick_y);
         driveRight.setPower(gamepad1.right_stick_y);
+
+        leftMotor.lastTickMotorState = leftMotor.motorState;
+        rightMotor.lastTickMotorState = rightMotor.motorState;
+
         TestMotorInput();
 
-        //TODO make this actually count in ms and not ticks
+        //TODO rightMotor doesn't output anything except for inactive for some reason
 
         /*The idea here is that there will always be a time for each motor, so it would look something like this:
           leftMotor : 1570 : INACTIVE
@@ -68,13 +72,13 @@ public class RecordAutonomous extends BasicHardware{
         //TODO figure out how to implement wheel rotations instead of times.
         for(int i = 0; i < MotorState.values().length; i++){
             if(leftMotor.motorState != leftMotor.lastTickMotorState){
-                recording += "leftMotor : " + driveLeft.getCurrentPosition() +  " : " + leftMotor.lastTickMotorState + "\n";
+                recording = "leftMotor : " + driveLeft.getCurrentPosition() +  " : " + leftMotor.lastTickMotorState + "\n";
 
                 driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
             }
             if(rightMotor.motorState != rightMotor.lastTickMotorState){
-                recording += "rightMotor : " + driveLeft.getCurrentPosition() + " : " + leftMotor.lastTickMotorState + "\n";
+                recording = "rightMotor : " + driveLeft.getCurrentPosition() + " : " + leftMotor.lastTickMotorState + "\n";
 
                 driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);

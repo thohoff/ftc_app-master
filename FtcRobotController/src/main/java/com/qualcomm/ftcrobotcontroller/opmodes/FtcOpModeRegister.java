@@ -33,6 +33,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.MCAuto;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAuto;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomous;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TeleOp2;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
@@ -99,7 +100,7 @@ public class FtcOpModeRegister implements OpModeRegister {
     //  manager.register("TestExample2", TestExample2.class);
       manager.register("ReckonAuto", ReckonAuto.class);
       manager.register("TeleOp2", TeleOp2.class);
-
+      manager.register("RecordAutonomous", RecordAutonomous.class);
 //    manager.register("PushBotManual", PushBotManual.class);
 //    manager.register("PushBotAuto", PushBotAuto.class);
 //    manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
