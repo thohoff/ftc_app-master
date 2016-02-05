@@ -32,10 +32,6 @@ public class RecordAutonomous extends BasicHardware{
 
         leftMotor = new Motor();
         rightMotor = new Motor();
-    }
-    @Override
-
-    public void start(){
 
         driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -45,6 +41,11 @@ public class RecordAutonomous extends BasicHardware{
 
 
         recording = "";
+    }
+    @Override
+
+    public void start(){
+
     }
     @Override
     public void loop() {
@@ -68,16 +69,16 @@ public class RecordAutonomous extends BasicHardware{
           and loop through them at the same time.
          */
 
-        //TODO figure out how to implement wheel rotations instead of times.
+        //TODO fix encoder reset problems.
         for(int i = 0; i < MotorState.values().length; i++){
             if(leftMotor.motorState != leftMotor.lastTickMotorState){
-                recording = "leftMotor : " + driveLeft.getCurrentPosition() +  " : " + leftMotor.lastTickMotorState + "\n";
+                recording += "leftMotor " + driveLeft.getCurrentPosition() +  " " + leftMotor.lastTickMotorState + "\n";
 
                 driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
             }
             if(rightMotor.motorState != rightMotor.lastTickMotorState){
-                recording = "rightMotor : " + driveLeft.getCurrentPosition() + " : " + rightMotor.lastTickMotorState + "\n";
+                recording += "rightMotor " + driveLeft.getCurrentPosition() + " " + rightMotor.lastTickMotorState + "\n";
 
                 driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -93,15 +94,18 @@ public class RecordAutonomous extends BasicHardware{
         try {
             WriteFile(filename, recording);
         }catch(IOException e){
-            System.out.println("IOException thrown : " + e);
+            telemetry.addData("Error", "IOException thrown : " + e);
         }
     }
     private void WriteFile(String filename, String input) throws IOException{
 
         PrintWriter printWriter = new PrintWriter(filename);
+        File file = new File(filename);
+        telemetry.addData("directory", file.getAbsolutePath());
 
         printWriter.println(input);
         printWriter.close();
+
     }
     private String ReadFile(String filename) throws IOException{
 
