@@ -11,6 +11,7 @@ public class TeleOp2 extends BasicHardware{
     double sL; //ziplines
     double sR;
     double sC; //climber arm
+    
     double rR; //rigid arms
     double rL;
     double sA; //servo arm angler base thingy
