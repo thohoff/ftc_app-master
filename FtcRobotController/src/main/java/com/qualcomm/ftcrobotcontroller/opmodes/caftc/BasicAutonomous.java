@@ -8,4 +8,8 @@ public abstract class BasicAutonomous extends BasicHardware{
     public void init(){
     super.init();
     }
+
+    public void start(){}
+    public void loop(){}
+    public void stop(){}
 }

@@ -78,6 +78,8 @@ public class ReckonAuto extends BasicAutonomous{
             case ALIGN_TO_BEACON:
                 if(SmartRotate(getDesiredRotation(beaconloc),standardPower)) {
                     stopMoving();
+                    reset_drive_encoders();
+                    run_without_drive_encoders();
                     initialRotation += getDesiredRotation(beaconloc);
                     mode = AutoMode.MOVE_TO_BEACON;
                 }
@@ -88,37 +90,40 @@ public class ReckonAuto extends BasicAutonomous{
                     stopMoving();
                     reset_drive_encoders();
                     run_using_encoders();
-                    position = beaconloc;
+                    position = beaconloc.cpy();
                     mode = AutoMode.LOCK_TO_BEACON;
                 }else{
                     moveForward(standardPower);
                 }
                 break;
             case LOCK_TO_BEACON:
-                if(SmartRotate(getDesiredRotation(new Vector2(0,84)),standardPower)){
+                double angle = 90;
+                if(isBlue){ angle = -90;}
+                if(SmartRotate(angle,standardPower)){
+                    reset_drive_encoders();
                     run_without_drive_encoders();
-                    initialRotation += getDesiredRotation(new Vector2(0,84));
+                    initialRotation +=angle;// getDesiredRotation(new Vector2(0,84));
                     mode = AutoMode.APROACH_BEACON;
                 }
                 break;
             case APROACH_BEACON:
-
-           /*     moveForward(0.3);
                 run_without_drive_encoders();
+                moveForward(0.5);
+
                 if(sonic.getUltrasonicLevel()<4){
                     stopMoving();
-                    this.position = beaconloc.cpy();
+                    this.position = new Vector2(0,84);
                     mode  = AutoMode.DROP_PAYLOAD;
-                }*/
+                }
                 break;
             case DROP_PAYLOAD:
 
-                climbersArm.setPosition(1);
+             //   climbersArm.setPosition(1);
                 position = new Vector2(0,84);
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
-                climbersArm.setPosition(1);
+             //   climbersArm.setPosition(1);
                 reset_drive_encoders();
                 run_using_encoders();
                 if(goingToPark) {
@@ -594,7 +599,7 @@ public class ReckonAuto extends BasicAutonomous{
             // Is the amount of light detected above the threshold for white
             // tape?
             //
-            if (optical.getLightDetected () > 0.05)
+            if (optical.getLightDetected () > 0.025)
             {
                 l_return = true;
             }
