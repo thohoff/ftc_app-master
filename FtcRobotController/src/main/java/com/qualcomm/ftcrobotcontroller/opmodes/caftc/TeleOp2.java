@@ -7,9 +7,13 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  */
 public class TeleOp2 extends BasicHardware{
     //Execution order : Start, Init, Loop, Stop
-    double sL;
+    //driver 1
+    double sL; //ziplines
     double sR;
-    double sC;
+    double sC; //climber arm
+    double rR; //rigid arms
+    double rL;
+    double sA; //servo arm angler base thingy
     UltrasonicSensor sonic;
 
     @Override
@@ -18,9 +22,11 @@ public class TeleOp2 extends BasicHardware{
         sL = 0.4;
         sR = 0.5;
         sC = 0;
+        rR = 0.5;
+        rL = 0.5;
+        sA = 0.5;
         sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
     }
-    
 
     @Override
     public void loop(){
@@ -80,31 +86,45 @@ public class TeleOp2 extends BasicHardware{
 
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control
-        //spool left
-        if (gamepad2.left_bumper) { spoolLeft.setPower(1); }
-        else if (gamepad2.left_trigger > 0.5) { spoolLeft.setPower(-1); }
-        else { spoolLeft.setPower(0); }
+        //center spool extend/contract - right joystick
+        double right = gamepad2.right_stick_y;
+        if (right > .05 || right < -.05)
+        { spoolMotor.setPower(right); }
+        else
+        { spoolMotor.setPower(0); }
 
-        //spool right
-        if (gamepad2.right_bumper) { spoolRight.setPower(-1); }
-        else if (gamepad2.right_trigger > 0.5) { spoolRight.setPower(1); }
-        else { spoolRight.setPower(0); }
+        //center spool angling - left joystick
+        double speed = 0.01;
+        double left = gamepad2.left_stick_y;
+        if (right > .05 || right < -.05)
+        { sA += left * speed; }
 
-        //arm base power multiplier
-        double POW1 = 0.5;
+        //rigid arm multiplier
+        double rMult = 0.03;
 
-        //arm base adjustment
-        if (gamepad2.dpad_up) { armMotor.setPower(1 * POW1); } //up
-        else if (gamepad2.dpad_down) { armMotor.setPower(-1 * POW1); } //down
-        else { armMotor.setPower(0); }
+        //left rigid arm - left bumpers
+        if (gamepad2.left_bumper) //left up
+        {
+            if (rL + rMult < 1) { rL += rMult; }
+            else { rL = 1; }
+        }
+        else if (gamepad2.left_trigger > 0.5) //left down
+        {
+            if (rL - rMult > 0) { rL -= rMult; }
+            else { rL = 0; }
+        }
 
-        //arm extension power multiplier
-        double POW2 = 0.5;
-
-        //arm extension/contraction
-        if (gamepad2.y) { unravelMotor.setPower(-1 * POW2); } //out
-        else if (gamepad2.a) { unravelMotor.setPower(1 * POW2); } //in
-        else { unravelMotor.setPower(0); } //*/
+        //right rigid arm - right bumpers
+        if (gamepad2.right_bumper) //right up
+        {
+            if (rR - rMult > 0) { rR -= rMult; }
+            else { rR = 0; }
+        }
+        else if (gamepad2.right_trigger > 0.5) //right down
+        {
+            if (rR + rMult < 1) { rR += rMult; }
+            else { rR = 1; }
+        }
 
         //show ultrasonic value
         telemetry.addData("dist", sonic.getUltrasonicLevel());
@@ -123,11 +143,7 @@ public class TeleOp2 extends BasicHardware{
         driveRight.setPower(0);
         driveLeft.setPower(0);
 
-        spoolRight.setPower(0);
-        spoolLeft.setPower(0);
-        armMotor.setPower(0);
-
-        unravelMotor.setPower(0);
+        spoolMotor.setPower(0);
 
         //CR_servo.setPosition(0.5);
     }
