@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
+/*package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import com.badlogic.gdx.math.Vector2;
 import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 
 /**
  * Created by Thomas_Hoffmann on 1/9/2016.
- */
+ 
+/*
 enum AutoMode {FIRST_MOVE, ALIGN_TO_BEACON,MOVE_TO_BEACON, LOCK_TO_BEACON, APROACH_BEACON, DROP_PAYLOAD, POST_DROP, ALIGN_TO_PARK, PARK, ALIGN_TO_MOUNTAIN, GO_TO_MOUNTAIN, STOP}
 
 public class ReckonAuto extends BasicAutonomous{
@@ -313,7 +314,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Indicate whether the right drive motor's encoder has reached a value.
-     */
+     /*
     boolean has_right_drive_encoder_reached (double p_count)
 
     {
@@ -351,7 +352,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Indicate whether the drive motors' encoders have reached a value.
-     */
+     /*
     boolean have_drive_encoders_reached
     ( double p_left_count
             , double p_right_count
@@ -388,7 +389,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Indicate whether the drive motors' encoders have reached a value.
-     */
+     
     boolean drive_using_encoders
     ( double p_left_power
             , double p_right_power
@@ -584,7 +585,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Access whether the EOP is detecting white tape.
-     */
+     
     boolean a_ods_white_tape_detected ()
 
     {
@@ -612,3 +613,4 @@ public class ReckonAuto extends BasicAutonomous{
 
     }
 }
+*/

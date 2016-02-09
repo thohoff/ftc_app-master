@@ -15,7 +15,6 @@ public class TeleOp2 extends BasicHardware{
     double rR; //rigid arms
     double rL;
     double sA; //servo arm angler base thingy
-    UltrasonicSensor sonic;
 
     @Override
     public void init() {
@@ -26,7 +25,6 @@ public class TeleOp2 extends BasicHardware{
         rR = 0.5;
         rL = 0.5;
         sA = 0.5;
-        sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
     }
 
     @Override
@@ -126,9 +124,6 @@ public class TeleOp2 extends BasicHardware{
             if (rR + rMult < 1) { rR += rMult; }
             else { rR = 1; }
         }
-
-        //show ultrasonic value
-        telemetry.addData("dist", sonic.getUltrasonicLevel());
     }
 
     @Override

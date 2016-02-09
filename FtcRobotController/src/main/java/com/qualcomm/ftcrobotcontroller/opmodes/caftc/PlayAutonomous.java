@@ -82,7 +82,7 @@ public class PlayAutonomous extends BasicAutonomous{
         }
 
         if(lEncoderValue > Math.abs(driveLeft.getCurrentPosition())){
-            driveLeft.
+
         }
 
     }

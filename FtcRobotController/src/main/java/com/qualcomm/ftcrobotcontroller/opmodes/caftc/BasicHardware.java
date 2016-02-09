@@ -23,7 +23,8 @@ public abstract class BasicHardware extends OpMode{
     Servo zipLeft;
     Servo zipRight;
 
-    DcMotor spoolMotor;
+    DcMotor spoolMotor1;
+    DcMotor spoolMotor2;
 
     Servo climbersArm;
 
@@ -37,7 +38,8 @@ public abstract class BasicHardware extends OpMode{
         leftArm = hardwareMap.servo.get("leftArm");
         rightArm = hardwareMap.servo.get("rightArm");
         armServo = hardwareMap.servo.get("arm"); //bottom arm joint motor5
-        spoolMotor = hardwareMap.dcMotor.get("spool");
+        spoolMotor1 = hardwareMap.dcMotor.get("spool1");
+        spoolMotor2 = hardwareMap.dcMotor.get("spool2");
         zipRight = hardwareMap.servo.get("zipline_right");
         zipLeft = hardwareMap.servo.get("zipline_left");
         climbersArm = hardwareMap.servo.get("people_dropper"); //for climbers
