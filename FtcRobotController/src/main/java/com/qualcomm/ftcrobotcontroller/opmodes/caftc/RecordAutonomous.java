@@ -48,7 +48,6 @@ public class RecordAutonomous extends BasicHardware{
     }
     @Override
     public void loop() {
-
         driveLeft.setPower(-gamepad1.left_stick_y);
         driveRight.setPower(gamepad1.right_stick_y);
 
@@ -153,7 +152,7 @@ public class RecordAutonomous extends BasicHardware{
     private enum MotorState {
         FORWARD,
         BACKWARD,
-        INACTIVE;
+        INACTIVE
 
     }
 
