@@ -16,29 +16,28 @@ public abstract class BasicHardware extends OpMode{
     DcMotor driveRight;
     DcMotor driveLeft;
 
-    //Chain Motors
-    DcMotor spoolRight;
-    DcMotor spoolLeft;
-
-    //Arm base motor
-    DcMotor armMotor;
+    //Arm base servo
+    Servo armServo;
 
     //zip line thingy
     Servo zipLeft;
     Servo zipRight;
 
-    DcMotor unravelMotor;
+    DcMotor spoolMotor;
 
     Servo climbersArm;
+
+    Servo leftArm;
+    Servo rightArm;
 
     @Override
     public void init(){
         driveRight = hardwareMap.dcMotor.get("drive_right"); //motor3
         driveLeft = hardwareMap.dcMotor.get("drive_left"); //motor1
-        spoolRight = hardwareMap.dcMotor.get("spool_right"); //motor2
-        spoolLeft = hardwareMap.dcMotor.get("spool_left"); //motor4
-        armMotor = hardwareMap.dcMotor.get("arm"); //bottom arm joint motor5
-        unravelMotor = hardwareMap.dcMotor.get("unraveler");
+        leftArm = hardwareMap.servo.get("leftArm");
+        rightArm = hardwareMap.servo.get("rightArm");
+        armServo = hardwareMap.servo.get("arm"); //bottom arm joint motor5
+        spoolMotor = hardwareMap.dcMotor.get("spool");
         zipRight = hardwareMap.servo.get("zipline_right");
         zipLeft = hardwareMap.servo.get("zipline_left");
         climbersArm = hardwareMap.servo.get("people_dropper"); //for climbers

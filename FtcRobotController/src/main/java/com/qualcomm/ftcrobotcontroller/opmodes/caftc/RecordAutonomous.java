@@ -1,19 +1,16 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
-
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
 
 /**
  * Created by Thomas_Hoffmann on 1/31/2016.
  * This will store the robot's movements, determined by a human controller, in a RecordedMoves object.
  */
-public class RecordAutonomous extends BasicHardware{
+public class RecordAutonomous extends BasicHardware {
 
 
     private String filename; //example "autonomous1.txt"
@@ -23,19 +20,18 @@ public class RecordAutonomous extends BasicHardware{
     Motor leftMotor;
     Motor rightMotor;
 
+    float lInactiveTime;
+    float rInactiveTime;
+
 
     @Override
-    public void init(){
+    public void init() {
         super.init();
 
         filename = "autonomousrecordingtest.txt";
 
         leftMotor = new Motor();
         rightMotor = new Motor();
-    }
-    @Override
-
-    public void start(){
 
         driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
@@ -46,6 +42,13 @@ public class RecordAutonomous extends BasicHardware{
 
         recording = "";
     }
+
+    @Override
+
+    public void start() {
+
+    }
+
     @Override
     public void loop() {
         driveLeft.setPower(-gamepad1.left_stick_y);
@@ -58,31 +61,43 @@ public class RecordAutonomous extends BasicHardware{
         
 
         /*The idea here is that there will always be a time for each motor, so it would look something like this:
-          leftMotor : 1570 : INACTIVE
-          rightMotor : 10532 : FORWARD
-          leftMotor : 1054 : FORWARD
-          leftMotor : 3952 : BACKWARD
+          leftMotor 1570 INACTIVE
+          rightMotor 10532 FORWARD
+          leftMotor 1054 FORWARD
+          leftMotor 3952 BACKWARD
 
           The reader will separate these statements into arrays of similar Motors (so a rightMotor array and a leftMotor array)
           and loop through them at the same time.
          */
 
-        //TODO figure out how to implement wheel rotations instead of times.
-        for(int i = 0; i < MotorState.values().length; i++){
-            if(leftMotor.motorState != leftMotor.lastTickMotorState){
-                recording = "leftMotor : " + driveLeft.getCurrentPosition() +  " : " + leftMotor.lastTickMotorState + "\n";
+        //TODO fix encoder reset problems.
+        for (int i = 0; i < MotorState.values().length; i++) {
+            if (leftMotor.motorState != leftMotor.lastTickMotorState) {
 
-                driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-                driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+                if(leftMotor.motorState == MotorState.INACTIVE)
+                
+                if (leftMotor.lastTickMotorState == MotorState.INACTIVE) {
+                    recording += "leftMotor " + Math.abs(lInactiveTime) + " " + leftMotor.lastTickMotorState + "\n";
+                } else {
+
+                    recording += "leftMotor " + Math.abs(driveLeft.getCurrentPosition()) + " " + leftMotor.lastTickMotorState + "\n";
+
+                    driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                    driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+                }
             }
-            if(rightMotor.motorState != rightMotor.lastTickMotorState){
-                recording = "rightMotor : " + driveLeft.getCurrentPosition() + " : " + rightMotor.lastTickMotorState + "\n";
+            if (rightMotor.motorState != rightMotor.lastTickMotorState) {
 
-                driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-                driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-
+                if (rightMotor.lastTickMotorState == MotorState.INACTIVE) {
+                    recording += "rightMotor " + Math.abs(rInactiveTime) + " " + rightMotor.lastTickMotorState + "\n";
+                } else{
+                    recording += "rightMotor " + Math.abs(driveRight.getCurrentPosition()) + " " + rightMotor.lastTickMotorState + "\n";
             }
+            driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+            driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
+    }
+
 
         telemetry.addData("recording", recording);
 
@@ -92,29 +107,20 @@ public class RecordAutonomous extends BasicHardware{
         try {
             WriteFile(filename, recording);
         }catch(IOException e){
-            System.out.println("IOException thrown : " + e);
+            telemetry.addData("Error", "IOException thrown : " + e);
         }
     }
     private void WriteFile(String filename, String input) throws IOException{
 
         PrintWriter printWriter = new PrintWriter(filename);
+        File file = new File(filename);
+        telemetry.addData("directory", file.getAbsolutePath());
 
         printWriter.println(input);
         printWriter.close();
+
     }
-    private String ReadFile(String filename) throws IOException{
 
-        String recording = "";
-
-        File file = new File(filename);
-        Scanner reader = new Scanner(file);
-
-        while(reader.hasNext()){
-            recording += reader.nextLine();
-        }
-
-        return recording;
-    }
     //Set motor state based on current power of the motor.
     private void TestMotorInput(){
         //Left Motor
