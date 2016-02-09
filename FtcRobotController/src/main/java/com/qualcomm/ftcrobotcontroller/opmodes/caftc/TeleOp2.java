@@ -11,7 +11,7 @@ public class TeleOp2 extends BasicHardware{
     double sL; //ziplines
     double sR;
     double sC; //climber arm
-    
+
     double rR; //rigid arms
     double rL;
     double sA; //servo arm angler base thingy
@@ -90,9 +90,9 @@ public class TeleOp2 extends BasicHardware{
         //center spool extend/contract - right joystick
         double right = gamepad2.right_stick_y;
         if (right > .05 || right < -.05)
-        { spoolMotor.setPower(right); }
+        { setSpoolPow(right); }
         else
-        { spoolMotor.setPower(0); }
+        { setSpoolPow(0); }
 
         //center spool angling - left joystick
         double speed = 0.01;
@@ -144,8 +144,15 @@ public class TeleOp2 extends BasicHardware{
         driveRight.setPower(0);
         driveLeft.setPower(0);
 
-        spoolMotor.setPower(0);
+        spoolMotor1.setPower(0);
+        spoolMotor2.setPower(0);
 
         //CR_servo.setPosition(0.5);
+    }
+
+    public void setSpoolPow(double d)
+    {
+        spoolMotor1.setPower(d);
+        spoolMotor2.setPower(d);
     }
 }
