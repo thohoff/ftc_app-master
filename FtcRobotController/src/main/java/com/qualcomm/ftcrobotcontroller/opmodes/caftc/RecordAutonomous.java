@@ -74,10 +74,12 @@ public class RecordAutonomous extends BasicHardware {
         for (int i = 0; i < MotorState.values().length; i++) {
             if (leftMotor.motorState != leftMotor.lastTickMotorState) {
 
-                if(leftMotor.motorState == MotorState.INACTIVE)
-                
+                if(leftMotor.motorState == MotorState.INACTIVE){
+                    lInactiveTime = System.currentTimeMillis();
+                }
+
                 if (leftMotor.lastTickMotorState == MotorState.INACTIVE) {
-                    recording += "leftMotor " + Math.abs(lInactiveTime) + " " + leftMotor.lastTickMotorState + "\n";
+                    recording += "leftMotor " + Math.abs(System.currentTimeMillis() - lInactiveTime) + " " + leftMotor.lastTickMotorState + "\n";
                 } else {
 
                     recording += "leftMotor " + Math.abs(driveLeft.getCurrentPosition()) + " " + leftMotor.lastTickMotorState + "\n";
@@ -87,9 +89,11 @@ public class RecordAutonomous extends BasicHardware {
                 }
             }
             if (rightMotor.motorState != rightMotor.lastTickMotorState) {
-
+                if(rightMotor.motorState != rightMotor.lastTickMotorState){
+                    rInactiveTime = System.currentTimeMillis();
+                }
                 if (rightMotor.lastTickMotorState == MotorState.INACTIVE) {
-                    recording += "rightMotor " + Math.abs(rInactiveTime) + " " + rightMotor.lastTickMotorState + "\n";
+                    recording += "rightMotor " + Math.abs(System.currentTimeMillis() - rInactiveTime) + " " + rightMotor.lastTickMotorState + "\n";
                 } else{
                     recording += "rightMotor " + Math.abs(driveRight.getCurrentPosition()) + " " + rightMotor.lastTickMotorState + "\n";
             }
