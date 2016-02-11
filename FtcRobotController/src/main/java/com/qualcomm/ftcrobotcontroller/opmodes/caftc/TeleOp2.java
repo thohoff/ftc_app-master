@@ -7,6 +7,7 @@ public class TeleOp2 extends BasicHardware{
     //Execution order : Start, Init, Loop, Stop
     //double sL; //ziplines
     //double sR;
+
     double sC; //climber arm
     double rR; //rigid arms
     double rL;
