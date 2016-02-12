@@ -40,8 +40,8 @@ public abstract class BasicHardware extends OpMode{
         armServo = hardwareMap.servo.get("arm"); //bottom arm joint motor5
         spoolMotor1 = hardwareMap.dcMotor.get("spool1");
         spoolMotor2 = hardwareMap.dcMotor.get("spool2");
-        zipRight = hardwareMap.servo.get("zipline_right");
-        zipLeft = hardwareMap.servo.get("zipline_left");
+        zipRight = hardwareMap.servo.get("zipRight");
+        zipLeft = hardwareMap.servo.get("zipLeft");
         climbersArm = hardwareMap.servo.get("people_dropper"); //for climbers
     }
 }
