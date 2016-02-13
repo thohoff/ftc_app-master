@@ -56,8 +56,8 @@ public abstract class BasicHardware extends OpMode{
         telemetry.addData("blue", bluePower);
         switch (lightMode){
             case TRIGSQUARE_OSCILLATE_COLORS :
-                redPower = Math.pow(Math.cos(Math.toRadians(System.currentTimeMillis()/16.0 % 360)),2);
-                bluePower = Math.pow(Math.sin(Math.toRadians(System.currentTimeMillis()/16.0 % 360)),2);
+                redPower = 0.75+Math.pow(Math.cos(Math.toRadians(System.currentTimeMillis()/16.0 % 360)),2)/4;
+                bluePower = 0.75+Math.pow(Math.sin(Math.toRadians(System.currentTimeMillis()/16.0 % 360)),2)/4;
                 break;
         }
         red.setPower(redPower);
