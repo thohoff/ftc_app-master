@@ -85,7 +85,7 @@ public class FtcRobotControllerActivity extends Activity {
   protected SharedPreferences preferences;
 
   protected UpdateUI.Callback callback;
-  protected Context context;
+  public static Context context;
   private Utility utility;
   protected ImageButton buttonMenu;
 
