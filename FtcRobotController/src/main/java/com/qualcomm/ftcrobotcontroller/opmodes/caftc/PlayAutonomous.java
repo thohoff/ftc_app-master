@@ -82,6 +82,7 @@ public class PlayAutonomous extends BasicAutonomous{
     }
     @Override
     public void loop() {
+        super.loop();
         //left
         if(lastTickLeftMotorLine != currentLeftMotorLine){
             lastTickLeftMotorLine = currentLeftMotorLine;

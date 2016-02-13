@@ -58,7 +58,7 @@ public class RecordAutonomous extends BasicHardware {
 
     @Override
     public void loop() {
-
+        super.loop();
         driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 

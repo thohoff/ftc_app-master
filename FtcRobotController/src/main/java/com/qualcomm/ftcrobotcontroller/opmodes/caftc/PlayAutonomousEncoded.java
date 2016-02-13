@@ -27,6 +27,7 @@ public class PlayAutonomousEncoded extends BasicHardware{
     }
     @Override
     public void loop() {
+        super.loop();
         if (index < moves.leftMoves.size()) {
 
             switch(state){
