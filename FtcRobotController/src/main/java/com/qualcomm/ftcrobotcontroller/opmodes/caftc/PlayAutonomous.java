@@ -103,13 +103,15 @@ public class PlayAutonomous extends BasicAutonomous{
         //left
         if(leftMotorLines.get(currentLeftMotorLine).contains("INACTIVE")){
             if(System.currentTimeMillis() >= lTargetTime){
-                currentLeftMotorLine++;
+                if(currentLeftMotorLine + 1 < rightMotorLines.size())
+                    currentLeftMotorLine++;
             }
         }else{
             if(lEncoderValue < driveLeft.getCurrentPosition()){
                 driveLeft.setPower(DRIVESPEED);
             }else{
-                currentLeftMotorLine++;
+                if(currentRightMotorLine + 1 < rightMotorLines.size())
+                    currentRightMotorLine++;
             }
         }
 
