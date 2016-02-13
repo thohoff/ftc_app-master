@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Thomas_Hoffmann on 9/25/2015.  Also edited by Caleb and stuffs and ben and stuffs
  */
-enum LIGHT_MODE{TRIGSQUARE_OSCILLATE_COLORS}
+
 
 //Robot with basic driving capabilities
 public abstract class BasicHardware extends OpMode{
@@ -32,7 +32,7 @@ public abstract class BasicHardware extends OpMode{
 
     Servo leftArm;
     Servo rightArm;
-    LIGHT_MODE lightMode = LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS;
+    public static LIGHT_MODE lightMode = LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS;
     double redPower = 1;
     double bluePower = 0;
     @Override

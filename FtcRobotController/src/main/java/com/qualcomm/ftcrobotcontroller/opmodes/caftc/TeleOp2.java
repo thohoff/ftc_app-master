@@ -94,10 +94,9 @@ public class TeleOp2 extends BasicHardware{
         climbersArm.setPosition(sC);
 
         //colors!!!!
-        final double colorPow = 1;
-        //if(gamepad1.b) { red.setPower(0); blue.setPower(colorPow); }
-        //else if(gamepad1.x) { blue.setPower(0); red.setPower(colorPow); }
-        //else if(gamepad1.a) { blue.setPower(0); red.setPower(0); }
+        if(gamepad1.b || gamepad2.b) { BasicHardware.lightMode=LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS; } //red
+        else if(gamepad1.x || gamepad2.x) { BasicHardware.lightMode=LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS; } //blue
+        else if(gamepad1.a || gamepad2.a) { BasicHardware.lightMode=LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS; } //off
 
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control
