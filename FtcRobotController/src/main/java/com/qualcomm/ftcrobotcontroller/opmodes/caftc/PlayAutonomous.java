@@ -94,6 +94,10 @@ public class PlayAutonomous extends BasicAutonomous{
     @Override
     public void loop() {
         super.loop();
+
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
         //left
         if(lastTickLeftMotorLine != currentLeftMotorLine){
             lastTickLeftMotorLine = currentLeftMotorLine;
@@ -125,6 +129,7 @@ public class PlayAutonomous extends BasicAutonomous{
             }else{
                 if(currentLeftMotorLine + 1 < leftMotorLines.size())
                     currentLeftMotorLine++;
+                driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
         }
 
@@ -141,6 +146,7 @@ public class PlayAutonomous extends BasicAutonomous{
             }else{
                 if(currentRightMotorLine + 1 < rightMotorLines.size())
                     currentRightMotorLine++;
+                driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
         }
 
