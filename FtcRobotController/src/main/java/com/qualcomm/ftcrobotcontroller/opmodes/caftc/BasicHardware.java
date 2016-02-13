@@ -31,6 +31,9 @@ public abstract class BasicHardware extends OpMode{
     Servo leftArm;
     Servo rightArm;
 
+    DcMotor red;
+    DcMotor blue;
+
     @Override
     public void init(){
         driveRight = hardwareMap.dcMotor.get("drive_right"); //motor3
@@ -43,5 +46,7 @@ public abstract class BasicHardware extends OpMode{
         zipRight = hardwareMap.servo.get("zipRight");
         zipLeft = hardwareMap.servo.get("zipLeft");
         climbersArm = hardwareMap.servo.get("people_dropper"); //for climbers
+        red = hardwareMap.dcMotor.get("red");
+        blue = hardwareMap.dcMotor.get("blue");
     }
 }

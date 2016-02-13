@@ -92,6 +92,12 @@ public class TeleOp2 extends BasicHardware{
         telemetry.addData("climbers", sC);
         climbersArm.setPosition(sC);
 
+        //colors!!!!
+        final double colorPow = 1;
+        if(gamepad1.b) { red.setPower(0); blue.setPower(colorPow); }
+        else if(gamepad1.x) { blue.setPower(0); red.setPower(colorPow); }
+        else if(gamepad1.a) { blue.setPower(0); red.setPower(0); }
+
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control
         //center spool extend/contract - right joystick
@@ -127,26 +133,26 @@ public class TeleOp2 extends BasicHardware{
         //left rigid arm - left bumpers
         if (gamepad2.left_bumper) //left up
         {
-            if (rL + rMult < 1) { rL += rMult; }
-            else { rL = 1; }
+            if (rL - rMult > 0) { rL -= rMult; }
+            else { rL = 0; }
         }
         else if (gamepad2.left_trigger > 0.5) //left down
         {
-            if (rL - rMult > 0) { rL -= rMult; }
-            else { rL = 0; }
+            if (rL + rMult < 1) { rL += rMult; }
+            else { rL = 1; }
         }
         leftArm.setPosition(rL);
 
         //right rigid arm - right bumpers
         if (gamepad2.right_bumper) //right up
         {
-            if (rR - rMult > 0) { rR -= rMult; }
-            else { rR = 0; }
+            if (rR + rMult < 1) { rR += rMult; }
+            else { rR = 1; }
         }
         else if (gamepad2.right_trigger > 0.5) //right down
         {
-            if (rR + rMult < 1) { rR += rMult; }
-            else { rR = 1; }
+            if (rR - rMult > 0) { rR -= rMult; }
+            else { rR = 0; }
         }
         rightArm.setPosition(rR);
     }
