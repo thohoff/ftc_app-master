@@ -33,7 +33,7 @@ public abstract class BasicHardware extends OpMode{
     Servo leftArm;
     Servo rightArm;
     LIGHT_MODE lightMode = LIGHT_MODE.QUICK_COLOR_ALTERNATE;
-    double redPower = 0;
+    double redPower = 1;
     double bluePower = 0;
     @Override
     public void init(){
@@ -52,16 +52,19 @@ public abstract class BasicHardware extends OpMode{
     }
     @Override
     public void loop(){
+        telemetry.addData("red",redPower);
+        telemetry.addData("blue",bluePower);
         switch (lightMode){
             case QUICK_COLOR_ALTERNATE :
                 if(redPower == 0){
-                    redPower = 1;
-                    bluePower = 0;
-                }
+                redPower = 1;
+                bluePower = 0;
+            }
                 else if(bluePower == 0){
                     redPower = 1;
                     bluePower = 0;
                 }
+                break;
         }
         red.setPower(redPower);
         blue.setPower(bluePower);
