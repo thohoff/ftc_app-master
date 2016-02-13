@@ -87,11 +87,11 @@ public class ReckonAuto extends BasicAutonomous{
                 }
                 break;
             case LOCK_TO_BEACON:
-                double angle = 90;
-                if(isBlue){ angle = -90;}
-                if(SmartRotate(angle,standardPower)){
+              //  double angle = 90;
+              //  if(isBlue){ angle = -90;}
+                if(SmartRotate(getDesiredRotation(new Vector2(0,84)),standardPower)){
                     reset_drive_encoders();
-                    initialRotation +=angle;// getDesiredRotation(new Vector2(0,84));
+                    initialRotation += getDesiredRotation(new Vector2(0,84));
                     mode = AutoMode.APROACH_BEACON;
                 }
                 break;
