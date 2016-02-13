@@ -120,6 +120,7 @@ public class PlayAutonomous extends BasicAutonomous{
             }
         }else{
             if(lEncoderValue < driveLeft.getCurrentPosition()){
+                telemetry.addData("here", "here");
                 driveLeft.setPower(DRIVESPEED);
             }else{
                 if(currentLeftMotorLine + 1 < leftMotorLines.size())
