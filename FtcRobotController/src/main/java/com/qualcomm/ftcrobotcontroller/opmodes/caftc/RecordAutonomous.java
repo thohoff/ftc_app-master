@@ -1,8 +1,11 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
+import android.content.Context;
+
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -12,6 +15,8 @@ import java.io.PrintWriter;
  */
 public class RecordAutonomous extends BasicHardware {
 
+
+    public static Context context;
 
     private String filename; //example "autonomous1.txt"
     private String recording;
@@ -26,6 +31,8 @@ public class RecordAutonomous extends BasicHardware {
 
     @Override
     public void init() {
+
+
         super.init();
 
         filename = "autonomousrecordingtest.txt";
@@ -119,12 +126,19 @@ public class RecordAutonomous extends BasicHardware {
     }
     private void WriteFile(String filename, String input) throws IOException{
 
-        PrintWriter printWriter = new PrintWriter(filename);
-        File file = new File(filename);
+        FileOutputStream outputStream;
+
+
+        File file = new File(context.getFilesDir(), filename);
         telemetry.addData("directory", file.getAbsolutePath());
 
-        printWriter.println(input);
-        printWriter.close();
+        try{
+            outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write(input.getBytes());
+            outputStream.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 
