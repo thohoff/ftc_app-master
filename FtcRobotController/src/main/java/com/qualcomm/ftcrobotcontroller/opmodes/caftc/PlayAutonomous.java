@@ -104,15 +104,15 @@ public class PlayAutonomous extends BasicAutonomous{
         //left
         if(leftMotorLines.get(currentLeftMotorLine).contains("INACTIVE")){
             if(System.currentTimeMillis() >= lTargetTime){
-                if(currentLeftMotorLine + 1 < rightMotorLines.size())
+                if(currentLeftMotorLine + 1 < leftMotorLines.size())
                     currentLeftMotorLine++;
             }
         }else{
             if(lEncoderValue < driveLeft.getCurrentPosition()){
                 driveLeft.setPower(DRIVESPEED);
             }else{
-                if(currentRightMotorLine + 1 < rightMotorLines.size())
-                    currentRightMotorLine++;
+                if(currentLeftMotorLine + 1 < leftMotorLines.size())
+                    currentLeftMotorLine++;
             }
         }
 
@@ -120,13 +120,15 @@ public class PlayAutonomous extends BasicAutonomous{
         //right
         if(rightMotorLines.get(currentRightMotorLine).contains("INACTIVE")){
             if(System.currentTimeMillis() >= rTargetTime){
-                currentRightMotorLine++;
+                if(currentRightMotorLine + 1 < rightMotorLines.size())
+                    currentRightMotorLine++;
             }
         }else{
             if(rEncoderValue < driveLeft.getCurrentPosition()){
                 driveRight.setPower(DRIVESPEED);
             }else{
-                currentRightMotorLine++;
+                if(currentRightMotorLine + 1 < rightMotorLines.size())
+                    currentRightMotorLine++;
             }
         }
 
