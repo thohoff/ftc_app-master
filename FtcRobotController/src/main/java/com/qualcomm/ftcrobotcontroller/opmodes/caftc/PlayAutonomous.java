@@ -11,6 +11,15 @@ import java.util.Scanner;
  */
 public class PlayAutonomous extends BasicAutonomous{
 
+
+    /*
+    currenttimems + encoder = targettimems
+    when currenttimems = targettimems
+
+     */
+
+    private final double DRIVESPEED = .5;
+
     String recording;
     String[] recordingLines;
 
@@ -24,6 +33,9 @@ public class PlayAutonomous extends BasicAutonomous{
 
     int lastTickLeftMotorLine;
     int lastTickRightMotorLine;
+
+    long lTargetTime;
+    long rTargetTime;
 
     int lEncoderValue;
     int rEncoderValue;
@@ -65,25 +77,49 @@ public class PlayAutonomous extends BasicAutonomous{
     }
     @Override
     public void loop() {
-
+        //left
         if(lastTickLeftMotorLine != currentLeftMotorLine){
             lastTickLeftMotorLine = currentLeftMotorLine;
-
-            String leftEncoderValue = leftMotorLines.get(currentLeftMotorLine);
-            leftEncoderValue.replaceAll("[^0-9]", "");
-            lEncoderValue = Integer.parseInt(leftEncoderValue);
+            lEncoderValue = Integer.parseInt(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
+            lTargetTime = System.currentTimeMillis() + lEncoderValue;
         }
+
+        //right
         if(lastTickRightMotorLine != currentRightMotorLine){
             lastTickRightMotorLine = currentRightMotorLine;
 
-            String rightEncoderValue = rightMotorLines.get(currentRightMotorLine);
-            rightEncoderValue.replaceAll("[^0-9]","");
-            rEncoderValue = Integer.parseInt(rightEncoderValue);
+            rEncoderValue = Integer.parseInt(rightMotorLines.get(currentRightMotorLine).replaceAll("[^0-9]", ""));
+            rTargetTime = System.currentTimeMillis() + rEncoderValue;
         }
 
-        if(lEncoderValue > Math.abs(driveLeft.getCurrentPosition())){
 
+        //left
+        if(leftMotorLines.get(currentLeftMotorLine).contains("INACTIVE")){
+            if(System.currentTimeMillis() >= lTargetTime){
+                currentLeftMotorLine++;
+            }
+        }else{
+            if(lEncoderValue < driveLeft.getCurrentPosition()){
+                driveLeft.setPower(DRIVESPEED);
+            }else{
+                currentLeftMotorLine++;
+            }
         }
+
+
+        //right
+        if(rightMotorLines.get(currentRightMotorLine).contains("INACTIVE")){
+            if(System.currentTimeMillis() >= rTargetTime){
+                currentRightMotorLine++;
+            }
+        }else{
+            if(rEncoderValue < driveLeft.getCurrentPosition()){
+                driveRight.setPower(DRIVESPEED);
+            }else{
+                currentRightMotorLine++;
+            }
+        }
+
 
     }
     @Override
