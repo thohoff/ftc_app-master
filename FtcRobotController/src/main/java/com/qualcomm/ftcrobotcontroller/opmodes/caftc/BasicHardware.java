@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Thomas_Hoffmann on 9/25/2015.  Also edited by Caleb and stuffs and ben and stuffs
  */
-enum LIGHT_MODE{QUICK_COLOR_ALTERNATE}
+enum LIGHT_MODE{TRIGSQUARE_OSCILLATE_COLORS}
 
 //Robot with basic driving capabilities
 public abstract class BasicHardware extends OpMode{
@@ -52,18 +52,12 @@ public abstract class BasicHardware extends OpMode{
     }
     @Override
     public void loop(){
-        telemetry.addData("red",redPower);
-        telemetry.addData("blue",bluePower);
+        telemetry.addData("red", redPower);
+        telemetry.addData("blue", bluePower);
         switch (lightMode){
-            case QUICK_COLOR_ALTERNATE :
-                if(redPower == 0){
-                redPower = 1;
-                bluePower = 0;
-            }
-                else if(bluePower == 0){
-                    redPower = 1;
-                    bluePower = 0;
-                }
+            case TRIGSQUARE_OSCILLATE_COLORS :
+                redPower = Math.pow(Math.cos(Math.toRadians(System.currentTimeMillis() % 360)),2);
+                bluePower = Math.pow(Math.sin(Math.toRadians(System.currentTimeMillis() % 360)),2);
                 break;
         }
         red.setPower(redPower);
