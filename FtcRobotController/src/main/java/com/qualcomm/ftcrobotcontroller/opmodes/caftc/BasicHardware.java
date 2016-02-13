@@ -32,7 +32,7 @@ public abstract class BasicHardware extends OpMode{
 
     Servo leftArm;
     Servo rightArm;
-    LIGHT_MODE lightMode = LIGHT_MODE.QUICK_COLOR_ALTERNATE;
+    LIGHT_MODE lightMode = LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS;
     double redPower = 1;
     double bluePower = 0;
     @Override
