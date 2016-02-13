@@ -31,7 +31,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.PlayAutonomous;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.PlayAutonomousEncoded;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAuto;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomous;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomousEncoded;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TeleOp2;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
@@ -98,6 +102,10 @@ public class FtcOpModeRegister implements OpModeRegister {
     //  manager.register("TestExample2", TestExample2.class);
       manager.register("TeleOp2", TeleOp2.class);
       manager.register("RecordAutonomous", RecordAutonomous.class);
+      manager.register("PlayAutonomous", PlayAutonomous.class);
+    manager.register("RecordAutonomousEncoded", RecordAutonomousEncoded.class);
+    manager.register("PlayAutonomousEncoded", PlayAutonomousEncoded.class);
+    manager.register("ReckonAuto", ReckonAuto.class);
 //    manager.register("PushBotManual", PushBotManual.class);
 //    manager.register("PushBotAuto", PushBotAuto.class);
 //    manager.register("PushBotDriveTouch", PushBotDriveTouch.class);

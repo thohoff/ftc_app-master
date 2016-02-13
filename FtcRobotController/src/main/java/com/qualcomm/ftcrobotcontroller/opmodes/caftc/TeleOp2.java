@@ -94,9 +94,9 @@ public class TeleOp2 extends BasicHardware{
 
         //colors!!!!
         final double colorPow = 1;
-        if(gamepad1.b) { red.setPower(0); blue.setPower(colorPow); }
-        else if(gamepad1.x) { blue.setPower(0); red.setPower(colorPow); }
-        else if(gamepad1.a) { blue.setPower(0); red.setPower(0); }
+        //if(gamepad1.b) { red.setPower(0); blue.setPower(colorPow); }
+        //else if(gamepad1.x) { blue.setPower(0); red.setPower(colorPow); }
+        //else if(gamepad1.a) { blue.setPower(0); red.setPower(0); }
 
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control

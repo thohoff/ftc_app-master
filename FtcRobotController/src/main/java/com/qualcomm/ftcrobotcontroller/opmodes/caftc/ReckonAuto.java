@@ -1,7 +1,5 @@
-/*package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
+package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
-import com.badlogic.gdx.math.Vector2;
-import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
@@ -9,13 +7,11 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 /**
  * Created by Thomas_Hoffmann on 1/9/2016.
  
-/*
+*/
 enum AutoMode {FIRST_MOVE, ALIGN_TO_BEACON,MOVE_TO_BEACON, LOCK_TO_BEACON, APROACH_BEACON, DROP_PAYLOAD, POST_DROP, ALIGN_TO_PARK, PARK, ALIGN_TO_MOUNTAIN, GO_TO_MOUNTAIN, STOP}
 
 public class ReckonAuto extends BasicAutonomous{
     AutoMode mode = AutoMode.FIRST_MOVE;
-    OpticalDistanceSensor optical;
-    UltrasonicSensor sonic;
     public static Vector2 start = new Vector2(84,12);
     public static final Vector2 beaconloc = new Vector2(12, 84);
     public  static final  Vector2 park1 = new Vector2(60, 30);
@@ -39,8 +35,6 @@ public class ReckonAuto extends BasicAutonomous{
     @Override
     public void init(){
         super.init();
-        optical = hardwareMap.opticalDistanceSensor.get("optical");
-        sonic = hardwareMap.ultrasonicSensor.get("ultrasonic");
         driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         initialRotation = 0;//compass.getDirection();
@@ -51,12 +45,12 @@ public class ReckonAuto extends BasicAutonomous{
         }
         else  {parkLoc = park1.cpy();}
         //Get values from UI
-       isBlue = FtcRobotControllerActivity.colorSwitch.isChecked();
-        goingToPark = FtcRobotControllerActivity.parkActiveSwitch.isChecked();
-        isTarget2 = FtcRobotControllerActivity.park2Switch.isChecked();
-        rotateDivisor = Double.parseDouble(FtcRobotControllerActivity.degreeText.getEditableText().toString());
-        start.x =  (float) Double.parseDouble(FtcRobotControllerActivity.xLocIn.getEditableText().toString());
-        standardPower = Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+       isBlue = false;//FtcRobotControllerActivity.colorSwitch.isChecked();
+        goingToPark = false;//FtcRobotControllerActivity.parkActiveSwitch.isChecked();
+        isTarget2 = false;//FtcRobotControllerActivity.park2Switch.isChecked();
+        rotateDivisor = 17.5; //Double.parseDouble(FtcRobotControllerActivity.degreeText.getEditableText().toString());
+        start.x =  72;//(float) Double.parseDouble(FtcRobotControllerActivity.xLocIn.getEditableText().toString());
+        standardPower = 0.7;//Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
 
     }
     @Override
@@ -72,7 +66,6 @@ public class ReckonAuto extends BasicAutonomous{
                 if(SmartMove(6,standardPower)){
                     stopMoving();
                     reset_drive_encoders();
-                    run_using_encoders();
                     mode = AutoMode.ALIGN_TO_BEACON;
                 }
                 break;
@@ -80,21 +73,16 @@ public class ReckonAuto extends BasicAutonomous{
                 if(SmartRotate(getDesiredRotation(beaconloc),standardPower)) {
                     stopMoving();
                     reset_drive_encoders();
-                    run_without_drive_encoders();
                     initialRotation += getDesiredRotation(beaconloc);
                     mode = AutoMode.MOVE_TO_BEACON;
                 }
                 break;
             case MOVE_TO_BEACON:
-                run_without_drive_encoders();
-                if (isWhite()) {
+                if (SmartMove(position.dst(beaconloc), standardPower)) {
                     stopMoving();
                     reset_drive_encoders();
-                    run_using_encoders();
                     position = beaconloc.cpy();
                     mode = AutoMode.LOCK_TO_BEACON;
-                }else{
-                    moveForward(standardPower);
                 }
                 break;
             case LOCK_TO_BEACON:
@@ -102,32 +90,28 @@ public class ReckonAuto extends BasicAutonomous{
                 if(isBlue){ angle = -90;}
                 if(SmartRotate(angle,standardPower)){
                     reset_drive_encoders();
-                    run_without_drive_encoders();
                     initialRotation +=angle;// getDesiredRotation(new Vector2(0,84));
                     mode = AutoMode.APROACH_BEACON;
                 }
                 break;
             case APROACH_BEACON:
-                run_without_drive_encoders();
-                moveForward(0.5);
-
-                if(sonic.getUltrasonicLevel()<4){
+                if(SmartMove(12,standardPower)){
                     stopMoving();
                     this.position = new Vector2(0,84);
+                    reset_drive_encoders();
                     mode  = AutoMode.DROP_PAYLOAD;
                 }
                 break;
             case DROP_PAYLOAD:
-
-             //   climbersArm.setPosition(1);
+                reset_drive_encoders();
+                climbersArm.setPosition(1);
                 position = new Vector2(0,84);
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
-             //   climbersArm.setPosition(1);
+                climbersArm.setPosition(1);
                 reset_drive_encoders();
-                run_using_encoders();
-                if(goingToPark) {
+                    if(goingToPark) {
                     mode = AutoMode.ALIGN_TO_PARK;
                 }
                 else{
@@ -137,7 +121,6 @@ public class ReckonAuto extends BasicAutonomous{
             case ALIGN_TO_PARK:
                 if(SmartRotate(getDesiredRotation(parkLoc), standardPower)){
                     reset_drive_encoders();
-                    run_using_encoders();
                     initialRotation +=getDesiredRotation(parkLoc);
                   mode = AutoMode.PARK;
                 }
@@ -145,7 +128,6 @@ public class ReckonAuto extends BasicAutonomous{
             case PARK:
                 if(SmartMove(position.dst(parkLoc),standardPower)){
                     reset_drive_encoders();
-                    run_using_encoders();
                     position = parkLoc.cpy();
                     if(isTarget2){
                         mode = AutoMode.ALIGN_TO_MOUNTAIN;
@@ -154,16 +136,15 @@ public class ReckonAuto extends BasicAutonomous{
                     }
                 }
                 break;
-            case ALIGN_TO_MOUNTAIN:
-                if(SmartRotate(getDesiredRotation(mountain),standardPower)){
-                    reset_drive_encoders();
-                    run_using_encoders();
-                    mode = AutoMode.GO_TO_MOUNTAIN;
+                    case ALIGN_TO_MOUNTAIN:
+                        if(SmartRotate(getDesiredRotation(mountain),standardPower)){
+                            reset_drive_encoders();
+                            mode = AutoMode.GO_TO_MOUNTAIN;
                 }
                 break;
-            case GO_TO_MOUNTAIN:
+                    case GO_TO_MOUNTAIN:
                 moveForward(standardPower);
-                break;
+                        break;
             case STOP:
                 stopMoving();
                 break;
@@ -172,15 +153,16 @@ public class ReckonAuto extends BasicAutonomous{
                 break;
 
         }
-        telemetry.addData("Power", Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString()));
-        telemetry.addData("ODS ", a_ods_light_detected());
+     //   telemetry.addData("Power", Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString()));
+      //  telemetry.addData("ODS ", a_ods_light_detected());
         telemetry.addData("position", position);
         telemetry.addData("initial rotation", initialRotation);
-        telemetry.addData("sonic", sonic.getUltrasonicLevel());
+     //   telemetry.addData("sonic", sonic.getUltrasonicLevel());
         telemetry.addData("isBlue", isBlue);
         telemetry.addData("State", mode);
         telemetry.addData("Motor State", driveRight.getMode() + ", " + driveLeft.getMode());
         telemetry.addData("Desired", getDesiredRotation(beaconloc));
+        telemetry.addData("Encoders", driveLeft.getCurrentPosition() +", "+driveRight.getCurrentPosition());
     }
     public void moveForward(double amount){
         driveRight.setPower(-amount);
@@ -224,9 +206,9 @@ public class ReckonAuto extends BasicAutonomous{
     public void prepareSmartMove(){
         encoderStartState = new Vector2(driveLeft.getCurrentPosition(), driveRight.getCurrentPosition());
     }
-    public boolean isWhite(){
+ /*   public boolean isWhite(){
         return a_ods_white_tape_detected();
-    }
+    }*/
     public double getDesiredRotation(Vector2 target){
         Vector2 rotpos = position.cpy().rotate((float)Math.toRadians(initialRotation));
         Vector2 sub = target.cpy().sub(rotpos);
@@ -314,7 +296,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Indicate whether the right drive motor's encoder has reached a value.
-     /*
+     */
     boolean has_right_drive_encoder_reached (double p_count)
 
     {
@@ -352,7 +334,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Indicate whether the drive motors' encoders have reached a value.
-     /*
+     */
     boolean have_drive_encoders_reached
     ( double p_left_count
             , double p_right_count
@@ -389,7 +371,7 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Indicate whether the drive motors' encoders have reached a value.
-     
+     */
     boolean drive_using_encoders
     ( double p_left_power
             , double p_right_power
@@ -572,7 +554,7 @@ public class ReckonAuto extends BasicAutonomous{
         run_without_right_drive_encoder ();
 
     }
-    double a_ods_light_detected ()
+   /* double a_ods_light_detected ()
 
     {
          return optical.getLightDetected();
@@ -585,8 +567,8 @@ public class ReckonAuto extends BasicAutonomous{
     //
     /**
      * Access whether the EOP is detecting white tape.
-     
-    boolean a_ods_white_tape_detected ()
+     */
+  /*  boolean a_ods_white_tape_detected ()
 
     {
         //
@@ -612,5 +594,5 @@ public class ReckonAuto extends BasicAutonomous{
         return l_return;
 
     }
+    */
 }
-*/

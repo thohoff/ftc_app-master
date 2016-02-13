@@ -7,11 +7,13 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Thomas_Hoffmann on 9/25/2015.  Also edited by Caleb and stuffs and ben and stuffs
  */
+enum LIGHT_MODE{QUICK_COLOR_ALTERNATE}
 
 //Robot with basic driving capabilities
 public abstract class BasicHardware extends OpMode{
     //Execution order : Start, Init, Loop, Stop
-
+    DcMotor red;
+    DcMotor blue;
     //Driving Motors
     DcMotor driveRight;
     DcMotor driveLeft;
@@ -30,10 +32,9 @@ public abstract class BasicHardware extends OpMode{
 
     Servo leftArm;
     Servo rightArm;
-
-    DcMotor red;
-    DcMotor blue;
-
+    LIGHT_MODE lightMode = LIGHT_MODE.QUICK_COLOR_ALTERNATE;
+    double redPower = 0;
+    double bluePower = 0;
     @Override
     public void init(){
         driveRight = hardwareMap.dcMotor.get("drive_right"); //motor3
@@ -48,5 +49,21 @@ public abstract class BasicHardware extends OpMode{
         climbersArm = hardwareMap.servo.get("people_dropper"); //for climbers
         red = hardwareMap.dcMotor.get("red");
         blue = hardwareMap.dcMotor.get("blue");
+    }
+    @Override
+    public void loop(){
+        switch (lightMode){
+            case QUICK_COLOR_ALTERNATE :
+                if(redPower == 0){
+                    redPower = 1;
+                    bluePower = 0;
+                }
+                else if(bluePower == 0){
+                    redPower = 1;
+                    bluePower = 0;
+                }
+        }
+        red.setPower(redPower);
+        blue.setPower(bluePower);
     }
 }
