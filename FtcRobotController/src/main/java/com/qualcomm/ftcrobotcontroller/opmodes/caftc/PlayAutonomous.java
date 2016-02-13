@@ -2,6 +2,8 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
 import android.content.Context;
 
+import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,7 +25,7 @@ public class PlayAutonomous extends BasicAutonomous{
 
     private final double DRIVESPEED = .5;
 
-    static Context context;
+
 
     String recording;
     String[] recordingLines;
@@ -136,7 +138,7 @@ public class PlayAutonomous extends BasicAutonomous{
 
         String recording = "";
 
-        File file = new File(context.getFilesDir(), filename);
+        File file = new File(FtcRobotControllerActivity.context.getFilesDir(), filename);
 
         int length = (int)file.length();
 
