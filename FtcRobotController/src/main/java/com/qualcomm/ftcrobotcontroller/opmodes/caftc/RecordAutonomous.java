@@ -51,6 +51,10 @@ public class RecordAutonomous extends BasicHardware {
 
     @Override
     public void loop() {
+
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
         driveLeft.setPower(-gamepad1.left_stick_y);
         driveRight.setPower(gamepad1.right_stick_y);
 
@@ -85,7 +89,7 @@ public class RecordAutonomous extends BasicHardware {
                     recording += "leftMotor " + Math.abs(driveLeft.getCurrentPosition()) + " " + leftMotor.lastTickMotorState + "\n";
 
                     driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-                    driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
                 }
             }
             if (rightMotor.motorState != rightMotor.lastTickMotorState) {
@@ -98,7 +102,6 @@ public class RecordAutonomous extends BasicHardware {
                     recording += "rightMotor " + Math.abs(driveRight.getCurrentPosition()) + " " + rightMotor.lastTickMotorState + "\n";
             }
             driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
-            driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         }
     }
 
