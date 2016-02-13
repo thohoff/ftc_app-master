@@ -23,7 +23,7 @@ public class PlayAutonomous extends BasicAutonomous{
 
      */
 
-    private final double DRIVESPEED = .5;
+    private final double DRIVESPEED = 1;
 
 
 
