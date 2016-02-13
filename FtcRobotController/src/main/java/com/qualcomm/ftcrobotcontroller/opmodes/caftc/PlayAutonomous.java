@@ -3,6 +3,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 import android.content.Context;
 
 import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,6 +52,14 @@ public class PlayAutonomous extends BasicAutonomous{
     public void init(){
         super.init();
 
+
+        driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+
         leftMotorLines = new ArrayList<String>();
         rightMotorLines = new ArrayList<String>();
 
@@ -91,6 +100,7 @@ public class PlayAutonomous extends BasicAutonomous{
             lEncoderValue = Integer.parseInt(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
             telemetry.addData("lEncoderValue", lEncoderValue);
             lTargetTime = System.currentTimeMillis() + lEncoderValue;
+            telemetry.addData("targetTime", lTargetTime);
         }
 
         //right

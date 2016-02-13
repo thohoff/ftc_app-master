@@ -82,7 +82,7 @@ public class RecordAutonomous extends BasicHardware {
           and loop through them at the same time.
          */
 
-        //TODO fix encoder reset problems.
+
         for (int i = 0; i < MotorState.values().length; i++) {
             if (leftMotor.motorState != leftMotor.lastTickMotorState) {
 
