@@ -26,6 +26,7 @@ public class TeleOp2 extends BasicHardware{
 
     @Override
     public void loop(){
+        super.loop();
         //driver 1 - main driving control
         //driving
         driveLeft.setPower(-gamepad1.left_stick_y);

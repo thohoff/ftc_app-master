@@ -60,6 +60,7 @@ public class ReckonAuto extends BasicAutonomous{
     }
     @Override
     public void loop(){
+        super.loop();
         switch (mode){
             case FIRST_MOVE:
 

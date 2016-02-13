@@ -37,6 +37,7 @@ public class RecordAutonomousEncoded extends BasicHardware{
     }
     @Override
     public void loop() {
+        super.loop();
         switch(state){
             case(0) :
                 reset_drive_encoders();
@@ -55,8 +56,6 @@ public class RecordAutonomousEncoded extends BasicHardware{
                     rightPow = -1;
                 }
                 telemetry.addData("left",driveLeft.getCurrentPosition());
-                telemetry.addData("storel", moves.leftMoves);
-                telemetry.addData("storer",moves.rightMoves);
                 telemetry.addData("right",driveRight.getCurrentPosition());
                 if(drive_using_encoders(leftPow, rightPow, 360 * left, 360 * right)){
                     state = 0;
