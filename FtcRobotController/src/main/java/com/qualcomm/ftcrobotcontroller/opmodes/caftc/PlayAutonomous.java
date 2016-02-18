@@ -104,7 +104,7 @@ public class PlayAutonomous extends BasicAutonomous{
             lEncoderValue = Integer.parseInt(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
             telemetry.addData("lEncoderValue", lEncoderValue);
             lTargetTime = System.nanoTime() + lEncoderValue;
-            telemetry.addData("targetTime", lTargetTime);
+
         }
 
         //right
@@ -123,6 +123,7 @@ public class PlayAutonomous extends BasicAutonomous{
                     currentLeftMotorLine++;
             }
         }else{
+            telemetry.addData("thing", driveLeft.getCurrentPosition());
             if(lEncoderValue < driveLeft.getCurrentPosition()){
                 telemetry.addData("here", "here");
                 driveLeft.setPower(DRIVESPEED);
