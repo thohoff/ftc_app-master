@@ -35,6 +35,9 @@ public abstract class BasicHardware extends OpMode{
     public static LIGHT_MODE lightMode = LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS;
     double redPower = 1;
     double bluePower = 0;
+
+    private Lights2 lights;
+
     @Override
     public void init(){
         driveRight = hardwareMap.dcMotor.get("drive_right"); //motor3
@@ -49,6 +52,8 @@ public abstract class BasicHardware extends OpMode{
         climbersArm = hardwareMap.servo.get("people_dropper"); //for climbers
         red = hardwareMap.dcMotor.get("red");
         blue = hardwareMap.dcMotor.get("blue");
+
+        lights = new Lights2();
     }
     @Override
     public void loop(){
@@ -63,4 +68,48 @@ public abstract class BasicHardware extends OpMode{
         red.setPower(redPower);
         blue.setPower(bluePower);
     }
+
+    public String lights()
+    {
+        int mode = lights.getModeNum();
+        double maxPow = 0.9;
+
+        switch (mode)
+        {
+            case 0: //off
+                redPower = 0;
+                bluePower = 0;
+                break;
+            case 1: //both flashing
+                double mult = (maxPow + 1)/2;
+                redPower = mult * (0.5+Math.pow(Math.cos(Math.toRadians(System.currentTimeMillis()/16.0 % 360)),2)/2);
+                bluePower = mult * (0.5+Math.pow(Math.sin(Math.toRadians(System.currentTimeMillis()/16.0 % 360)),2)/2);
+                break;
+            case 2: //red solid
+                redPower = maxPow;
+                bluePower = 0;
+                break;
+            case 3: //red flashing
+                if (System.currentTimeMillis() % 50 >= 25) { redPower = maxPow; }
+                else { redPower = 0; }
+                bluePower = 0;
+                break;
+            case 4: //blue solid
+                redPower = 0;
+                bluePower = maxPow;
+                break;
+            case 5: //blue flashing
+                redPower = 0;
+                if (System.currentTimeMillis() % 50 >= 25) { bluePower = maxPow; }
+                else { bluePower = 0; }
+                break;
+        }
+        red.setPower(redPower);
+        blue.setPower(bluePower);
+        String s = lights.getMode();
+        return s;
+    }
+
+    public Lights2 getLights()
+    { return lights; }
 }
