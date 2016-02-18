@@ -114,7 +114,7 @@ public class RecordAutonomous extends BasicHardware {
     }
 
 
-        telemetry.addData("recording", recording);
+        telemetry.addData("recording", recording + "\n");
 
     }
     @Override

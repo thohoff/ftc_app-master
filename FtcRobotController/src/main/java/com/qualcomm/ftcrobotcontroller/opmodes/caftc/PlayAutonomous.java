@@ -45,8 +45,8 @@ public class PlayAutonomous extends BasicAutonomous{
     long lTargetTime;
     long rTargetTime;
 
-    int lEncoderValue;
-    int rEncoderValue;
+    long lEncoderValue;
+    long rEncoderValue;
 
     @Override
     public void init(){
