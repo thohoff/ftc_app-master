@@ -8,25 +8,44 @@ public class TeleOp2 extends BasicHardware{
     //double sL; //ziplines
     //double sR;
 
-    double sC; //climber arm
-    double rR; //rigid arms
-    double rL;
-    double sA; //servo arm angler base thingy
+    private double sC; //climber arm
+    private double rR; //rigid arms
+    private double rL;
+    private double sA; //servo arm angler base thingy
+
+    private Lights2 lights;
+    private long startTime;
+    private long lastButtonTime;
+
+    private boolean buttonPressed;
 
     @Override
     public void init() {
         super.init();
+        lights = super.getLights();
         //sL = 0;
         //sR = 1;
-        sC = 1;
-        rR = 0.3;
-        rL = 0.3;
-        sA = 1;
+        sC = 0;
+        rR = 0.2;
+        rL = 0.8;
+        sA = 0.6;
+
+        startTime = System.currentTimeMillis();
+        lastButtonTime = startTime - 1000;
+        buttonPressed = false;
     }
 
     @Override
-    public void loop(){
-        super.loop();
+    public void loop()
+    {
+        //lights init
+        //super.loop();
+        telemetry.addData("lights", super.lights());
+        //time stuff
+        long currentTime = System.currentTimeMillis();
+        long TeleOpTime = currentTime - startTime;
+        long buttonTime = currentTime - lastButtonTime;
+        telemetry.addData("time", TeleOpTime);
         //driver 1 - main driving control
         //driving
         driveLeft.setPower(-gamepad1.left_stick_y);
@@ -93,11 +112,17 @@ public class TeleOp2 extends BasicHardware{
         telemetry.addData("climbers", sC);
         climbersArm.setPosition(sC);
 
-        //colors!!!!
-        final double colorPow = 1;
-        //if(gamepad1.b) { red.setPower(0); blue.setPower(colorPow); }
-        //else if(gamepad1.x) { blue.setPower(0); red.setPower(colorPow); }
-        //else if(gamepad1.a) { blue.setPower(0); red.setPower(0); }
+        //colors!!!!-------------------------------------------------------------------------------
+        if(gamepad1.a || gamepad2.a) { lights.setOff(); lastButtonTime = System.currentTimeMillis(); buttonPressed = true; } //off
+        else if (buttonTime > 10 && !buttonPressed)
+        {
+            if(gamepad1.y || gamepad2.y) { lights.next(); buttonPressed = true; } //go to next
+            else if(gamepad1.b || gamepad2.b) { lights.nextRed(); buttonPressed = true; } //red
+            else if(gamepad1.x || gamepad2.x) { lights.nextBlue(); buttonPressed = true; } //blue
+            lastButtonTime = System.currentTimeMillis(); //reset button time
+        }
+        if(buttonPressed && !(gamepad1.a || gamepad2.a || gamepad1.b || gamepad2.b || gamepad1.x || gamepad2.x || gamepad1.y || gamepad2.y))
+        { buttonPressed = false; }
 
         //----------------------------------------------------------------------------------------
         //driver 2 - main arm control

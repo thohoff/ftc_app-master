@@ -50,7 +50,7 @@ public class ReckonAuto extends BasicAutonomous{
         isTarget2 = false;//FtcRobotControllerActivity.park2Switch.isChecked();
         rotateDivisor = 17.5; //Double.parseDouble(FtcRobotControllerActivity.degreeText.getEditableText().toString());
         start.x =  72;//(float) Double.parseDouble(FtcRobotControllerActivity.xLocIn.getEditableText().toString());
-        standardPower = 0.7;//Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+        standardPower = 0.5;//Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
 
     }
     @Override
@@ -63,45 +63,51 @@ public class ReckonAuto extends BasicAutonomous{
         super.loop();
         switch (mode){
             case FIRST_MOVE:
-
-                if(SmartMove(6,standardPower)){
-                    stopMoving();
-                    reset_drive_encoders();
-                    mode = AutoMode.ALIGN_TO_BEACON;
-                }
+                    if (SmartMove(6, standardPower)) {
+                        stopMoving();
+                        reset_drive_encoders();
+                        mode = AutoMode.ALIGN_TO_BEACON;
+                    }
                 break;
             case ALIGN_TO_BEACON:
-                if(SmartRotate(getDesiredRotation(beaconloc),standardPower)) {
-                    stopMoving();
-                    reset_drive_encoders();
-                    initialRotation += getDesiredRotation(beaconloc);
-                    mode = AutoMode.MOVE_TO_BEACON;
-                }
+                    if (SmartRotate(getDesiredRotation(beaconloc), standardPower)) {
+                        stopMoving();
+                        reset_drive_encoders();
+                        initialRotation += getDesiredRotation(beaconloc);
+                        mode = AutoMode.MOVE_TO_BEACON;
+                    }
                 break;
             case MOVE_TO_BEACON:
-                if (SmartMove(position.dst(beaconloc), standardPower)) {
-                    stopMoving();
-                    reset_drive_encoders();
-                    position = beaconloc.cpy();
-                    mode = AutoMode.LOCK_TO_BEACON;
-                }
+                    if (SmartMove(position.dst(beaconloc), standardPower)) {
+                        stopMoving();
+                        reset_drive_encoders();
+                        position = beaconloc.cpy();
+                        mode = AutoMode.LOCK_TO_BEACON;
+                    }
                 break;
             case LOCK_TO_BEACON:
-                double angle = 90;
-                if(isBlue){ angle = -90;}
-                if(SmartRotate(angle,standardPower)){
-                    reset_drive_encoders();
-                    initialRotation +=angle;// getDesiredRotation(new Vector2(0,84));
-                    mode = AutoMode.APROACH_BEACON;
-                }
+                    double angle = 90;
+                    if (isBlue) {
+                        angle = -90;
+                    }
+                    double sign = 1;
+                    if (isBlue) {
+                        sign = -1;
+                    }
+                    if (drive_using_encoders(-sign, sign, 3600, 3600)) {
+                        stopMoving();
+                        reset_drive_encoders();
+                        initialRotation += angle;
+                        mode = AutoMode.APROACH_BEACON;
+                    }
                 break;
             case APROACH_BEACON:
-                if(SmartMove(12,standardPower)){
-                    stopMoving();
-                    this.position = new Vector2(0,84);
-                    reset_drive_encoders();
-                    mode  = AutoMode.DROP_PAYLOAD;
-                }
+                    if (SmartMove(12, standardPower)) {
+                        stopMoving();
+                        this.position = new Vector2(0, 84);
+                        reset_drive_encoders();
+                        mode = AutoMode.DROP_PAYLOAD;
+                    }
                 break;
             case DROP_PAYLOAD:
                 reset_drive_encoders();
@@ -176,6 +182,7 @@ public class ReckonAuto extends BasicAutonomous{
     public void stopMoving(){
         set_drive_power(0, 0);
     }
+
     public void turnLeft(double amount){
         turnRight(-amount);
     }
@@ -198,8 +205,8 @@ public class ReckonAuto extends BasicAutonomous{
         //35, 17.5, etc ;
         return SmartMoveBoth(-1*degrees * 2.3 / rotateDivisor, degrees * 2.3 / rotateDivisor, -1*sign * power, sign*power);
     }
-    public boolean SmartMove(double distance, double power){
-       return drive_using_encoders(power, power, (distance*360d)/inchesPerRotation,(distance*360d)/inchesPerRotation);
+    public boolean SmartMove(double distance, double power) {
+        return drive_using_encoders(power, power, (distance*360d)/inchesPerRotation,(distance*360d)/inchesPerRotation);
     }
     public boolean SmartMoveBoth(double distancel, double distancer, double powerl, double powerr){
         return drive_using_encoders(powerl,powerr,(distancel*360d)/inchesPerRotation,(distancer*360d)/inchesPerRotation);
@@ -275,7 +282,7 @@ public class ReckonAuto extends BasicAutonomous{
             //
             // TODO Implement stall code using these variables.
             //
-            if (Math.abs (driveLeft.getCurrentPosition ()) > p_count)
+            if (Math.abs (driveLeft.getCurrentPosition ()) > Math.abs(p_count))
             {
                 //
                 // Set the status to a positive indication.
@@ -313,7 +320,7 @@ public class ReckonAuto extends BasicAutonomous{
             //
             // TODO Implement stall code using these variables.
             //
-            if (Math.abs (driveRight.getCurrentPosition ()) > p_count)
+            if (Math.abs (driveRight.getCurrentPosition ()) > Math.abs(p_count))
             {
                 //
                 // Set the status to a positive indication.
