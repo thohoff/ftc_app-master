@@ -101,7 +101,7 @@ public class PlayAutonomous extends BasicAutonomous{
         //left
         if(lastTickLeftMotorLine != currentLeftMotorLine){
             lastTickLeftMotorLine = currentLeftMotorLine;
-            lEncoderValue = Integer.parseInt(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
+            lEncoderValue = Long.parseLong(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
             telemetry.addData("lEncoderValue", lEncoderValue);
             lTargetTime = System.nanoTime() + lEncoderValue;
 
@@ -111,7 +111,7 @@ public class PlayAutonomous extends BasicAutonomous{
         if(lastTickRightMotorLine != currentRightMotorLine){
             lastTickRightMotorLine = currentRightMotorLine;
 
-            rEncoderValue = Integer.parseInt(rightMotorLines.get(currentRightMotorLine).replaceAll("[^0-9]", ""));
+            rEncoderValue = Long.parseLong(rightMotorLines.get(currentRightMotorLine).replaceAll("[^0-9]", ""));
             rTargetTime = System.nanoTime() + rEncoderValue;
         }
 
