@@ -122,12 +122,13 @@ public class PlayAutonomous extends BasicAutonomous{
                 if(currentLeftMotorLine + 1 < leftMotorLines.size())
                     currentLeftMotorLine++;
 
-                driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
                 driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
         }else{
-            telemetry.addData("thing", driveLeft.getCurrentPosition());
-            if(lEncoderValue < driveLeft.getCurrentPosition()){
+            telemetry.addData("lEncoderValue", lEncoderValue);
+            telemetry.addData("currentPosition", driveLeft.getCurrentPosition());
+            if(driveLeft.getCurrentPosition() < lEncoderValue){
                 telemetry.addData("here", "here");
                 driveLeft.setPower(DRIVESPEED);
             }else{
@@ -145,7 +146,7 @@ public class PlayAutonomous extends BasicAutonomous{
                     currentRightMotorLine++;
             }
         }else{
-            if(rEncoderValue < driveLeft.getCurrentPosition()){
+            if(driveRight.getCurrentPosition() < rEncoderValue){
                 driveRight.setPower(DRIVESPEED);
             }else{
                 if(currentRightMotorLine + 1 < rightMotorLines.size())
