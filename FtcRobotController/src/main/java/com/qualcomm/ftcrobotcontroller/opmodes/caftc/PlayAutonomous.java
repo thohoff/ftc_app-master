@@ -121,6 +121,9 @@ public class PlayAutonomous extends BasicAutonomous{
             if(System.nanoTime() >= lTargetTime){
                 if(currentLeftMotorLine + 1 < leftMotorLines.size())
                     currentLeftMotorLine++;
+
+                driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
         }else{
             telemetry.addData("thing", driveLeft.getCurrentPosition());
@@ -150,6 +153,7 @@ public class PlayAutonomous extends BasicAutonomous{
                 driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
         }
+
 
 
     }
