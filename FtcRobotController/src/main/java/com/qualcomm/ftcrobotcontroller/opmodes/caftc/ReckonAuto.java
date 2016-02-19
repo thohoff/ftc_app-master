@@ -51,7 +51,7 @@ public class ReckonAuto extends BasicAutonomous{
         isTarget2 = false;//FtcRobotControllerActivity.park2Switch.isChecked();
         rotateDivisor = Double.parseDouble(FtcRobotControllerActivity.turnFactor.getEditableText().toString());
         start.x =  72;//(float) Double.parseDouble(FtcRobotControllerActivity.xLocIn.getEditableText().toString());
-        standardPower = 0.5;//Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+        standardPower = 1;//Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
 
     }
     @Override
@@ -80,7 +80,7 @@ public class ReckonAuto extends BasicAutonomous{
                     }
                 break;
             case MOVE_TO_BEACON:
-                    if (SmartMove(position.dst(beaconloc)+12, standardPower)) {
+                    if (SmartMove(position.dst(beaconloc)+18, standardPower)) {
                         stopMoving();
                         reset_drive_encoders();
                         position = beaconloc.cpy();
@@ -104,7 +104,7 @@ public class ReckonAuto extends BasicAutonomous{
                     if (isRed) {
                         sign = -1;
                     }
-                    if (drive_using_encoders(-sign*standardPower,sign*standardPower, 2000,2000)) {
+                    if (drive_using_encoders(-sign*standardPower,sign*standardPower, 1500,1500)) {
                         stopMoving();
                         reset_drive_encoders();
                         initialRotation += angle;
@@ -120,7 +120,7 @@ public class ReckonAuto extends BasicAutonomous{
                 }
                 break;
             case APROACH_BEACON:
-                    if (SmartMove(12, standardPower)) {
+                    if (SmartMove(18, standardPower)) {
                         stopMoving();
                         this.position = new Vector2(0, 84);
                         reset_drive_encoders();
