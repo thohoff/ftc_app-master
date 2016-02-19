@@ -21,7 +21,7 @@ public class ReckonAuto extends BasicAutonomous{
     public static boolean goingToPark = false;
     public static boolean isTarget2 = false;
     private Vector2 position = start;
-    public static double standardPower = 0.7; //Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
+    public static double standardPower = 1; //Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
     public static final double inchesPerRotation = 2.3;
     private int sweepDir = 1; // 1 means Right, -1 means last direction was left.
     private Vector2 encoderStartState;
@@ -129,6 +129,7 @@ public class ReckonAuto extends BasicAutonomous{
                 break;
             case DROP_PAYLOAD:
                 reset_drive_encoders();
+                super.start(); ///caleb added this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 climbersArm.setPosition(1);
 
                 position = new Vector2(0,84);
@@ -410,7 +411,7 @@ public class ReckonAuto extends BasicAutonomous{
         boolean l_return = false;
 
         run_using_encoders ();
-        set_drive_power (-p_left_power, p_right_power);
+        set_drive_power (p_left_power, p_right_power);
         if(has_left_drive_encoder_reached(p_left_count)){
             driveLeft.setPower(0);
         }
