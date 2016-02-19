@@ -137,7 +137,7 @@ public class TeleOp2 extends BasicHardware{
         { setSpoolPow(0); }
 
         //center spool angling - left joystick
-        double speed = 0.01;
+        double speed = 0.005;
         double left = -gamepad2.left_stick_y;
         if (left > .05)
         {
