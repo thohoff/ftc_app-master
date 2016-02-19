@@ -57,6 +57,18 @@ public abstract class BasicHardware extends OpMode{
         lights = new Lights2();
         lightsStr = "";
     }
+    @Override public void start(){
+       resetServos();
+    }
+    public void resetServos()
+    {
+        armServo.setPosition(0.8);
+        //climbersArm.setPosition(0);
+        zipLeft.setPosition(0.5);
+        zipRight.setPosition(0.5);
+        rightArm.setPosition(0.2);
+        leftArm.setPosition(0.9);
+    }
     @Override
     public void loop(){
         telemetry.addData("red", redPower);

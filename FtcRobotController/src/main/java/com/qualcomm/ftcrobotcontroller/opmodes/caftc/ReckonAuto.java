@@ -56,6 +56,7 @@ public class ReckonAuto extends BasicAutonomous{
     }
     @Override
     public void start(){
+        super.start();
         reset_drive_encoders();
 
     }
@@ -103,7 +104,7 @@ public class ReckonAuto extends BasicAutonomous{
                     if (isRed) {
                         sign = -1;
                     }
-                    if (drive_using_encoders(-sign*standardPower,sign*standardPower, 2900,2900)) {
+                    if (drive_using_encoders(-sign*standardPower,sign*standardPower, 2000,2000)) {
                         stopMoving();
                         reset_drive_encoders();
                         initialRotation += angle;
@@ -119,7 +120,7 @@ public class ReckonAuto extends BasicAutonomous{
                 }
                 break;
             case APROACH_BEACON:
-                    if (SmartMove(24, standardPower)) {
+                    if (SmartMove(12, standardPower)) {
                         stopMoving();
                         this.position = new Vector2(0, 84);
                         reset_drive_encoders();
@@ -129,13 +130,12 @@ public class ReckonAuto extends BasicAutonomous{
             case DROP_PAYLOAD:
                 reset_drive_encoders();
                 climbersArm.setPosition(1);
-                resetServos();
+
                 position = new Vector2(0,84);
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
                 climbersArm.setPosition(1);
-                resetServos();
                 reset_drive_encoders();
                     if(goingToPark) {
                     mode = AutoMode.ALIGN_TO_PARK;
@@ -415,7 +415,7 @@ public class ReckonAuto extends BasicAutonomous{
             driveLeft.setPower(0);
         }
         if(has_right_drive_encoder_reached(p_right_count)){
-            driveLeft.setPower(0);
+            driveRight.setPower(0);
         }
         if (have_drive_encoders_reached (p_left_count, p_right_count))
         {
@@ -629,13 +629,5 @@ public class ReckonAuto extends BasicAutonomous{
     }
     */
 
-    public void resetServos()
-    {
-        armServo.setPosition(0.8);
-        //climbersArm.setPosition(0);
-        zipLeft.setPosition(0.5);
-        zipRight.setPosition(0.5);
-        rightArm.setPosition(0.2);
-        leftArm.setPosition(0.9);
-    }
+
 }
