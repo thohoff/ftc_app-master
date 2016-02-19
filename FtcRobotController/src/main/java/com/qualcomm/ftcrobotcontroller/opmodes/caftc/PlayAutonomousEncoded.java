@@ -258,7 +258,7 @@ public class PlayAutonomousEncoded extends BasicHardware{
         boolean l_return = false;
 
         run_using_encoders ();
-        set_drive_power (-p_left_power, p_right_power);
+        set_drive_power (p_left_power, p_right_power);
         if(has_left_drive_encoder_reached(p_left_count)){
             driveLeft.setPower(0);
         }
