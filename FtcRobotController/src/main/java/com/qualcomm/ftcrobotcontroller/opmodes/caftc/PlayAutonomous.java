@@ -56,8 +56,6 @@ public class PlayAutonomous extends BasicAutonomous{
         driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
-        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
 
         leftMotorLines = new ArrayList<String>();
@@ -89,7 +87,8 @@ public class PlayAutonomous extends BasicAutonomous{
     }
     @Override
     public void start() {
-
+        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
     @Override
     public void loop() {
@@ -126,11 +125,9 @@ public class PlayAutonomous extends BasicAutonomous{
                 driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
         }else{
-            telemetry.addData("lEncoderValue", lEncoderValue);
-            telemetry.addData("currentPosition", driveLeft.getCurrentPosition());
             if(driveLeft.getCurrentPosition() < lEncoderValue){
-                telemetry.addData("here", "here");
-                driveLeft.setPower(DRIVESPEED);
+
+                driveLeft.setPower(DRIVESPEED * (leftMotorLines.get(currentLeftMotorLine).contains("FORWARD") ? 1 : -1));
             }else{
                 if(currentLeftMotorLine + 1 < leftMotorLines.size())
                     currentLeftMotorLine++;
@@ -147,7 +144,7 @@ public class PlayAutonomous extends BasicAutonomous{
             }
         }else{
             if(driveRight.getCurrentPosition() < rEncoderValue){
-                driveRight.setPower(DRIVESPEED);
+                driveRight.setPower(DRIVESPEED * (rightMotorLines.get(currentRightMotorLine).contains("FORWARD") ? 1 : -1));
             }else{
                 if(currentRightMotorLine + 1 < rightMotorLines.size())
                     currentRightMotorLine++;
@@ -160,7 +157,7 @@ public class PlayAutonomous extends BasicAutonomous{
     }
     @Override
     public void stop(){
-
+        
     }
     private String ReadFile(String filename) throws IOException {
 
