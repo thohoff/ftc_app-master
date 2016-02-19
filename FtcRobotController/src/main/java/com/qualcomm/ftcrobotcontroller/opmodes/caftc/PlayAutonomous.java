@@ -92,66 +92,79 @@ public class PlayAutonomous extends BasicAutonomous{
     }
     @Override
     public void loop() {
+
+        boolean runLeft = true;
+        boolean runRight = true;
         super.loop();
 
-        driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        if(driveLeft.getCurrentPosition() == 0)
+            driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        else
+            runLeft = false;
+        if(driveRight.getCurrentPosition() == 0)
+            driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        else
+            runRight = false;
 
-        //left
-        if(lastTickLeftMotorLine != currentLeftMotorLine){
-            lastTickLeftMotorLine = currentLeftMotorLine;
-            lEncoderValue = Long.parseLong(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
-            telemetry.addData("lEncoderValue", lEncoderValue);
-            lTargetTime = System.nanoTime() + lEncoderValue;
+        if(runLeft) {
+            //left
+            if (lastTickLeftMotorLine != currentLeftMotorLine) {
+                lastTickLeftMotorLine = currentLeftMotorLine;
+                lEncoderValue = Long.parseLong(leftMotorLines.get(currentLeftMotorLine).replaceAll("[^0-9]", ""));
+                telemetry.addData("lEncoderValue", lEncoderValue);
+                lTargetTime = System.nanoTime() + lEncoderValue;
 
-        }
-
-        //right
-        if(lastTickRightMotorLine != currentRightMotorLine){
-            lastTickRightMotorLine = currentRightMotorLine;
-
-            rEncoderValue = Long.parseLong(rightMotorLines.get(currentRightMotorLine).replaceAll("[^0-9]", ""));
-            rTargetTime = System.nanoTime() + rEncoderValue;
-        }
-
-
-        //left
-        if(leftMotorLines.get(currentLeftMotorLine).contains("INACTIVE")){
-            if(System.nanoTime() >= lTargetTime){
-                if(currentLeftMotorLine + 1 < leftMotorLines.size())
-                    currentLeftMotorLine++;
-
-
-                driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
             }
-        }else{
-            if(driveLeft.getCurrentPosition() < lEncoderValue){
+        }
+        if(runRight) {
+            //right
+            if (lastTickRightMotorLine != currentRightMotorLine) {
+                lastTickRightMotorLine = currentRightMotorLine;
 
-                driveLeft.setPower(DRIVESPEED * (leftMotorLines.get(currentLeftMotorLine).contains("FORWARD") ? 1 : -1));
-            }else{
-                if(currentLeftMotorLine + 1 < leftMotorLines.size())
-                    currentLeftMotorLine++;
-                driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                rEncoderValue = Long.parseLong(rightMotorLines.get(currentRightMotorLine).replaceAll("[^0-9]", ""));
+                rTargetTime = System.nanoTime() + rEncoderValue;
             }
         }
 
+        if(runLeft) {
+            //left
+            if (leftMotorLines.get(currentLeftMotorLine).contains("INACTIVE")) {
+                if (System.nanoTime() >= lTargetTime) {
+                    if (currentLeftMotorLine + 1 < leftMotorLines.size())
+                        currentLeftMotorLine++;
 
-        //right
-        if(rightMotorLines.get(currentRightMotorLine).contains("INACTIVE")){
-            if(System.nanoTime() >= rTargetTime){
-                if(currentRightMotorLine + 1 < rightMotorLines.size())
-                    currentRightMotorLine++;
-            }
-        }else{
-            if(driveRight.getCurrentPosition() < rEncoderValue){
-                driveRight.setPower(DRIVESPEED * (rightMotorLines.get(currentRightMotorLine).contains("FORWARD") ? 1 : -1));
-            }else{
-                if(currentRightMotorLine + 1 < rightMotorLines.size())
-                    currentRightMotorLine++;
-                driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+
+                    driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                }
+            } else {
+                if (driveLeft.getCurrentPosition() < lEncoderValue) {
+
+                    driveLeft.setPower(DRIVESPEED * (leftMotorLines.get(currentLeftMotorLine).contains("FORWARD") ? 1 : -1));
+                } else {
+                    if (currentLeftMotorLine + 1 < leftMotorLines.size())
+                        currentLeftMotorLine++;
+                    driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                }
             }
         }
 
+        if(runRight) {
+            //right
+            if (rightMotorLines.get(currentRightMotorLine).contains("INACTIVE")) {
+                if (System.nanoTime() >= rTargetTime) {
+                    if (currentRightMotorLine + 1 < rightMotorLines.size())
+                        currentRightMotorLine++;
+                }
+            } else {
+                if (driveRight.getCurrentPosition() < rEncoderValue) {
+                    driveRight.setPower(DRIVESPEED * (rightMotorLines.get(currentRightMotorLine).contains("FORWARD") ? 1 : -1));
+                } else {
+                    if (currentRightMotorLine + 1 < rightMotorLines.size())
+                        currentRightMotorLine++;
+                    driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                }
+            }
+        }
 
 
     }
