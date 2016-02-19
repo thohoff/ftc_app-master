@@ -5,7 +5,8 @@ package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
  */
 public enum LIGHT_MODE
 {
-    TRIGSQUARE_OSCILLATE_COLORS(0);
+    TRIGSQUARE_OSCILLATE_COLORS(0), SOLID(1), FLASH_ON_OFF(2), FLASH_SWITCH(3);
+    public boolean color = true; //True for red
     private final int value;
     private final int max = 1;
     LIGHT_MODE(int i){

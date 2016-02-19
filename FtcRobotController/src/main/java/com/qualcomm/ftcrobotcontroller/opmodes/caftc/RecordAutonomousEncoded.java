@@ -274,7 +274,7 @@ public class RecordAutonomousEncoded extends BasicHardware{
         boolean l_return = false;
 
         run_using_encoders ();
-        set_drive_power (p_left_power, p_right_power);
+        set_drive_power (-p_left_power, -p_right_power);
         if (have_drive_encoders_reached (p_left_count, p_right_count))
         {
             reset_drive_encoders ();

@@ -1,5 +1,6 @@
 package com.qualcomm.ftcrobotcontroller.opmodes.caftc;
 
+import com.qualcomm.ftcrobotcontroller.FtcRobotControllerActivity;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
  * Created by Thomas_Hoffmann on 1/9/2016.
  
 */
-enum AutoMode {FIRST_MOVE, ALIGN_TO_BEACON,MOVE_TO_BEACON, LOCK_TO_BEACON, APROACH_BEACON, DROP_PAYLOAD, POST_DROP, ALIGN_TO_PARK, PARK, ALIGN_TO_MOUNTAIN, GO_TO_MOUNTAIN, STOP}
+enum AutoMode {FIRST_MOVE, ALIGN_TO_BEACON,MOVE_TO_BEACON,CHECK1, LOCK_TO_BEACON,CHECK2, APROACH_BEACON, DROP_PAYLOAD, POST_DROP, ALIGN_TO_PARK, PARK, ALIGN_TO_MOUNTAIN, GO_TO_MOUNTAIN, STOP}
 
 public class ReckonAuto extends BasicAutonomous{
     AutoMode mode = AutoMode.FIRST_MOVE;
@@ -28,7 +29,7 @@ public class ReckonAuto extends BasicAutonomous{
     private double initialRotation;
     private int lockCount = 0;
     private int maxLockCount = 100;
-    private boolean isBlue;
+    private boolean isRed;
     private boolean working = true;
     private Vector2 parkLoc;
     private double rotateDivisor = 70;
@@ -45,10 +46,10 @@ public class ReckonAuto extends BasicAutonomous{
         }
         else  {parkLoc = park1.cpy();}
         //Get values from UI
-       isBlue = false;//FtcRobotControllerActivity.colorSwitch.isChecked();
+       isRed = FtcRobotControllerActivity.colorSwitch.isChecked();
         goingToPark = false;//FtcRobotControllerActivity.parkActiveSwitch.isChecked();
         isTarget2 = false;//FtcRobotControllerActivity.park2Switch.isChecked();
-        rotateDivisor = 17.5; //Double.parseDouble(FtcRobotControllerActivity.degreeText.getEditableText().toString());
+        rotateDivisor = Double.parseDouble(FtcRobotControllerActivity.turnFactor.getEditableText().toString());
         start.x =  72;//(float) Double.parseDouble(FtcRobotControllerActivity.xLocIn.getEditableText().toString());
         standardPower = 0.5;//Double.parseDouble(FtcRobotControllerActivity.power.getEditableText().toString());
 
@@ -78,31 +79,47 @@ public class ReckonAuto extends BasicAutonomous{
                     }
                 break;
             case MOVE_TO_BEACON:
-                    if (SmartMove(position.dst(beaconloc), standardPower)) {
+                    if (SmartMove(position.dst(beaconloc)+12, standardPower)) {
                         stopMoving();
                         reset_drive_encoders();
                         position = beaconloc.cpy();
-                        mode = AutoMode.LOCK_TO_BEACON;
+                        mode = AutoMode.CHECK1;
                     }
+                break;
+            case CHECK1:
+                if(have_drive_encoders_reset()){
+                    mode = AutoMode.LOCK_TO_BEACON;
+                }
+                else{
+                    reset_drive_encoders();
+                }
                 break;
             case LOCK_TO_BEACON:
                     double angle = 90;
-                    if (isBlue) {
+                    if (isRed) {
                         angle = -90;
                     }
-                    double sign = 1;
-                    if (isBlue) {
+                    double sign =1;
+                    if (isRed) {
                         sign = -1;
                     }
-                    if (drive_using_encoders(-sign, sign, 3600, 3600)) {
+                    if (drive_using_encoders(-sign*standardPower,sign*standardPower, 2900,2900)) {
                         stopMoving();
                         reset_drive_encoders();
                         initialRotation += angle;
-                        mode = AutoMode.APROACH_BEACON;
+                        mode = AutoMode.CHECK2;
                     }
                 break;
+            case CHECK2:
+                if(have_drive_encoders_reset()){
+                    mode = AutoMode.APROACH_BEACON;
+                }
+                else{
+                    reset_drive_encoders();
+                }
+                break;
             case APROACH_BEACON:
-                    if (SmartMove(12, standardPower)) {
+                    if (SmartMove(24, standardPower)) {
                         stopMoving();
                         this.position = new Vector2(0, 84);
                         reset_drive_encoders();
@@ -165,15 +182,15 @@ public class ReckonAuto extends BasicAutonomous{
         telemetry.addData("position", position);
         telemetry.addData("initial rotation", initialRotation);
      //   telemetry.addData("sonic", sonic.getUltrasonicLevel());
-        telemetry.addData("isBlue", isBlue);
+        telemetry.addData("isBlue", isRed);
         telemetry.addData("State", mode);
         telemetry.addData("Motor State", driveRight.getMode() + ", " + driveLeft.getMode());
         telemetry.addData("Desired", getDesiredRotation(beaconloc));
         telemetry.addData("Encoders", driveLeft.getCurrentPosition() +", "+driveRight.getCurrentPosition());
     }
     public void moveForward(double amount){
-        driveRight.setPower(-amount);
-        driveLeft.setPower(amount);
+        driveRight.setPower(amount);
+        driveLeft.setPower(-amount);
     }
     public void moveBackward(double amount) {
         moveForward(-amount);
@@ -221,7 +238,7 @@ public class ReckonAuto extends BasicAutonomous{
         Vector2 rotpos = position.cpy().rotate((float)Math.toRadians(initialRotation));
         Vector2 sub = target.cpy().sub(rotpos);
         double angle = ((Math.toDegrees(Math.atan2(sub.y,sub.x ))));
-        if (isBlue){
+        if (isRed){
             angle = angle * -1;
         }
      //   if(angle < 0){
@@ -391,7 +408,7 @@ public class ReckonAuto extends BasicAutonomous{
         boolean l_return = false;
 
         run_using_encoders ();
-        set_drive_power (p_left_power, -p_right_power);
+        set_drive_power (-p_left_power, p_right_power);
         if (have_drive_encoders_reached (p_left_count, p_right_count))
         {
             reset_drive_encoders ();
