@@ -33,8 +33,9 @@ public abstract class BasicHardware extends OpMode{
     Servo leftArm;
     Servo rightArm;
     public static LIGHT_MODE lightMode = LIGHT_MODE.TRIGSQUARE_OSCILLATE_COLORS;
-    double redPower = 1;
-    double bluePower = 0;
+    private double redPower = 1;
+    private double bluePower = 0;
+    private String lightsStr;
 
     private Lights2 lights;
 
@@ -54,6 +55,7 @@ public abstract class BasicHardware extends OpMode{
         blue = hardwareMap.dcMotor.get("blue");
 
         lights = new Lights2();
+        lightsStr = "";
     }
     @Override
     public void loop(){
@@ -69,10 +71,11 @@ public abstract class BasicHardware extends OpMode{
         blue.setPower(bluePower);
     }
 
-    public String lights()
+    public void lights()
     {
         int mode = lights.getModeNum();
         double maxPow = 0.9;
+        double noPow = 0.05;
 
         switch (mode)
         {
@@ -87,29 +90,35 @@ public abstract class BasicHardware extends OpMode{
                 break;
             case 2: //red solid
                 redPower = maxPow;
-                bluePower = 0;
+                bluePower = noPow;
                 break;
             case 3: //red flashing
                 if (System.currentTimeMillis() % 50 >= 25) { redPower = maxPow; }
-                else { redPower = 0; }
-                bluePower = 0;
+                else { redPower = noPow; }
+                bluePower = noPow;
                 break;
             case 4: //blue solid
-                redPower = 0;
+                redPower = noPow;
                 bluePower = maxPow;
                 break;
             case 5: //blue flashing
-                redPower = 0;
+                redPower = noPow;
                 if (System.currentTimeMillis() % 50 >= 25) { bluePower = maxPow; }
-                else { bluePower = 0; }
+                else { bluePower = noPow; }
                 break;
         }
-        red.setPower(redPower);
-        blue.setPower(bluePower);
-        String s = lights.getMode();
-        return s;
+        lightsStr = lights.getMode();
     }
 
     public Lights2 getLights()
     { return lights; }
+
+    public double getRedPow()
+    { return redPower; }
+
+    public double getBluePow()
+    { return bluePower; }
+
+    public String getLightsStr()
+    { return lightsStr; }
 }

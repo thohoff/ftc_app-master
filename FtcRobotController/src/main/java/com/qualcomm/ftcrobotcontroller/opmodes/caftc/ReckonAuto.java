@@ -129,11 +129,13 @@ public class ReckonAuto extends BasicAutonomous{
             case DROP_PAYLOAD:
                 reset_drive_encoders();
                 climbersArm.setPosition(1);
+                resetServos();
                 position = new Vector2(0,84);
                 mode = AutoMode.POST_DROP;
                 break;
             case POST_DROP:
                 climbersArm.setPosition(1);
+                resetServos();
                 reset_drive_encoders();
                     if(goingToPark) {
                     mode = AutoMode.ALIGN_TO_PARK;
@@ -626,4 +628,14 @@ public class ReckonAuto extends BasicAutonomous{
 
     }
     */
+
+    public void resetServos()
+    {
+        armServo.setPosition(0.8);
+        //climbersArm.setPosition(0);
+        zipLeft.setPosition(0.5);
+        zipRight.setPosition(0.5);
+        rightArm.setPosition(0.2);
+        leftArm.setPosition(0.9);
+    }
 }

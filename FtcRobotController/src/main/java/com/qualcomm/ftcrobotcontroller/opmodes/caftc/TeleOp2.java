@@ -27,8 +27,8 @@ public class TeleOp2 extends BasicHardware{
         //sR = 1;
         sC = 0;
         rR = 0.2;
-        rL = 0.8;
-        sA = 0.6;
+        rL = 0.9;
+        sA = 0.8;
 
         startTime = System.currentTimeMillis();
         lastButtonTime = startTime - 1000;
@@ -40,7 +40,10 @@ public class TeleOp2 extends BasicHardware{
     {
         //lights init
         //super.loop();
-        telemetry.addData("lights", super.lights());
+        super.lights();
+        telemetry.addData("lights", getLightsStr());
+        red.setPower(getRedPow());
+        blue.setPower(getBluePow());
         //time stuff
         long currentTime = System.currentTimeMillis();
         long TeleOpTime = currentTime - startTime;
