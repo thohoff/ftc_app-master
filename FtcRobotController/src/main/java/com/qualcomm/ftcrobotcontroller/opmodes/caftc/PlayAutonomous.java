@@ -133,7 +133,7 @@ public class PlayAutonomous extends BasicAutonomous{
                     if (currentLeftMotorLine + 1 < leftMotorLines.size())
                         currentLeftMotorLine++;
 
-
+                    
                     driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 }
             } else {
