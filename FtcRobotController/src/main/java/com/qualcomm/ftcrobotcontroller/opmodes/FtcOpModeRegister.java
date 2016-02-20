@@ -34,6 +34,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.PlayAutonomous;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.PlayAutonomousEncoded;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAuto;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAutoRed;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomous;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomousEncoded;
 import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TeleOp2;
@@ -105,7 +106,8 @@ public class FtcOpModeRegister implements OpModeRegister {
       manager.register("PlayAutonomous", PlayAutonomous.class);
     manager.register("RecordAutonomousEncoded", RecordAutonomousEncoded.class);
     manager.register("PlayAutonomousEncoded", PlayAutonomousEncoded.class);
-    manager.register("ReckonAuto", ReckonAuto.class);
+    manager.register("ReckonAutoBlue", ReckonAuto.class);
+    manager.register("ReckonAutoRed", ReckonAutoRed.class);
 //    manager.register("PushBotManual", PushBotManual.class);
 //    manager.register("PushBotAuto", PushBotAuto.class);
 //    manager.register("PushBotDriveTouch", PushBotDriveTouch.class);
