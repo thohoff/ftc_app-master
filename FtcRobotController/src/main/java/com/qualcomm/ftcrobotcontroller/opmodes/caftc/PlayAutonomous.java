@@ -101,7 +101,6 @@ public class PlayAutonomous extends BasicAutonomous{
 
         super.loop();
 
-
             //left
             if (lastTickLeftMotorLine != currentLeftMotorLine) {
                 lastTickLeftMotorLine = currentLeftMotorLine;
@@ -143,7 +142,7 @@ public class PlayAutonomous extends BasicAutonomous{
                 }
             }
 
-
+            telemetry.addData("left current pos", driveLeft.getCurrentPosition());
 
             //right
             if (rightMotorLines.get(currentRightMotorLine).contains("INACTIVE")) {

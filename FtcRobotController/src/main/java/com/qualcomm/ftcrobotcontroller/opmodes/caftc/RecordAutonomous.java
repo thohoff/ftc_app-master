@@ -101,7 +101,7 @@ public class RecordAutonomous extends BasicHardware {
                 }
             }
             if (rightMotor.motorState != rightMotor.lastTickMotorState) {
-                if(rightMotor.motorState != rightMotor.lastTickMotorState){
+                if(rightMotor.motorState == MotorState.INACTIVE){
                     rInactiveTime = System.nanoTime();
                 }
                 if (rightMotor.lastTickMotorState == MotorState.INACTIVE) {
