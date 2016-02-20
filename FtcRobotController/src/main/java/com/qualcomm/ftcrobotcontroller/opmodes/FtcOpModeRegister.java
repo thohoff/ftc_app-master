@@ -31,6 +31,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 package com.qualcomm.ftcrobotcontroller.opmodes;
 
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.PlayAutonomous;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.PlayAutonomousEncoded;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAuto;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.ReckonAutoRed;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomous;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.RecordAutonomousEncoded;
+import com.qualcomm.ftcrobotcontroller.opmodes.caftc.TeleOp2;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
@@ -54,7 +61,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
+/*
     manager.register("NullOp", NullOp.class);
 
     //manager.register("MatrixK9TeleOp", MatrixK9TeleOp.class);
@@ -96,5 +103,12 @@ public class FtcOpModeRegister implements OpModeRegister {
     //manager.register("PushBotDriveTouch", PushBotDriveTouch.java);
     //manager.register("PushBotIrSeek", PushBotIrSeek.java);
     //manager.register("PushBotSquare", PushBotSquare.java);
+    manager.register("TeleOp2", TeleOp2.class);
+    manager.register("RecordAutonomous",RecordAutonomous.class);
+    manager.register("PlayAutonomous", PlayAutonomous.class);
+    manager.register("ReckonAutoBlue", ReckonAuto.class);
+    manager.register("ReckonAutoRed", ReckonAutoRed.class);
+    manager.register("RecordAutonomousEncoded", RecordAutonomousEncoded.class);
+    manager.register("PlayAutonomousEncoded", PlayAutonomousEncoded.class);
   }
 }
