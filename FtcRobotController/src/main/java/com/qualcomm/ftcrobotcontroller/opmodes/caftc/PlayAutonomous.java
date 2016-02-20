@@ -23,10 +23,10 @@ public class PlayAutonomous extends BasicAutonomous{
     when currenttimems = targettimems
 
      */
-    //TODO fix NumberFormatException error.
+    //TODO fix encoder reset system
     private final double DRIVESPEED = 1;
 
-
+    long encoderCounter;
 
     String recording;
     String[] recordingLines;
@@ -56,7 +56,7 @@ public class PlayAutonomous extends BasicAutonomous{
         driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
         driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
 
-
+        encoderCounter = 0;
 
         leftMotorLines = new ArrayList<String>();
         rightMotorLines = new ArrayList<String>();
@@ -93,20 +93,15 @@ public class PlayAutonomous extends BasicAutonomous{
     @Override
     public void loop() {
 
-        boolean runLeft = true;
-        boolean runRight = true;
+        if(encoderCounter % 2 == 0){
+            driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+            driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        }
+
+
         super.loop();
 
-        if(driveLeft.getCurrentPosition() == 0)
-            driveLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        else
-            runLeft = false;
-        if(driveRight.getCurrentPosition() == 0)
-            driveRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        else
-            runRight = false;
 
-        if(runLeft) {
             //left
             if (lastTickLeftMotorLine != currentLeftMotorLine) {
                 lastTickLeftMotorLine = currentLeftMotorLine;
@@ -115,8 +110,8 @@ public class PlayAutonomous extends BasicAutonomous{
                 lTargetTime = System.nanoTime() + lEncoderValue;
 
             }
-        }
-        if(runRight) {
+
+
             //right
             if (lastTickRightMotorLine != currentRightMotorLine) {
                 lastTickRightMotorLine = currentRightMotorLine;
@@ -124,17 +119,17 @@ public class PlayAutonomous extends BasicAutonomous{
                 rEncoderValue = Long.parseLong(rightMotorLines.get(currentRightMotorLine).replaceAll("[^0-9]", ""));
                 rTargetTime = System.nanoTime() + rEncoderValue;
             }
-        }
 
-        if(runLeft) {
+
+
             //left
             if (leftMotorLines.get(currentLeftMotorLine).contains("INACTIVE")) {
                 if (System.nanoTime() >= lTargetTime) {
                     if (currentLeftMotorLine + 1 < leftMotorLines.size())
                         currentLeftMotorLine++;
 
-                    
-                    driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                    if(encoderCounter % 2 != 0)
+                        driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 }
             } else {
                 if (driveLeft.getCurrentPosition() < lEncoderValue) {
@@ -143,12 +138,13 @@ public class PlayAutonomous extends BasicAutonomous{
                 } else {
                     if (currentLeftMotorLine + 1 < leftMotorLines.size())
                         currentLeftMotorLine++;
-                    driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                    if(encoderCounter % 2 != 0)
+                        driveLeft.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 }
             }
-        }
 
-        if(runRight) {
+
+
             //right
             if (rightMotorLines.get(currentRightMotorLine).contains("INACTIVE")) {
                 if (System.nanoTime() >= rTargetTime) {
@@ -161,10 +157,11 @@ public class PlayAutonomous extends BasicAutonomous{
                 } else {
                     if (currentRightMotorLine + 1 < rightMotorLines.size())
                         currentRightMotorLine++;
-                    driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
+                    if(encoderCounter % 2 != 0)
+                        driveRight.setMode(DcMotorController.RunMode.RESET_ENCODERS);
                 }
             }
-        }
+
 
 
     }
